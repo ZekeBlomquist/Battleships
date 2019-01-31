@@ -77,6 +77,12 @@
 
 		let allowShadow;
 
+		//id't på skeppet som läggs ut
+		let id = 0;
+
+		//om spelet är avslutat eller inte
+		let end = false;
+
 		//Arrayer med alla fiendeskepps inviduella kordinater
 		let enemy1 = new Array();
 		let enemy2 = new Array();
@@ -84,12 +90,26 @@
 		let enemy4 = new Array();
 		let enemy5 = new Array();
 
+		//Arrayer med alla de egna skeppens inviduella kordinater
+		let friendly1 = new Array();
+		let friendly2 = new Array();
+		let friendly3 = new Array();
+		let friendly4 = new Array();
+		let friendly5 = new Array();
+
 		//antal träffar på inviduella fiendeskepp
 		let shipHits1 = 0;
 		let shipHits2 = 0;
 		let shipHits3 = 0;
 		let shipHits4 = 0;
 		let shipHits5 = 0;
+
+		//antal fiendeträffar på egna inviduella skepp
+		let enemyHits1 = 0;
+		let enemyHits2 = 0;
+		let enemyHits3 = 0;
+		let enemyHits4 = 0;
+		let enemyHits5 = 0;
 
 		//Löser problemet med att statistik visar undefined genom att kalla på buggFix funktionen
 		window.onload= () => {
@@ -116,17 +136,66 @@
 				stats = 2;
 			}
 
-			if (start) {
+			if (start || end) {
+				//ändrar knappens text
+				document.getElementById("startKnapp").innerHTML = "Starta spel";
 
 				//Resettar spelplanen
-
 				start = false;
+				end = false;
 				antalKlick = 0;
 				klickade = [];
 				klickadeFiende = [];
 				egnaSkepp = [];
 				fiendeSkepp = [];
 				hitsFiende = [];
+				hitsEgna = [];
+
+				//Nollställer träff-indikatörerna
+				elements = document.getElementsByClassName("enemy1");
+				for (var i = 0; i < elements.length; i++) {
+					elements[i].innerHTML = "";
+				}
+				elements = document.getElementsByClassName("enemy2");
+				for (var i = 0; i < elements.length; i++) {
+					elements[i].innerHTML = "";
+				}
+				elements = document.getElementsByClassName("enemy3");
+				for (var i = 0; i < elements.length; i++) {
+					elements[i].innerHTML = "";
+				}
+				elements = document.getElementsByClassName("enemy4");
+				for (var i = 0; i < elements.length; i++) {
+					elements[i].innerHTML = "";
+				}
+				elements = document.getElementsByClassName("enemy5");
+				for (var i = 0; i < elements.length; i++) {
+					elements[i].innerHTML = "";
+				}
+
+				enemy1 = [];
+				enemy2 = [];
+				enemy3 = [];
+				enemy4 = [];
+				enemy5 = [];
+
+				shipHits1 = 0;
+				shipHits2 = 0;
+				shipHits3 = 0;
+				shipHits4 = 0;
+				shipHits5 = 0;
+
+				friendly1 = [];
+				friendly2 = [];
+				friendly3 = [];
+				friendly4 = [];
+				friendly5 = [];
+
+				enemyHits1 = 0;
+				enemyHits2 = 0;
+				enemyHits3 = 0;
+				enemyHits4 = 0;
+				enemyHits5 = 0;
 
 				//Skapar den egna spelplanen pånytt
  				let text = '';
@@ -151,6 +220,9 @@
 			} else {
 				start = true;
 				fiendePlacera();
+
+				//ändrar knappens text
+				document.getElementById("startKnapp").innerHTML = "Starta om";
 			}
 		}
 
@@ -179,7 +251,7 @@
 
 		//Funktikon för att registrera och visa skjutet skott på vald ruta
 		function skott(x, y) {
-			if (start) {
+			if (start && !end) {
 
 				//Om skotten är satt på en ledig ruta (inget tidigare skott)
 				let fel = 0;
@@ -205,73 +277,95 @@
 						hitsEgna.push(x+"."+y);
 					}
 
+					if (enemy1.includes(x+"."+y)) {
+						shipHits1++;
+					}
+					if (enemy2.includes(x+"."+y)) {
+						shipHits2++;
+					}
+					if (enemy3.includes(x+"."+y)) {
+						shipHits3++;
+					}
+					if (enemy4.includes(x+"."+y)) {
+						shipHits4++;
+					}
+					if (enemy5.includes(x+"."+y)) {
+						shipHits5++;
+					}
+
 					tur = false;
 				}
 
-				if (enemy1.includes(x+"."+y)) {
-					shipHits1++;
-					console.log("yep1");
-				}
-				/*
-				if (enemy2.includes(x+"."+y)) {
-					shipHits2++;
-					console.log("yep2");
-				}
-				if (enemy3.includes(x+"."+y)) {
-					shipHits3++;
-					console.log("yep3");
-				}
-				if (enemy4.includes(x+"."+y)) {
-					shipHits4++;
-					console.log("yep4");
-				}
-				if (enemy5.includes(x+"."+y)) {
-					shipHits5++;
-					console.log("yep5");
-				}
-				*/
+
 
 				if (shipHits1 == 5) {
-					console.log("sänkt");
+
+					//markerar sänkt skepp nere i skepp-rutan
 					elements = document.getElementsByClassName("enemy1");
 	    		for (var i = 0; i < elements.length; i++) {
 	        	elements[i].innerHTML = '<img src="Kryss_Hit.png" class="kryss" />';
 	    		}
+
+					//markerar sänkt skepp på spelplanen
+					for (var i = 0; i < 5; i++) {
+						document.getElementById(enemy1[i]).style.backgroundColor = "#860d0d";
+					}
 				}
 
 				if (shipHits2 == 4) {
-					console.log("sänkt");
+
+					//markerar sänkt skepp nere i skepp-rutan
 					elements = document.getElementsByClassName("enemy2");
 	    		for (var i = 0; i < elements.length; i++) {
 	        	elements[i].innerHTML = '<img src="Kryss_Hit.png" class="kryss" />';
 	    		}
+
+					//markerar sänkt skepp på spelplanen
+					for (var i = 0; i < 4; i++) {
+						document.getElementById(enemy2[i]).style.backgroundColor = "#860d0d";
+					}
 				}
 
 				if (shipHits3 == 3) {
-					console.log("sänkt");
+					//markerar sänkt skepp nere i skepp-rutan
 					elements = document.getElementsByClassName("enemy3");
 	    		for (var i = 0; i < elements.length; i++) {
 	        	elements[i].innerHTML = '<img src="Kryss_Hit.png" class="kryss" />';
 	    		}
+
+					//markerar sänkt skepp på spelplanen
+					for (var i = 0; i < 3; i++) {
+						document.getElementById(enemy3[i]).style.backgroundColor = "#860d0d";
+					}
 				}
 
 				if (shipHits4 == 3) {
-					console.log("sänkt");
+					//markerar sänkt skepp nere i skepp-rutan
 					elements = document.getElementsByClassName("enemy4");
 	    		for (var i = 0; i < elements.length; i++) {
 	        	elements[i].innerHTML = '<img src="Kryss_Hit.png" class="kryss" />';
 	    		}
+
+					//markerar sänkt skepp på spelplanen
+					for (var i = 0; i < 3; i++) {
+						document.getElementById(enemy4[i]).style.backgroundColor = "#860d0d";
+					}
 				}
 
 				if (shipHits5 == 2) {
-					console.log("sänkt");
+					//markerar sänkt skepp nere i skepp-rutan
 					elements = document.getElementsByClassName("enemy5");
 	    		for (var i = 0; i < elements.length; i++) {
 	        	elements[i].innerHTML = '<img src="Kryss_Hit.png" class="kryss" />';
 	    		}
-				}
 
-				if (hitsEgna.length == fiendeSkepp.length) {
+					//markerar sänkt skepp på spelplanen
+					for (var i = 0; i < 2; i++) {
+						document.getElementById(enemy5[i]).style.backgroundColor = "#860d0d";
+					}
+				}
+				console.log("Träffar: " + (shipHits1+shipHits2+shipHits3+shipHits4+shipHits5) + " Skepp: " + fiendeSkepp.length)
+				if ((shipHits1+shipHits2+shipHits3+shipHits4+shipHits5) == fiendeSkepp.length) {
 					alert("Du Vann!");
 					var request = new XMLHttpRequest();
 					request.open('GET', 'SpelAjax.php?text='+"win", true);
@@ -280,7 +374,7 @@
 						data = request.responseText;
 					};
 						request.send();
-						startSpel();
+						end = true;
 				} else {
 						//Datorns tur att skjuta
 						fiendeSkott();
@@ -307,10 +401,7 @@
 
 				let intillLiggande = new Array();
 
-				console.log("Fiende: "+hitsFiende.length +" | Skepp: "+ egnaSkepp.length);
-
 				for (var i = 0; i < egnaSkepp.length; i++) {
-					console.log("egnaSkepp: " + egnaSkepp[i]);
 				}
 
 				if (hit) {
@@ -415,6 +506,57 @@
 						tur = true;
 						hit = false;
 					}
+					if (friendly1.includes(xR+"-"+yR)) {
+						enemyHits1++;
+					}
+					if (friendly2.includes(xR+"-"+yR)) {
+						enemyHits2++;
+					}
+					if (friendly3.includes(xR+"-"+yR)) {
+						enemyHits3++;
+					}
+					if (friendly4.includes(xR+"-"+yR)) {
+						enemyHits4++;
+					}
+					if (friendly5.includes(xR+"-"+yR)) {
+						enemyHits5++;
+					}
+
+					if (enemyHits1 == 5) {
+						//markerar sänkt skepp på spelplanen
+						for (var i = 0; i < 5; i++) {
+							document.getElementById(friendly1[i]).style.backgroundColor = "#860d0d";
+						}
+					}
+
+					if (enemyHits2 == 4) {
+						//markerar sänkt skepp på spelplanen
+						for (var i = 0; i < 4; i++) {
+							document.getElementById(friendly2[i]).style.backgroundColor = "#860d0d";
+						}
+					}
+
+					if (enemyHits3 == 3) {
+						//markerar sänkt skepp på spelplanen
+						for (var i = 0; i < 3; i++) {
+							document.getElementById(friendly3[i]).style.backgroundColor = "#860d0d";
+						}
+					}
+
+					if (enemyHits4 == 3) {
+						//markerar sänkt skepp på spelplanen
+						for (var i = 0; i < 3; i++) {
+							document.getElementById(friendly4[i]).style.backgroundColor = "#860d0d";
+						}
+					}
+
+					if (enemyHits5 == 2) {
+						//markerar sänkt skepp på spelplanen
+						for (var i = 0; i < 2; i++) {
+							document.getElementById(friendly5[i]).style.backgroundColor = "#860d0d";
+						}
+					}
+
 				}
 			}
 
@@ -428,7 +570,7 @@
 					data = request.responseText;
 				};
 					request.send();
-					startSpel();
+					end = true;
 			}
 		}
 
@@ -447,6 +589,23 @@
 
 
 			egnaSkepp.push(x+"-"+y);
+			switch (id){
+				case 1:
+					friendly1.push(x+"-"+y);
+					break;
+				case 2:
+					friendly2.push(x+"-"+y);
+					break;
+				case 3:
+					friendly3.push(x+"-"+y);
+					break;
+				case 4:
+					friendly4.push(x+"-"+y);
+					break;
+				case 5:
+					friendly5.push(x+"-"+y);
+					break;
+			}
 
 		}
 
@@ -519,7 +678,7 @@
 
 		//Funktion för att registrera och visa den ursprunga utplaceringspunkten för ett skepp
 		function placera(x, y) {
-			if (!start) {
+			if (!start && !end) {
 				if (antalKlick == 2) {
 					skeppPlace(x,y);
 
@@ -569,8 +728,29 @@
 
 						for (var i = 0; i < shipBP.length; i++) {
 							egnaSkepp.push(shipBP[i]);
+							switch (id){
+								case 1:
+									friendly1.push(shipBP[i]);
+									break;
+								case 2:
+									friendly2.push(shipBP[i]);
+									break;
+								case 3:
+									friendly3.push(shipBP[i]);
+									break;
+								case 4:
+									friendly4.push(shipBP[i]);
+									break;
+								case 5:
+									friendly5.push(shipBP[i]);
+									break;
+							}
 						}
 						shipBP = [];
+
+
+						for (var i = 0; i < friendly1.length; i++) {
+						}
 
 						//sätter alla rutor till skepp-färgen
 						for (var i = 0; i < egnaSkepp.length; i++) {
@@ -647,7 +827,6 @@
 						overlap = 0;
 						for (var i = xR; i < xLast ; i++) {
 							if (fiendeSkepp.includes(i+"."+yR)) {
-								console.log("overlap1: " + (i+"."+yR) );
 								document.getElementById(i+"."+yLast).innerHTML = '<img src="Kryss.png" class="kryss" />';
 
 								overlap++;
@@ -666,7 +845,6 @@
 							yLast = yR;
 							for (var i = xR; i < xLast ; i++) {
 								if (fiendeSkepp.includes(i+"."+xR)) {
-								console.log("overlap2");
 								document.getElementById(i+"."+yLast).style.backgroundColor = "red";
 								}
 							}
@@ -688,7 +866,6 @@
 
 
 				}
-				console.log(Dir);
 
 				//console.log(xR +" | "+ yR);
 				//console.log("X: " + xLast + " | Y: " + yLast);
@@ -696,48 +873,46 @@
 				if (xR != xLast) {
 					if (xR < xLast) {
 						for (var i = xR; i < xLast ; i++) {
-							document.getElementById(i+"."+yLast).style.backgroundColor = "#333333";
+							//document.getElementById(i+"."+yLast).style.backgroundColor = "#333333";
 							switch(fiendeSkeppNummer) {
 								case 2:
 									enemy1.push(i+"."+yLast);
-									console.log("1: "+fiendeSkeppNummer);
-									continue;
+									break;
 								case 3:
 									enemy2.push(i+"."+yLast);
-									console.log("2: "+fiendeSkeppNummer);
-									continue;
+									break;
 								case 4:
 									enemy3.push(i+"."+yLast);
-									continue;
+									break;
 								case 5:
 									enemy4.push(i+"."+yLast);
-									continue;
+									break;
 								case 6:
 									enemy5.push(i+"."+yLast);
-									continue;
+									break;
 							}
 							fiendeSkepp.push(i+"."+yLast);
 						}
 
 					} else {
 						for (var i = xLast; i < xR ; i++) {
-							document.getElementById(i+"."+yLast).style.backgroundColor = "#333333";
+							//document.getElementById(i+"."+yLast).style.backgroundColor = "#333333";
 							switch(fiendeSkeppNummer) {
 								case 2:
 									enemy1.push(i+"."+yLast);
-									continue;
+									break;
 								case 3:
 									enemy2.push(i+"."+yLast);
-									continue;
+									break;
 								case 4:
 									enemy3.push(i+"."+yLast);
-									continue;
+									break;
 								case 5:
 									enemy4.push(i+"."+yLast);
-									continue;
+									break;
 								case 6:
 									enemy5.push(i+"."+yLast);
-									continue;
+									break;
 							}
 							fiendeSkepp.push(i+"."+yLast);
 						}
@@ -746,46 +921,46 @@
 				} else {
 					if (yR < yLast) {
 						for (var i = yR; i < yLast ; i++) {
-							document.getElementById(xLast+"."+i).style.backgroundColor = "#333333";
+							//document.getElementById(xLast+"."+i).style.backgroundColor = "#333333";
 							switch(fiendeSkeppNummer) {
 								case 2:
 									enemy1.push(xLast+"."+i);
-									continue;
+									break;
 								case 3:
 									enemy2.push(xLast+"."+i);
-									continue;
+									break;
 								case 4:
 									enemy3.push(xLast+"."+i);
-									continue;
+									break;
 								case 5:
 									enemy4.push(xLast+"."+i);
-									continue;
+									break;
 								case 6:
 									enemy5.push(xLast+"."+i);
-									continue;
+									break;
 							}
 							fiendeSkepp.push(xLast+"."+i);
 						}
 
 					} else {
 						for (var i = yLast; i < yR ; i++) {
-							document.getElementById(xLast+"."+i).style.backgroundColor = "#333333";
+							//document.getElementById(xLast+"."+i).style.backgroundColor = "#333333";
 							switch(fiendeSkeppNummer) {
 								case 2:
 									enemy1.push(xLast+"."+i);
-									continue;
+									break;
 								case 3:
 									enemy2.push(xLast+"."+i);
-									continue;
+									break;
 								case 4:
 									enemy3.push(xLast+"."+i);
-									continue;
+									break;
 								case 5:
 									enemy4.push(xLast+"."+i);
-									continue;
+									break;
 								case 6:
 									enemy5.push(xLast+"."+i);
-									continue;
+									break;
 							}
 							fiendeSkepp.push(xLast+"."+i);
 						}
@@ -946,7 +1121,7 @@
 		}
 
 		function placeraMus(x, y) {
-			if (!start) {
+			if (!start && !end) {
 
 				if (antalKlick == 2) {
 					document.getElementById(x+"-"+y).style.backgroundColor = "#333333";
@@ -976,7 +1151,6 @@
 			for (var i = 0; i < egnaSkepp.length; i++) {
 				if ((x+"-"+y) == egnaSkepp[i]) {
 					fel = 1;
-					//console.log("fel: 1");
 				}
 			}
 
@@ -984,13 +1158,11 @@
 			for (var i = 0; i < allowedPlace.length; i++) {
 				if ((x+"-"+y) == allowedPlace[i]) {
 					fel = 1;
-					//console.log("fel: 2");
 				}
 			}
 			for (var i = 0; i < shipBP.length; i++) {
 				if ((x+"-"+y) == shipBP[i]) {
 					fel = 1;
-					//console.log("fel: 3");
 				}
 			}
 
@@ -1032,11 +1204,11 @@
 			}
 		}
 
-		function place(id) {
+		function place(idTemp) {
 			if (antalKlick == 0) {
+				id = idTemp;
 
-
-				if (!start) {
+				if (!start && !end) {
 					allowedPlace = [];
 
 					if (id == 1) {
@@ -1075,7 +1247,7 @@
 	<div id="spelplan">
 		<div id="egen" class="spel"></div>
 		<div id="meny">
-			<div class="knapp unselectable" onclick="startSpel()">Starta spel</div>
+			<div id="startKnapp" class="knapp unselectable" onclick="startSpel()">Starta spel</div>
 			<div class="knapp unselectable" onclick="window.location.href = 'login.php?'">Till menyn</div>
 			<div class="knapp unselectable" onclick="showStats()">Statistik</div>
 		</div>

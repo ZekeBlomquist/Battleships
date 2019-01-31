@@ -43,7 +43,7 @@ html,body {
 	width: 1130px;
 	border-style: solid;
 	border-width: 5px;
-	border-color: #8B0000;
+	border-color: #860d0d;
 	border-radius: 25px;
 	padding: 30px;
 	background: #f2f2f2;
@@ -59,12 +59,12 @@ html,body {
 	border-color: black;
 	border-width: 5px;
 	float: left;
-	background-color: #b3b3b3; 
+	background-color: #b3b3b3;
 }
 
 .knapp {
 	border-style: solid;
-	border-color: #8B0000;
+	border-color: #860d0d;
 	padding-left: 10px;
 	padding-right: 10px;
 	padding-top: 19px;
@@ -77,7 +77,7 @@ html,body {
 }
 
 .knapp:hover {
-	background-color: #8B0000;
+	background-color: #860d0d;
 	color: lightgrey;
 
 }
@@ -87,7 +87,7 @@ html,body {
 	padding-left: 5px;
 	padding-right: 5px;
 	border-style: solid;
-	border-color: #8B0000;
+	border-color: #860d0d;
 	padding-top: 19px;
 	padding-bottom: 19px;
 	margin: 20px;
@@ -98,9 +98,9 @@ html,body {
 }
 
 #stats:hover {
-	border-color: #8B0000;
+	border-color: #860d0d;
 	background-color: lightgrey;
-	color: black;	
+	color: black;
 }
 
 .kryss {
@@ -116,12 +116,12 @@ html,body {
 	border-color: black;
 	border-width: 5px;
 	float: left;
-	background-color: #b3b3b3; 
+	background-color: #b3b3b3;
 	padding-top: 20px;
 }
 
 #egnaSkepp {
-	margin-right: 260px;	
+	margin-right: 260px;
 }
 
 .skepp {

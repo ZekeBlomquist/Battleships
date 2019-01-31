@@ -46,7 +46,7 @@
 				echo "<span style='color:green;'> W: " . $wins . "</span>" . " | " . "<span style='color:red;'> L: " . $losses . " </span>";
 			}
 		} else {
-		echo "logga in först";
+		echo "Inte inloggad";
 		}
 
 	}
