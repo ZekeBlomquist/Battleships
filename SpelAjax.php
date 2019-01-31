@@ -23,13 +23,13 @@
 
 
 
-			if ($val == "stats") {	
-				
+			if ($val == "stats") {
+
 				echo "<span style='color:green;'> W: " . $wins . "</span>" . " | " . "<span style='color:red;'> L: " . $losses . " </span>";
-			
+
 			} else if ($val == "win") {
 
-				$wins++; 
+				$wins++;
 
 				$sql = "UPDATE User SET wins = '$wins' WHERE mail = '$mail'";
 				$conn->query($sql);
@@ -38,7 +38,7 @@
 
 			} else if ($val == "loss") {
 
-				$losses++; 
+				$losses++;
 
 				$sql = "UPDATE User SET losses = '$losses' WHERE mail = '$mail'";
 				$conn->query($sql);
@@ -49,9 +49,5 @@
 		echo "logga in först";
 		}
 
-	}	
-
-
-		
-	
+	}
 ?>

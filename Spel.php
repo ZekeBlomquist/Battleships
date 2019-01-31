@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<?php 
+	<?php
 
 		require "./Felhantering.php";
 	?>
@@ -9,8 +9,8 @@
 	<title></title>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<script>
-		//Om spelet är påbörjat eller om det är i skepp-placeringsfasen 
-		let start = false; 
+		//Om spelet är påbörjat eller om det är i skepp-placeringsfasen
+		let start = false;
 
 		//Ser till så att menys utseende sparas första gången showStats funktionen används
 		let stats = 1;
@@ -36,15 +36,15 @@
 		//Längd på fiendeskepp
 		let fiendeLength = 0;
 
-		//Vilket steg av utläggningsprocessen för ett skepp man är på, 2 = nytt 
-		let antalKlick = 0; 
+		//Vilket steg av utläggningsprocessen för ett skepp man är på, 2 = nytt
+		let antalKlick = 0;
 
 		//Array med kordinater för skepp
 		let egnaSkepp = new Array();
 		let fiendeSkepp = new Array();
 
 		//Placerats skepp första kordinater
-		let firstX; 
+		let firstX;
 		let firstY;
 
 		//Placerats skepp sista kordinater
@@ -52,27 +52,44 @@
 		let lastY;
 
 		//Om datorns förra skott var en träff eller inte
-		let hit = false; 
+		let hit = false;
 
 		//Lista med kordinaterna för fiendens träffar
 		let hitsFiende = new Array();
 
+		//Lista med kordinaterna för egna träffar
+		let hitsEgna = new Array();
+
 		//Ser till att skepplistan sparas i början
-		let reset = true; 
+		let reset = true;
 
 		//Platser där skeppet i fråga får läggas ut
-		let allowedPlace = new Array(); 
+		let allowedPlace = new Array();
 
 		//Sparar utlagda platser för skepp;
-		let shipBP = new Array(); 
+		let shipBP = new Array();
 
 		//Om någon av möjliga utsättningspunkterna är utanför spelplanens begränsningar
-		let felRev = true; 
+		let felRev = true;
 
 		//Om det inte går att lägga ut skeppet på någon av de fyra punkterna
 		let notBlocked = true;
 
 		let allowShadow;
+
+		//Arrayer med alla fiendeskepps inviduella kordinater
+		let enemy1 = new Array();
+		let enemy2 = new Array();
+		let enemy3 = new Array();
+		let enemy4 = new Array();
+		let enemy5 = new Array();
+
+		//antal träffar på inviduella fiendeskepp
+		let shipHits1 = 0;
+		let shipHits2 = 0;
+		let shipHits3 = 0;
+		let shipHits4 = 0;
+		let shipHits5 = 0;
 
 		//Löser problemet med att statistik visar undefined genom att kalla på buggFix funktionen
 		window.onload= () => {
@@ -81,8 +98,8 @@
 
 		};
 
-		//Sparar rutan med skepp som kan placeras  när programmet först laddas 
-		
+		//Sparar rutan med skepp som kan placeras  när programmet först laddas
+
 
 		function saveShips() {
 			if (reset) {
@@ -91,8 +108,8 @@
 				reset = false;
 			}
 		}
-		
-		//Funktion för att starta spelet och nollställa 
+
+		//Funktion för att starta spelet och nollställa
 		function startSpel() {
 			if(stats == 3) {
 				document.getElementById("meny").innerHTML = orig;
@@ -100,8 +117,6 @@
 			}
 
 			if (start) {
-
-
 
 				//Resettar spelplanen
 
@@ -112,7 +127,7 @@
 				egnaSkepp = [];
 				fiendeSkepp = [];
 				hitsFiende = [];
-				
+
 				//Skapar den egna spelplanen pånytt
  				let text = '';
 				for (let i = 0; i < 10; i++) {
@@ -131,10 +146,10 @@
 				}
 				document.getElementById('fiende').innerHTML = text;
 
-				//Resettar skepplistan 
+				//Resettar skepplistan
 				document.getElementById("egnaSkepp").innerHTML = document.getElementById("temp").innerHTML;
 			} else {
-				start = true;	
+				start = true;
 				fiendePlacera();
 			}
 		}
@@ -165,7 +180,7 @@
 		//Funktikon för att registrera och visa skjutet skott på vald ruta
 		function skott(x, y) {
 			if (start) {
-				
+
 				//Om skotten är satt på en ledig ruta (inget tidigare skott)
 				let fel = 0;
 
@@ -173,43 +188,124 @@
 				for (var i = 0; i < klickade.length; i++) {
 					if ((x+"."+y) == klickade[i]) {
 						fel = 1;
-					}	
+					}
 				}
 				if (fel == 0) {
-					//lägger i det nya skottet i Arrayen med skott 
+					//lägger i det nya skottet i Arrayen med skott
 					klickade.push(x+"."+y);
 					if (fiendeSkepp.includes(x+"."+y)) {
 						//Träff
 						document.getElementById(x+"."+y).innerHTML = '<img src="Kryss_Hit.png" class="kryss" />';
 					} else {
 						//Miss
-						document.getElementById(x+"."+y).innerHTML = '<img src="Kryss.png" class="kryss" />';	
+						document.getElementById(x+"."+y).innerHTML = '<img src="Kryss.png" class="kryss" />';
 					}
-					
-					tur = false;	
+
+					if (fiendeSkepp.includes(x+"."+y)) {
+						hitsEgna.push(x+"."+y);
+					}
+
+					tur = false;
 				}
 
-				//Datorns tur att skjuta 
-				fiendeSkott();
+				if (enemy1.includes(x+"."+y)) {
+					shipHits1++;
+					console.log("yep1");
+				}
+				/*
+				if (enemy2.includes(x+"."+y)) {
+					shipHits2++;
+					console.log("yep2");
+				}
+				if (enemy3.includes(x+"."+y)) {
+					shipHits3++;
+					console.log("yep3");
+				}
+				if (enemy4.includes(x+"."+y)) {
+					shipHits4++;
+					console.log("yep4");
+				}
+				if (enemy5.includes(x+"."+y)) {
+					shipHits5++;
+					console.log("yep5");
+				}
+				*/
+
+				if (shipHits1 == 5) {
+					console.log("sänkt");
+					elements = document.getElementsByClassName("enemy1");
+	    		for (var i = 0; i < elements.length; i++) {
+	        	elements[i].innerHTML = '<img src="Kryss_Hit.png" class="kryss" />';
+	    		}
+				}
+
+				if (shipHits2 == 4) {
+					console.log("sänkt");
+					elements = document.getElementsByClassName("enemy2");
+	    		for (var i = 0; i < elements.length; i++) {
+	        	elements[i].innerHTML = '<img src="Kryss_Hit.png" class="kryss" />';
+	    		}
+				}
+
+				if (shipHits3 == 3) {
+					console.log("sänkt");
+					elements = document.getElementsByClassName("enemy3");
+	    		for (var i = 0; i < elements.length; i++) {
+	        	elements[i].innerHTML = '<img src="Kryss_Hit.png" class="kryss" />';
+	    		}
+				}
+
+				if (shipHits4 == 3) {
+					console.log("sänkt");
+					elements = document.getElementsByClassName("enemy4");
+	    		for (var i = 0; i < elements.length; i++) {
+	        	elements[i].innerHTML = '<img src="Kryss_Hit.png" class="kryss" />';
+	    		}
+				}
+
+				if (shipHits5 == 2) {
+					console.log("sänkt");
+					elements = document.getElementsByClassName("enemy5");
+	    		for (var i = 0; i < elements.length; i++) {
+	        	elements[i].innerHTML = '<img src="Kryss_Hit.png" class="kryss" />';
+	    		}
+				}
+
+				if (hitsEgna.length == fiendeSkepp.length) {
+					alert("Du Vann!");
+					var request = new XMLHttpRequest();
+					request.open('GET', 'SpelAjax.php?text='+"win", true);
+					request.onload = () => {
+
+						data = request.responseText;
+					};
+						request.send();
+						startSpel();
+				} else {
+						//Datorns tur att skjuta
+						fiendeSkott();
+				}
+
+
 			}
-			
-		} 
+
+		}
 
 		//Fiendens skott
 		function fiendeSkott() {
-			while(!tur) { 
+			while(!tur) {
 				//Kordinater för slumpande skott baserat på förra träff-kordinater
 				let xR = 1;
 				let yR = 1;
 
 				//upptäcker om det uppstår några fel. Om fel > 0 så går det inte att skjuta på valda kordinater
 				var felFiende = 0;
-				
+
 				//Variabel för att bestämma om loopen ska fortsätta slumpa fram kordinater eller inte
 				var slumpa = true;
 
 
-				let intillLiggande = new Array(); 
+				let intillLiggande = new Array();
 
 				console.log("Fiende: "+hitsFiende.length +" | Skepp: "+ egnaSkepp.length);
 
@@ -223,20 +319,20 @@
 						let overlap = false;
 						R = Math.floor(Math.random()*5);
 
-						//slumpar fram nytt 
+						//slumpar fram nytt
 						switch(R){
-							case 1: 
+							case 1:
 								xR = xR + 1;
 								break;
-							case 2: 
+							case 2:
 								xR = xR - 1;
 								break;
-							case 3: 
+							case 3:
 								yR = yR + 1;
 								break;
-							case 4: 
+							case 4:
 								yR = yR - 1;
-								break; 
+								break;
 						}
 						//Felhantering så det nya skottet inte hamnar utanför spelplanen
 						if (xR == -1) {
@@ -260,12 +356,12 @@
 						for (let i = 0; i < hitsFiende.length; i++) {
 							if ((xR+"-"+yR) == hitsFiende[i]) {
 								overlap = true;
-							} 
+							}
 						}
 						for (let i = 0; i < klickadeFiende.length; i++) {
 							if ((xR+"-"+yR) == klickadeFiende[i]) {
 								overlap = true;
-							}	
+							}
 						}
 
 						//slutar slumpa fram närliggande kordinater om alla intillliggande rutor är träffar
@@ -273,7 +369,7 @@
 							slumpa = false;
 							intillLiggande = [];
 
-							//slumpar fram kordinater helt slumpmässigt istället 
+							//slumpar fram kordinater helt slumpmässigt istället
 							xR = Math.floor(Math.random()*10);
 							yR = Math.floor(Math.random()*10);
 						}
@@ -282,43 +378,43 @@
 							slumpa = false;
 						}
 					}
-					
-					
-					
-				} else {	
-					//slumpar fram kordinater för skott		
+
+
+
+				} else {
+					//slumpar fram kordinater för skott
 					xR = Math.floor(Math.random()*10);
-					yR = Math.floor(Math.random()*10);		
+					yR = Math.floor(Math.random()*10);
 				}
 
 
-				var localHit = 0; 
-				
+				var localHit = 0;
+
 				for (let i = 0; i < klickadeFiende.length; i++) {
 					if ((xR+"-"+yR) == klickadeFiende[i]) {
 						felFiende = 1;
-					}	
+					}
 				}
 				if (felFiende == 0) {
 					for (let j = 0; j < egnaSkepp.length; j++) {
 						if ((xR+"-"+yR) == egnaSkepp[j]) {
 							localHit = 1;
-						} 
+						}
 					}
 					if (localHit == 1) {
 						//registrerar och visar en träff
 						klickadeFiende.push(xR+"-"+yR);
 						hitsFiende.push(xR+"-"+yR);
-						document.getElementById(xR+"-"+yR).innerHTML = '<img src="Kryss_Hit.png" class="kryss" />';	
+						document.getElementById(xR+"-"+yR).innerHTML = '<img src="Kryss_Hit.png" class="kryss" />';
 						tur = true;
 						hit = true;
 					} else {
 						//registrerar och visar en miss
 						klickadeFiende.push(xR+"-"+yR);
-						document.getElementById(xR+"-"+yR).innerHTML = '<img src="Kryss.png" class="kryss" />';	
+						document.getElementById(xR+"-"+yR).innerHTML = '<img src="Kryss.png" class="kryss" />';
 						tur = true;
 						hit = false;
-					}		
+					}
 				}
 			}
 
@@ -332,6 +428,7 @@
 					data = request.responseText;
 				};
 					request.send();
+					startSpel();
 			}
 		}
 
@@ -347,14 +444,14 @@
 				firstY = y;
 				antalKlick--;
 			}
-			
-			
+
+
 			egnaSkepp.push(x+"-"+y);
-			
+
 		}
 
 		function overLap1() {
-			if (firstX+skeppLength < 11) {				
+			if (firstX+skeppLength < 11) {
 				tempBlocked = true;
 
 				for (var j = firstX+1; j < firstX+skeppLength; j++) {
@@ -369,10 +466,10 @@
 					return true;
 				}
 			}
-		}	
+		}
 
 		function overLap2() {
-			if ((firstX+-skeppLength) > -2) {				
+			if ((firstX+-skeppLength) > -2) {
 				tempBlocked = true;
 
 				for (var j = firstX-skeppLength+1; j < firstX; j++) {
@@ -389,7 +486,7 @@
 		}
 
 		function overLap3() {
-			if (firstY+skeppLength < 11) {				
+			if (firstY+skeppLength < 11) {
 				tempBlocked = true;
 
 				for (var j = firstY+1; j < firstY+skeppLength; j++) {
@@ -404,7 +501,7 @@
 			}
 		}
 		function overLap4() {
-			if ((firstY+-skeppLength) > -2) {				
+			if ((firstY+-skeppLength) > -2) {
 				tempBlocked = true;
 
 				for (var j = firstY-skeppLength+1; j < firstY; j++) {
@@ -452,8 +549,8 @@
 					if ((y+-skeppLength) > -2 && notBlocked) {
 						allowedPlace.push(x + "-" + (y-skeppLength+1));
 					}
-					
-					
+
+
 
 					for (var i = 0; i < allowedPlace.length; i++) {
 						document.getElementById(allowedPlace[i]).style.backgroundColor = "#333333";
@@ -482,15 +579,15 @@
 
 						antalKlick--;
 					}
-					
-					
-				}
-				
- 
-					
-				
 
-			}		
+
+				}
+
+
+
+
+
+			}
 		}
 
 		function fiendePlacera() {
@@ -516,33 +613,33 @@
 
 
 				switch(fiendeSkeppNummer){
-					case 1: 
+					case 1:
 						fiendeLength = 5;
 						fiendeSkeppNummer++;
 						break;
-					case 2: 
+					case 2:
 						fiendeLength = 4;
 						fiendeSkeppNummer++;
 						break;
-					case 3: 
+					case 3:
 						fiendeLength = 3;
 						fiendeSkeppNummer++;
 						break;
-					case 4: 
+					case 4:
 						fiendeLength = 3;
 						fiendeSkeppNummer++;
-						break; 
-					case 5: 
+						break;
+					case 5:
 						fiendeLength = 2;
 						fiendeSkeppNummer++;
-						break; 
+						break;
 					}
 
 				//vilket riktning skeppet ligger åt
 				overlapNum = new Array();
 
 				while(fiendeFel && !overlap) {
-					
+
 				overlap = 0;
 
 					Dir = Math.floor(Math.random()*4);
@@ -551,7 +648,7 @@
 						for (var i = xR; i < xLast ; i++) {
 							if (fiendeSkepp.includes(i+"."+yR)) {
 								console.log("overlap1: " + (i+"."+yR) );
-								document.getElementById(i+"."+yLast).innerHTML = '<img src="Kryss.png" class="kryss" />';	
+								document.getElementById(i+"."+yLast).innerHTML = '<img src="Kryss.png" class="kryss" />';
 
 								overlap++;
 							}
@@ -560,11 +657,11 @@
 					}
 
 					switch(Dir){
-						case 0: 
+						case 0:
 							xLast = xR + fiendeLength;
 							yLast = yR;
 							break;
-						case 1: 
+						case 1:
 							xLast = xR - fiendeLength;
 							yLast = yR;
 							for (var i = xR; i < xLast ; i++) {
@@ -574,14 +671,14 @@
 								}
 							}
 							break;
-						case 2: 
+						case 2:
 							yLast = yR + fiendeLength;
 							xLast = xR;
 							break;
-						case 3: 
+						case 3:
 							yLast = yR - fiendeLength;
 							xLast = xR;
-							break; 
+							break;
 					}
 
 					if (xLast > -1 && xLast < 11 && yLast > -1 && yLast < 11) {
@@ -600,26 +697,96 @@
 					if (xR < xLast) {
 						for (var i = xR; i < xLast ; i++) {
 							document.getElementById(i+"."+yLast).style.backgroundColor = "#333333";
+							switch(fiendeSkeppNummer) {
+								case 2:
+									enemy1.push(i+"."+yLast);
+									console.log("1: "+fiendeSkeppNummer);
+									continue;
+								case 3:
+									enemy2.push(i+"."+yLast);
+									console.log("2: "+fiendeSkeppNummer);
+									continue;
+								case 4:
+									enemy3.push(i+"."+yLast);
+									continue;
+								case 5:
+									enemy4.push(i+"."+yLast);
+									continue;
+								case 6:
+									enemy5.push(i+"."+yLast);
+									continue;
+							}
 							fiendeSkepp.push(i+"."+yLast);
 						}
 
 					} else {
 						for (var i = xLast; i < xR ; i++) {
 							document.getElementById(i+"."+yLast).style.backgroundColor = "#333333";
+							switch(fiendeSkeppNummer) {
+								case 2:
+									enemy1.push(i+"."+yLast);
+									continue;
+								case 3:
+									enemy2.push(i+"."+yLast);
+									continue;
+								case 4:
+									enemy3.push(i+"."+yLast);
+									continue;
+								case 5:
+									enemy4.push(i+"."+yLast);
+									continue;
+								case 6:
+									enemy5.push(i+"."+yLast);
+									continue;
+							}
 							fiendeSkepp.push(i+"."+yLast);
 						}
 					}
-					
+
 				} else {
 					if (yR < yLast) {
 						for (var i = yR; i < yLast ; i++) {
 							document.getElementById(xLast+"."+i).style.backgroundColor = "#333333";
+							switch(fiendeSkeppNummer) {
+								case 2:
+									enemy1.push(xLast+"."+i);
+									continue;
+								case 3:
+									enemy2.push(xLast+"."+i);
+									continue;
+								case 4:
+									enemy3.push(xLast+"."+i);
+									continue;
+								case 5:
+									enemy4.push(xLast+"."+i);
+									continue;
+								case 6:
+									enemy5.push(xLast+"."+i);
+									continue;
+							}
 							fiendeSkepp.push(xLast+"."+i);
 						}
 
 					} else {
 						for (var i = yLast; i < yR ; i++) {
 							document.getElementById(xLast+"."+i).style.backgroundColor = "#333333";
+							switch(fiendeSkeppNummer) {
+								case 2:
+									enemy1.push(xLast+"."+i);
+									continue;
+								case 3:
+									enemy2.push(xLast+"."+i);
+									continue;
+								case 4:
+									enemy3.push(xLast+"."+i);
+									continue;
+								case 5:
+									enemy4.push(xLast+"."+i);
+									continue;
+								case 6:
+									enemy5.push(xLast+"."+i);
+									continue;
+							}
 							fiendeSkepp.push(xLast+"."+i);
 						}
 					}
@@ -640,15 +807,15 @@
 		function remove1(){
 			if (firstX+skeppLength < 11) {
 				for (var i = firstX+1; i < (firstX+skeppLength-1); i++) {
-				document.getElementById(i+"-"+firstY).style.backgroundColor = "";	
+				document.getElementById(i+"-"+firstY).style.backgroundColor = "";
 				}
 			}
-			
 
-			egnaSkeppPaint();		
-						
+
+			egnaSkeppPaint();
+
 		}
-		
+
 		//tar bort "spökskeppet" från plats 2
 		function remove2(){
 
@@ -658,8 +825,8 @@
 				}
 			}
 
-						
-			
+
+
 			egnaSkeppPaint();
 		}
 
@@ -668,13 +835,13 @@
 
 			if (firstY+skeppLength < 11) {
 				for (var i = firstY+1; i < (firstY+skeppLength-1); i++) {
-				document.getElementById(firstX+"-"+i).style.backgroundColor = "";	
+				document.getElementById(firstX+"-"+i).style.backgroundColor = "";
 				}
 			}
 
-									
-			
-			egnaSkeppPaint();	
+
+
+			egnaSkeppPaint();
 		}
 
 		//tar bort "spökskeppet" från plats 4
@@ -682,19 +849,19 @@
 
 			if (firstY+-skeppLength > -2) {
 				for (var i = (firstY-skeppLength+2); i < firstY; i++) {
-				document.getElementById(firstX+"-"+i).style.backgroundColor = "";	
-				}	
+				document.getElementById(firstX+"-"+i).style.backgroundColor = "";
+				}
 			}
 
-								
-			
+
+
 			egnaSkeppPaint();
 		}
 
 		function possiblePlace(x, y){
 			if (antalKlick == 1) {
 
-				
+
 
 				allowShadow = overLap1();
 
@@ -707,14 +874,14 @@
 						for (var i = firstX+1; i < (firstX+skeppLength); i++) {
 							document.getElementById(i+"-"+firstY).style.backgroundColor = "#555555";
 							shipBP.push(i+"-"+firstY);
-						}	
+						}
 						document.getElementById((firstX+skeppLength-1)+"-"+firstY).style.backgroundColor = "#333333";
 
 						//tar bort det visade skeppet från de andra lägerna
 						remove2();
 						remove3();
 						remove4();
-					}			
+					}
 				}
 
 				allowShadow = overLap2();
@@ -725,7 +892,7 @@
 
 						shipBP = [];
 						for (var i = (firstX-skeppLength+1); i < firstX; i++) {
-							document.getElementById(i+"-"+firstY).style.backgroundColor = "#555555";	
+							document.getElementById(i+"-"+firstY).style.backgroundColor = "#555555";
 							shipBP.push(i+"-"+firstY);
 
 						}
@@ -735,7 +902,7 @@
 						remove1();
 						remove3();
 						remove4();
-					}			
+					}
 				}
 
 				allowShadow = overLap3();
@@ -744,7 +911,7 @@
 					if (x == firstX && y == (firstY+skeppLength-1)) {
 						shipBP = [];
 						for (var i = firstY+1; i < (firstY+skeppLength); i++) {
-							document.getElementById(firstX+"-"+i).style.backgroundColor = "#555555";	
+							document.getElementById(firstX+"-"+i).style.backgroundColor = "#555555";
 							shipBP.push(firstX+"-"+i);
 						}
 						document.getElementById(firstX+"-"+(firstY+skeppLength-1)).style.backgroundColor = "#333333";
@@ -753,7 +920,7 @@
 						remove1();
 						remove2();
 						remove4();
-					}			
+					}
 				}
 
 				allowShadow = overLap4();
@@ -762,9 +929,9 @@
 					if (x == firstX && y == (firstY-skeppLength+1)) {
 						shipBP = [];
 						for (var i = (firstY-skeppLength+1); i < firstY; i++) {
-							
+
 							document.getElementById(firstX+"-"+i).style.backgroundColor = "#555555";
-							shipBP.push(firstX+"-"+i);	
+							shipBP.push(firstX+"-"+i);
 						}
 						document.getElementById(firstX+"-"+(firstY-skeppLength+1)).style.backgroundColor = "#333333";
 
@@ -772,10 +939,10 @@
 						remove1();
 						remove2();
 						remove3();
-					}			
+					}
 				}
 			}
-				
+
 		}
 
 		function placeraMus(x, y) {
@@ -783,34 +950,34 @@
 
 				if (antalKlick == 2) {
 					document.getElementById(x+"-"+y).style.backgroundColor = "#333333";
-				} 
+				}
 
 
 				if (antalKlick == 1) {
 					for (var i = 0; i < allowedPlace.length; i++) {
-					
-						
+
+
 					}
-					
+
 				possiblePlace(x,y);
-					
+
 				//console.log("Mus: "+x+"-"+y);
-					
+
 
 				}
 
-				
+
 			}
-		} 
+		}
 
 		function placeraMusRemove(x, y) {
-		
+
 			var fel = 0;
 			for (var i = 0; i < egnaSkepp.length; i++) {
 				if ((x+"-"+y) == egnaSkepp[i]) {
 					fel = 1;
-					//console.log("fel: 1");	
-				}	
+					//console.log("fel: 1");
+				}
 			}
 
 
@@ -827,19 +994,19 @@
 				}
 			}
 
-			
+
 
 			if (fel == 0) {
-				
+
 				document.getElementById(x+"-"+y).style.backgroundColor = "";
-			} 
-			
+			}
+
 			possiblePlace(x,y);
-		} 
+		}
 
 		function showStats() {
-			
-			
+
+
 			//sparar menyns ursprungliga utseende
 			if (stats == 1) {
 				orig = document.getElementById("meny").innerHTML;
@@ -862,12 +1029,12 @@
 			} else {
 				stats = 2;
 				document.getElementById("meny").innerHTML = orig;
-			}	
+			}
 		}
 
 		function place(id) {
 			if (antalKlick == 0) {
-				
+
 
 				if (!start) {
 					allowedPlace = [];
@@ -884,7 +1051,7 @@
 						skeppLength = 2;
 					}
 					//sätter förra placerade kordinaterna till "nollställt" läge
-					antalKlick = 2; 
+					antalKlick = 2;
 
 					document.getElementById("temp").style.visibility = "hidden";
 
@@ -894,7 +1061,7 @@
 					var element = document.getElementById(skeppID);
 	   				element.parentNode.removeChild(element);
 				}
-			}				
+			}
 		}
 
 		function buggFix() {
@@ -922,7 +1089,7 @@
 			<div id="skepp2" class="skepp" onclick="place(2)">
 				<div class="templSkepp1"></div><div class="templSkepp1"></div><div class="templSkepp1"></div><div class="templSkepp2"></div>
 			</div>
-			
+
 			<div id="skepp3" class="skepp" onclick="place(3)">
 				<div class="templSkepp1"></div><div class="templSkepp1"></div><div class="templSkepp2"></div>
 			</div>
@@ -937,19 +1104,19 @@
 		</div>
 		<div id="fiendeSkepp" class="skeppPlan">
 			<div id="skepp6" class="skepp">
-				<div class="templSkepp1"></div><div class="templSkepp1"></div><div class="templSkepp1"></div><div class="templSkepp1"></div><div class="templSkepp2"></div>
+				<div class="templSkepp1 enemy1"></div><div class="templSkepp1 enemy1"></div><div class="templSkepp1 enemy1"></div><div class="templSkepp1 enemy1"></div><div class="templSkepp2 enemy1"></div>
 			</div>
 			<div id="skepp7" class="skepp">
-				<div class="templSkepp1"></div><div class="templSkepp1"></div><div class="templSkepp1"></div><div class="templSkepp2"></div>
+				<div class="templSkepp1 enemy2"></div><div class="templSkepp1 enemy2"></div><div class="templSkepp1 enemy2"></div><div class="templSkepp2 enemy2"></div>
 			</div>
 			<div id="skepp8" class="skepp">
-				<div class="templSkepp1"></div><div class="templSkepp1"></div><div class="templSkepp2"></div>
+				<div class="templSkepp1 enemy3"></div><div class="templSkepp1 enemy3"></div><div class="templSkepp2 enemy3"></div>
 			</div>
 			<div id="skepp9" class="skepp">
-				<div class="templSkepp1"></div><div class="templSkepp1"></div><div class="templSkepp2"></div>
+				<div class="templSkepp1 enemy4"></div><div class="templSkepp1 enemy4"></div><div class="templSkepp2 enemy4"></div>
 			</div>
 			<div id="skepp10" class="skepp">
-				<div class="templSkepp1"></div><div class="templSkepp2"></div>
+				<div class="templSkepp1 enemy5"></div><div class="templSkepp2 enemy5"></div>
 			</div>
 		</div>
 	</div>
