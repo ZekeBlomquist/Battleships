@@ -177,6 +177,12 @@ html,body {
 	border-width: 3px;
 }
 
+#message {
+	text-align: center;
+	font-size: 80px;
+}
+
+
 .unselectable {
     -webkit-touch-callout: none;
     -webkit-user-select: none;
