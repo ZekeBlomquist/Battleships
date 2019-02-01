@@ -120,6 +120,8 @@
 		//id't på skeppet som läggs ut
 		let id = 0;
 
+		let hitCords = "";
+
 		//om spelet är avslutat eller inte
 		let end = false;
 
@@ -158,7 +160,7 @@
 		let cheat = 0;
 
 		//temporär hårdkodning av spelarens design
-		let layout = "DNK";
+		let layout = "SWE";
 
 		//Färger för de egna skeppens olika lägen
 		let shipColor;
@@ -230,8 +232,7 @@
 		};
 
 		function randomColor() {
-			let colorR = Math.floor(Math.random()*4);
-			console.log("Färg:" + colorR);
+			let colorR = Math.floor(Math.random()*5);
 			switch(colorR){
 				case 0:
 					//Standard färg
@@ -261,7 +262,7 @@
 					hitColorEnemy = '<img src="Hit_White.png" class="kryss" />';
 					flagEnemy = "Flag_FIN.png";
 					break;
-				case 3:
+				case 4:
 					//Norska färger
 					shipColorEnemy = "#002868";
 					sunkColorEnemy = "#EF2B2D";
@@ -269,8 +270,6 @@
 					flagEnemy = "Flag_NOR.png";
 					break;
 			}
-			console.log(flagEnemy);
-			console.log("Nummer:" + colorR);
 		}
 
 		function templateColor() {
@@ -653,6 +652,8 @@
 
 				localHit = 0;
 
+				hitCords = "";
+
 				if (difficulty == 3) {
 					localHit = 0;
 					if (cheat == 4) {
@@ -664,8 +665,8 @@
 								hit = true;
 								localHit = 1;
 								cheat = -1;
-								console.log("svårt af");
-								console.log("fusk: "+cheat);
+								hitCords = egnaSkepp[i];
+
 								break;
 							}
 						}
@@ -673,7 +674,6 @@
 						randomShot();
 					}
 					tur = true;
-					console.log("svårt");
 					cheat++;
 				}
 
@@ -684,12 +684,15 @@
 							if (!hitsFiende.includes(egnaSkepp[i])) {
 								klickadeFiende.push(egnaSkepp[i]);
 								hitsFiende.push(egnaSkepp[i]);
+								if (	document.getElementById(egnaSkepp[i]).innerHTML == hitColor) {
+									console.log("negerfan");
+								}
 								document.getElementById(egnaSkepp[i]).innerHTML = hitColor;
 								hit = true;
 								localHit = 1;
 								cheat = -1;
-								console.log("svårt af");
-								console.log("fusk: "+cheat);
+								hitCords = egnaSkepp[i];
+								console.log("cuck:"+hitCords);
 								break;
 							}
 						}
@@ -697,7 +700,6 @@
 						randomShot();
 					}
 					tur = true;
-					console.log("svårt");
 					cheat++;
 				}
 
@@ -723,6 +725,7 @@
 							document.getElementById(xR+"-"+yR).innerHTML = hitColor;
 							tur = true;
 							hit = true;
+							hitCords = xR+"-"+yR;
 						} else {
 							//registrerar och visar en miss
 							klickadeFiende.push(xR+"-"+yR);
@@ -733,21 +736,24 @@
 
 
 					}
+
 				}
+
+
 				if (localHit == 1) {
-					if (friendly1.includes(xR+"-"+yR)) {
+					if (friendly1.includes(hitCords)) {
 						enemyHits1++;
 					}
-					if (friendly2.includes(xR+"-"+yR)) {
+					if (friendly2.includes(hitCords)) {
 						enemyHits2++;
 					}
-					if (friendly3.includes(xR+"-"+yR)) {
+					if (friendly3.includes(hitCords)) {
 						enemyHits3++;
 					}
-					if (friendly4.includes(xR+"-"+yR)) {
+					if (friendly4.includes(hitCords)) {
 						enemyHits4++;
 					}
-					if (friendly5.includes(xR+"-"+yR)) {
+					if (friendly5.includes(hitCords)) {
 						enemyHits5++;
 					}
 
@@ -804,6 +810,9 @@
 		}
 
 		function randomShot() {
+			felFiende = 0;
+			localHit = 0;
+
 			xR = Math.floor(Math.random()*10);
 			yR = Math.floor(Math.random()*10);
 
@@ -818,11 +827,13 @@
 						localHit = 1;
 					}
 				}
+
 				if (localHit == 1) {
 					//registrerar och visar en träff
 					klickadeFiende.push(xR+"-"+yR);
 					hitsFiende.push(xR+"-"+yR);
 					document.getElementById(xR+"-"+yR).innerHTML = hitColor;
+					hitCords = (xR+"-"+yR);
 					tur = true;
 					hit = true;
 				} else {
@@ -833,6 +844,10 @@
 					hit = false;
 				}
 		}
+			//Ser till så att nya kordinater slumpas fram vid fel (nytt skott är på en plats som redan är träffad)
+			if (felFiende == 1) {;
+					randomShot();
+			}
 		}
 
 		//Funktion för att sätta ut skepp vid angivna kordinater
@@ -875,7 +890,7 @@
 				tempBlocked = true;
 
 				for (var j = firstX+1; j < firstX+skeppLength; j++) {
-					//document.getElementById(j+"-"+y).innerHTML = '<img src="Kryss.png" class="kryss" />';
+					// document.getElementById(j+"-"+y).innerHTML = '<img src="Kryss.png" class="kryss" />';
 
 					if (egnaSkepp.includes(j+"-"+firstY)) {
 					tempBlocked = false;
@@ -893,7 +908,7 @@
 				tempBlocked = true;
 
 				for (var j = firstX-skeppLength+1; j < firstX; j++) {
-					//document.getElementById(j+"-"+y).innerHTML = '<img src="Kryss.png" class="kryss" />';
+					// document.getElementById(j+"-"+y).innerHTML = '<img src="Kryss.png" class="kryss" />';
 					if (egnaSkepp.includes(j+"-"+firstY)) {
 					tempBlocked = false;
 					return false;
@@ -1093,50 +1108,39 @@
 
 					let antalFel = 0;
 
-          console.log("xR: "+xR);
-          console.log("yR: "+yR);
-
 					for (var i = xR; i < xR+fiendeLength ; i++) {
 						if (fiendeSkepp.includes(i+"."+yR)) {
 							DirectionError[0] = 0;
-              console.log("1");
 						}
             if (xR+fiendeLength > 9) {
               DirectionError[0] = 0;
-              console.log("2");
             }
 					}
 
           for (var i = (xR-fiendeLength); i < xR ; i++) {
 						if (fiendeSkepp.includes(i+"."+yR)) {
 							DirectionError[1] = 1;
-              console.log("3");
 						}
             if ((xR-fiendeLength) < 0) {
               DirectionError[1] = 1;
-              console.log("4");
             }
 					}
 
           for (var i = yR; i < yR+fiendeLength ; i++) {
 						if (fiendeSkepp.includes(xR+"."+i)) {
 							DirectionError[2] = 2;
-              console.log("5");
 						}
             if (yR+fiendeLength > 9) {
               DirectionError[2] = 2;
-              console.log("6");
             }
 					}
 
           for (var i = (yR-fiendeLength); i < yR ; i++) {
 						if (fiendeSkepp.includes(xR+"."+i)) {
 							DirectionError[3] = 3;
-              console.log("7");
 						}
             if ((yR-fiendeLength) < 0) {
               DirectionError[3] = 3;
-              console.log("8");
             }
 					}
 
@@ -1355,7 +1359,6 @@
 
 
 				if (firstX+skeppLength < 11 && allowShadow) {
-					//console.log("test: "+overLap1(x,y));
 
 					if (x == (firstX+skeppLength-1) && y == firstY ) {
 						shipBP = [];
@@ -1446,7 +1449,6 @@
 
 				possiblePlace(x,y);
 
-				//console.log("Mus: "+x+"-"+y);
 
 
 				}
