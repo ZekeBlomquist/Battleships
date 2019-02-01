@@ -110,22 +110,48 @@ html,body {
 
 .skeppPlan {
 	width: 400px;
-	height: 130px;
+	height: 158px;
 	margin-top: 30px;
 	border-style: solid;
 	border-color: black;
 	border-width: 5px;
 	float: left;
 	background-color: #b3b3b3;
-	padding-top: 20px;
+	padding-top: 30px;
+	padding-left: 8px;
 }
 
-#egnaSkepp {
-	margin-right: 260px;
+#vs {
+	margin-top: 30px;
+	border-style: solid;
+	border-color: black;
+	border-width: 5px;
+	float: left;
+	background-color: #b3b3b3;
+	padding: 10px;
+	width: 200px;
+	height: 158px;
+	margin-left: 30px;
+	margin-right: 30px;
+}
+
+.flag {
+	width: 100px;
+	height: 50px;
+}
+
+#flag2 {
+	float: right;
+}
+
+#vsText {
+	text-align: center;
+	padding-bottom: 3px;
+	font-family: "Arial Black", Gadget, sans-serif;
 }
 
 .skepp {
-	margin: 20px;
+	margin: 18px;
 	margin-top: 0px;
 	margin-right: 0px;
 	float: left;
@@ -134,8 +160,8 @@ html,body {
 .templSkepp1 {
 	background-color: #333333;
 	float: left;
-	width: 30px;
-	height: 30px;
+	width: 35px;
+	height: 35px;
 	border-style: solid;
 	border-color: black;
 	border-right: none;
@@ -144,8 +170,8 @@ html,body {
 .templSkepp2 {
 	background-color: #333333;
 	float: left;
-	width: 30px;
-	height: 30px;
+	width: 35px;
+	height: 35px;
 	border-style: solid;
 	border-color: black;
 	border-width: 3px;
