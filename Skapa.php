@@ -6,7 +6,7 @@
 <body>
 	<link rel="stylesheet" type="text/css" href="Stilmall.css">
 
-	
+
 	<?php
 
 	require "./Felhantering.php";
@@ -26,7 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 	$mail = $_POST["mailCreate"];
 	$pass = $_POST["passCreate"];
 
-	if (!preg_match("/^[^0-9][A-z0-9_]+([.][A-z0-9_]+)*[@][A-z0-9_]+([.][A-z0-9_]+)*[.][A-z]{2,4}$/", sanitize($mail))) { 
+	if (!preg_match("/^[^0-9][A-z0-9_]+([.][A-z0-9_]+)*[@][A-z0-9_]+([.][A-z0-9_]+)*[.][A-z]{2,4}$/", sanitize($mail))) {
 			$mailError = 0;
 		} else {
 			$mailError = 1;
@@ -37,20 +37,20 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 			$passwordError = 1;
 		}
 
-		
+
 
 		if ($passwordError == 1 && $mailError == 1) {
 			$sql = "SELECT mail FROM User WHERE mail = '$mail'";
 			$result = $conn->query($sql);
 			if ($result->num_rows === 0) {
-				$sql = "INSERT INTO User(mail, password, wins, losses) VALUES('$mail', '$pass', 0, 0)"; 
+				$sql = "INSERT INTO User(mail, password, wins, losses, currency, xp, selected) VALUES('$mail', '$pass', 0, 0, 0, 0, "DEF")"; 
 				$result = $conn->query($sql);
 				$skapad = "Din användare är nu skapad <br> <br> <a class='knapp' href='Login.php'>Klicka här för att återvända </a>";
 			} else {
 				$skapad = "Mailadressen är upptagen";
 			}
-			
-		} 
+
+		}
 
 
 	}
@@ -58,7 +58,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
 	<form method="post" action="Skapa.php" >
 	Mailadress <br> <input type="text" name="mailCreate">
-	<?php if ($mailError == 0) { 
+	<?php if ($mailError == 0) {
 		echo "Fel format";
 	} ?> <br><br>
 
@@ -66,12 +66,12 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 	<?php if ($passwordError == 0) {
 		echo "Fel format";
 	}
-	 ?> 
+	 ?>
 	 <br><br>
 	<input class="knappar" type="submit" name="create" value="Skapa Användare">
-	<input id="btntest" type="button" value="Gå tillbaka" class="knappar" 
+	<input id="btntest" type="button" value="Gå tillbaka" class="knappar"
        onclick="window.location.href = 'Login.php'" />
-	 
+
 	<br><br> <?php echo $skapad; ?>
 </form>
 </body>

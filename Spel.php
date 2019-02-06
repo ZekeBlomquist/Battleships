@@ -8,7 +8,41 @@
 
 	<title></title>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+		<!-- JavaScript -->
+		<script src="//cdn.jsdelivr.net/npm/alertifyjs@1.11.2/build/alertify.min.js"></script>
+
+		<!-- CSS -->
+		<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.11.2/build/css/alertify.min.css"/>
+		<!-- Default theme -->
+		<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.11.2/build/css/themes/default.min.css"/>
+		<!-- Semantic UI theme -->
+		<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.11.2/build/css/themes/semantic.min.css"/>
+		<!-- Bootstrap theme -->
+		<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.11.2/build/css/themes/bootstrap.min.css"/>
+
+		<!--
+		    RTL version
+		-->
+		<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.11.2/build/css/alertify.rtl.min.css"/>
+		<!-- Default theme -->
+		<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.11.2/build/css/themes/default.rtl.min.css"/>
+		<!-- Semantic UI theme -->
+		<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.11.2/build/css/themes/semantic.rtl.min.css"/>
+		<!-- Bootstrap theme -->
+		<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.11.2/build/css/themes/bootstrap.rtl.min.css"/>
+
+
+		<link rel="stylesheet" type="text/css" href="SpelStil.css">
+
 	<script>
+
+
+
+
+
+
+
+
 		//Om spelet är påbörjat eller om det är i skepp-placeringsfasen
 		let start = false;
 
@@ -54,6 +88,12 @@
 		//Om datorns förra skott var en träff eller inte
 		let hit = false;
 
+		//om det skjutna skottet var en träff eller inte
+		var localHit = 0;
+
+		//upptäcker om det uppstår några fel. Om fel > 0 så går det inte att skjuta på valda kordinater
+		var felFiende = 0;
+
 		//Lista med kordinaterna för fiendens träffar
 		let hitsFiende = new Array();
 
@@ -79,6 +119,8 @@
 
 		//id't på skeppet som läggs ut
 		let id = 0;
+
+		let hitCords = "";
 
 		//om spelet är avslutat eller inte
 		let end = false;
@@ -111,12 +153,200 @@
 		let enemyHits4 = 0;
 		let enemyHits5 = 0;
 
+		//Svårighetsgraden på datorn
+		let difficulty = 3;
+
+		//antal skott sedan datorn senast skött ett "fuskskott"
+		let cheat = 0;
+
+		//temporär hårdkodning av spelarens design
+		let layout = "FIN";
+
+		//Färger för de egna skeppens olika lägen
+		let shipColor;
+		let shadowColor;
+		let sunkColor;
+		let hitColor;
+		let flagEgen;
+
+		//Färger för fiedens skepps färger i de olika lägena
+		let shipColorEnemy = "#333333";
+		let sunkColorEnemy = "#860d0d";
+		let hitColorEnemy = '<img src="Images/Hit_Red.png" class="kryss" />';
+		let flagEnemy;
+
+
+
+
+
+		if (layout == "DEF") {
+			shipColor = "#333333";
+			shadowColor = "#555555";
+			sunkColor = "#860d0d";
+			hitColor = '<img src="Images/Hit_Red.png" class="kryss" />';
+			flagEgen = "Images/Flag_DEF.png";
+		}
+
+		if (layout == "SWE") {
+			shipColor = "#2d5fa1";
+			shadowColor = "#6091d2";
+			sunkColor = "#1c3b63";
+			hitColor = '<img src="Images/Hit_Yellow.png" class="kryss" />';
+			flagEgen = "Images/Flag_SWE.png";
+		}
+
+		if (layout == "DNK") {
+			shipColor = "#C60C30";
+			shadowColor = "#f43e63";
+			sunkColor = "#910824";
+			hitColor = '<img src="Images/Hit_White.png" class="kryss" />';
+			flagEgen = "Images/Flag_DNK.png";
+		}
+
+		if (layout == "FIN") {
+			shipColor = "#003580";
+			shadowColor = "#0060e6";
+			sunkColor = "#001533";
+			hitColor = '<img src="Images/Hit_White.png" class="kryss" />';
+			flagEgen = "Images/Flag_FIN.png";
+		}
+
+		if (layout == "NOR") {
+			shipColor = "#002868";
+			shadowColor = "#0044b3";
+			sunkColor = "#EF2B2D";
+			hitColor = '<img src="Images/Hit_White.png" class="kryss" />';
+			flagEgen = "Images/Flag_NOR.png";
+		}
+		if (layout == "EST") {
+			shipColor = "#0073D0";
+			shadowColor = "#33a3ff";
+			sunkColor = "#005499";
+			hitColor = '<img src="Images/Hit_White.png" class="kryss" />';
+			flagEgen = "Images/Flag_EST.png";
+		}
+		if (layout == "LVA") {
+			shipColor = "#9E292B";
+			shadowColor = "#d0494b";
+			sunkColor = "#7a1f21";
+			hitColor = '<img src="Images/Hit_White.png" class="kryss" />';
+			flagEgen = "Images/Flag_LVA.png";
+		}
+		if (layout == "LTU") {
+			shipColor = "#006A44";
+			shadowColor = "#00b371";
+			sunkColor = "#003320";
+			hitColor = '<img src="Images/Hit_Lit.png" class="kryss" />';
+			flagEgen = "Images/Flag_LTU.png";
+		}
+		if (layout == "DEU") {
+			shipColor = "#FFCF00";
+			shadowColor = "#ffe366";
+			sunkColor = "#cca700";
+			hitColor = '<img src="Images/Hit_rED.png" class="kryss" />';
+			flagEgen = "Images/Flag_DEU.png";
+		}
+
+		elements = document.getElementsByClassName("templSkepp1");
+		for (var i = 0; i < elements.length; i++) {
+			elements[i].innerHTML = shipColor;
+		}
+
+
 		//Löser problemet med att statistik visar undefined genom att kalla på buggFix funktionen
 		window.onload= () => {
 			buggFix();
 			saveShips();
-
+			templateColor();
 		};
+
+		function randomColor() {
+			let colorR = Math.floor(Math.random()*8);
+			switch(colorR){
+				case 0:
+					//Standard färg
+					shipColorEnemy = "#333333";
+					sunkColorEnemy = "#860d0d";
+					hitColorEnemy = '<img src="Images/Hit_Red.png" class="kryss" />';
+					flagEnemy = "Images/Flag_DEF.png";
+					break;
+				case 1:
+					//Svenska färger
+					shipColorEnemy = "#2d5fa1";
+					sunkColorEnemy = "#1c3b63";
+					hitColorEnemy = '<img src="Images/Hit_Yellow.png" class="kryss" />';
+					flagEnemy = "Images/Flag_SWE.png";
+					break;
+				case 2:
+					//Danska färger
+					shipColorEnemy = "#C60C30";
+					sunkColorEnemy = "#910824";
+					hitColorEnemy = '<img src="Images/Hit_White.png" class="kryss" />';
+					flagEnemy = "Images/Flag_DNK.png";
+					break;
+				case 3:
+					//Finska färger
+					shipColorEnemy = "#003580";
+					sunkColorEnemy = "#001533";
+					hitColorEnemy = '<img src="Images/Hit_White.png" class="kryss" />';
+					flagEnemy = "Images/Flag_FIN.png";
+					break;
+				case 4:
+					//Norska färger
+					shipColorEnemy = "#002868";
+					sunkColorEnemy = "#EF2B2D";
+					hitColorEnemy = '<img src="Images/Hit_White.png" class="kryss" />';
+					flagEnemy = "Images/Flag_NOR.png";
+					break;
+				case 5:
+					//Estoniska färger
+					shipColorEnemy = "#0073D0";
+					sunkColorEnemy = "#005499";
+					hitColorEnemy = '<img src="Images/Hit_White.png" class="kryss" />';
+					flagEnemy = "Images/Flag_EST.png";
+					break;
+				case 6:
+					//latviska färger
+					shipColorEnemy = "#9E292B";
+					sunkColorEnemy = "#7a1f21";
+					hitColorEnemy = '<img src="Images/Hit_White.png" class="kryss" />';
+					flagEnemy = "Images/Flag_LVA.png";
+					break;
+				case 7:
+					//Litauiska färger
+					shipColorEnemy = "#006A44";
+					sunkColorEnemy = "#003320";
+					hitColorEnemy = '<img src="Images/Hit_Lit.png" class="kryss" />';
+					flagEnemy = "Images/Flag_LTU.png";
+					break;
+				case 8:
+					//Tyska färger
+					shipColorEnemy = "#FFCF00";
+					sunkColorEnemy = "#b39200";
+					hitColorEnemy = '<img src="Images/Hit_rED.png" class="kryss" />';
+					flagEnemy = "Images/Flag_DEU.png";
+					break;
+			}
+		}
+
+		function templateColor() {
+			randomColor();
+			elements = document.getElementsByClassName("templSkepp1");
+			for (var i = 0; i < elements.length; i++) {
+				elements[i].style.backgroundColor = shipColor;
+			}
+			elements = document.getElementsByClassName("templSkepp2");
+			for (var i = 0; i < elements.length; i++) {
+				elements[i].style.backgroundColor = shipColor;
+			}
+			elements = document.getElementsByClassName("enemyShip");
+			for (var i = 0; i < elements.length; i++) {
+				elements[i].style.backgroundColor = shipColorEnemy;
+			}
+			document.getElementById("vs").innerHTML = '<img id="flag1" src='+flagEgen+' class="flag" /> <div id="vsText">VS</div>	<img id="flag2" src='+flagEnemy+' class="flag" />';
+
+
+		}
 
 		//Sparar rutan med skepp som kan placeras  när programmet först laddas
 
@@ -141,6 +371,8 @@
 				document.getElementById("startKnapp").innerHTML = "Starta spel";
 
 				//Resettar spelplanen
+				templateColor();
+				cheat = 0;
 				start = false;
 				end = false;
 				antalKlick = 0;
@@ -267,10 +499,10 @@
 					klickade.push(x+"."+y);
 					if (fiendeSkepp.includes(x+"."+y)) {
 						//Träff
-						document.getElementById(x+"."+y).innerHTML = '<img src="Kryss_Hit.png" class="kryss" />';
+						document.getElementById(x+"."+y).innerHTML = hitColorEnemy;
 					} else {
 						//Miss
-						document.getElementById(x+"."+y).innerHTML = '<img src="Kryss.png" class="kryss" />';
+						document.getElementById(x+"."+y).innerHTML = '<img src="Images/Kryss.png" class="kryss" />';
 					}
 
 					if (fiendeSkepp.includes(x+"."+y)) {
@@ -303,12 +535,12 @@
 					//markerar sänkt skepp nere i skepp-rutan
 					elements = document.getElementsByClassName("enemy1");
 	    		for (var i = 0; i < elements.length; i++) {
-	        	elements[i].innerHTML = '<img src="Kryss_Hit.png" class="kryss" />';
+	        	elements[i].innerHTML = hitColorEnemy;
 	    		}
 
 					//markerar sänkt skepp på spelplanen
 					for (var i = 0; i < 5; i++) {
-						document.getElementById(enemy1[i]).style.backgroundColor = "#860d0d";
+						document.getElementById(enemy1[i]).style.backgroundColor = sunkColorEnemy;
 					}
 				}
 
@@ -317,12 +549,12 @@
 					//markerar sänkt skepp nere i skepp-rutan
 					elements = document.getElementsByClassName("enemy2");
 	    		for (var i = 0; i < elements.length; i++) {
-	        	elements[i].innerHTML = '<img src="Kryss_Hit.png" class="kryss" />';
+	        	elements[i].innerHTML = hitColorEnemy;
 	    		}
 
 					//markerar sänkt skepp på spelplanen
 					for (var i = 0; i < 4; i++) {
-						document.getElementById(enemy2[i]).style.backgroundColor = "#860d0d";
+						document.getElementById(enemy2[i]).style.backgroundColor = sunkColorEnemy;
 					}
 				}
 
@@ -330,12 +562,12 @@
 					//markerar sänkt skepp nere i skepp-rutan
 					elements = document.getElementsByClassName("enemy3");
 	    		for (var i = 0; i < elements.length; i++) {
-	        	elements[i].innerHTML = '<img src="Kryss_Hit.png" class="kryss" />';
+	        	elements[i].innerHTML = hitColorEnemy;
 	    		}
 
 					//markerar sänkt skepp på spelplanen
 					for (var i = 0; i < 3; i++) {
-						document.getElementById(enemy3[i]).style.backgroundColor = "#860d0d";
+						document.getElementById(enemy3[i]).style.backgroundColor = sunkColorEnemy;
 					}
 				}
 
@@ -343,12 +575,12 @@
 					//markerar sänkt skepp nere i skepp-rutan
 					elements = document.getElementsByClassName("enemy4");
 	    		for (var i = 0; i < elements.length; i++) {
-	        	elements[i].innerHTML = '<img src="Kryss_Hit.png" class="kryss" />';
+	        	elements[i].innerHTML = hitColorEnemy;
 	    		}
 
 					//markerar sänkt skepp på spelplanen
 					for (var i = 0; i < 3; i++) {
-						document.getElementById(enemy4[i]).style.backgroundColor = "#860d0d";
+						document.getElementById(enemy4[i]).style.backgroundColor = sunkColorEnemy;
 					}
 				}
 
@@ -356,19 +588,19 @@
 					//markerar sänkt skepp nere i skepp-rutan
 					elements = document.getElementsByClassName("enemy5");
 	    		for (var i = 0; i < elements.length; i++) {
-	        	elements[i].innerHTML = '<img src="Kryss_Hit.png" class="kryss" />';
+	        	elements[i].innerHTML = hitColorEnemy;
 	    		}
 
 					//markerar sänkt skepp på spelplanen
 					for (var i = 0; i < 2; i++) {
-						document.getElementById(enemy5[i]).style.backgroundColor = "#860d0d";
+						document.getElementById(enemy5[i]).style.backgroundColor = sunkColorEnemy;
 					}
 				}
-				console.log("Träffar: " + (shipHits1+shipHits2+shipHits3+shipHits4+shipHits5) + " Skepp: " + fiendeSkepp.length)
+
 				if ((shipHits1+shipHits2+shipHits3+shipHits4+shipHits5) == fiendeSkepp.length) {
-					alert("Du Vann!");
+					alertify.alert("alert").set('closable', false).setHeader('<em id="message"> Du vann! </em> ');
 					var request = new XMLHttpRequest();
-					request.open('GET', 'SpelAjax.php?text='+"win", true);
+					request.open('GET', 'SpelAjax.php?val=win&dif='+difficulty, true);
 					request.onload = () => {
 
 						data = request.responseText;
@@ -392,8 +624,7 @@
 				let xR = 1;
 				let yR = 1;
 
-				//upptäcker om det uppstår några fel. Om fel > 0 så går det inte att skjuta på valda kordinater
-				var felFiende = 0;
+				felFiende = 0;
 
 				//Variabel för att bestämma om loopen ska fortsätta slumpa fram kordinater eller inte
 				var slumpa = true;
@@ -401,8 +632,6 @@
 
 				let intillLiggande = new Array();
 
-				for (var i = 0; i < egnaSkepp.length; i++) {
-				}
 
 				if (hit) {
 
@@ -478,93 +707,156 @@
 					yR = Math.floor(Math.random()*10);
 				}
 
+				localHit = 0;
 
-				var localHit = 0;
+				hitCords = "";
 
-				for (let i = 0; i < klickadeFiende.length; i++) {
-					if ((xR+"-"+yR) == klickadeFiende[i]) {
-						felFiende = 1;
+				if (difficulty == 3) {
+					localHit = 0;
+					if (cheat == 4) {
+						for (var i = 0; i < egnaSkepp.length; i++) {
+							if (!hitsFiende.includes(egnaSkepp[i])) {
+								klickadeFiende.push(egnaSkepp[i]);
+								hitsFiende.push(egnaSkepp[i]);
+								document.getElementById(egnaSkepp[i]).innerHTML = hitColor;
+								hit = true;
+								localHit = 1;
+								cheat = -1;
+								hitCords = egnaSkepp[i];
+
+								break;
+							}
+						}
+					} else {
+						randomShot();
 					}
+					tur = true;
+					cheat++;
 				}
-				if (felFiende == 0) {
-					for (let j = 0; j < egnaSkepp.length; j++) {
-						if ((xR+"-"+yR) == egnaSkepp[j]) {
-							localHit = 1;
+
+				else if (difficulty == 2) {
+					localHit = 0;
+					if (cheat == 8) {
+						for (var i = 0; i < egnaSkepp.length; i++) {
+							if (!hitsFiende.includes(egnaSkepp[i])) {
+								klickadeFiende.push(egnaSkepp[i]);
+								hitsFiende.push(egnaSkepp[i]);
+								if (	document.getElementById(egnaSkepp[i]).innerHTML == hitColor) {
+									console.log("negerfan");
+								}
+								document.getElementById(egnaSkepp[i]).innerHTML = hitColor;
+								hit = true;
+								localHit = 1;
+								cheat = -1;
+								hitCords = egnaSkepp[i];
+								console.log("cuck:"+hitCords);
+								break;
+							}
+						}
+					} else {
+						randomShot();
+					}
+					tur = true;
+					cheat++;
+				}
+
+				else if (difficulty == 1) {
+
+					localHit = 0;
+
+					for (let i = 0; i < klickadeFiende.length; i++) {
+						if ((xR+"-"+yR) == klickadeFiende[i]) {
+							felFiende = 1;
 						}
 					}
-					if (localHit == 1) {
-						//registrerar och visar en träff
-						klickadeFiende.push(xR+"-"+yR);
-						hitsFiende.push(xR+"-"+yR);
-						document.getElementById(xR+"-"+yR).innerHTML = '<img src="Kryss_Hit.png" class="kryss" />';
-						tur = true;
-						hit = true;
-					} else {
-						//registrerar och visar en miss
-						klickadeFiende.push(xR+"-"+yR);
-						document.getElementById(xR+"-"+yR).innerHTML = '<img src="Kryss.png" class="kryss" />';
-						tur = true;
-						hit = false;
+					if (felFiende == 0) {
+						for (let j = 0; j < egnaSkepp.length; j++) {
+							if ((xR+"-"+yR) == egnaSkepp[j]) {
+								localHit = 1;
+							}
+						}
+						if (localHit == 1) {
+							//registrerar och visar en träff
+							klickadeFiende.push(xR+"-"+yR);
+							hitsFiende.push(xR+"-"+yR);
+							document.getElementById(xR+"-"+yR).innerHTML = hitColor;
+							tur = true;
+							hit = true;
+							hitCords = xR+"-"+yR;
+						} else {
+							//registrerar och visar en miss
+							klickadeFiende.push(xR+"-"+yR);
+							document.getElementById(xR+"-"+yR).innerHTML = '<img src="Images/Kryss.png" class="kryss" />';
+							tur = true;
+							hit = false;
+						}
+
+
 					}
-					if (friendly1.includes(xR+"-"+yR)) {
+
+				}
+
+
+				if (localHit == 1) {
+					if (friendly1.includes(hitCords)) {
 						enemyHits1++;
 					}
-					if (friendly2.includes(xR+"-"+yR)) {
+					if (friendly2.includes(hitCords)) {
 						enemyHits2++;
 					}
-					if (friendly3.includes(xR+"-"+yR)) {
+					if (friendly3.includes(hitCords)) {
 						enemyHits3++;
 					}
-					if (friendly4.includes(xR+"-"+yR)) {
+					if (friendly4.includes(hitCords)) {
 						enemyHits4++;
 					}
-					if (friendly5.includes(xR+"-"+yR)) {
+					if (friendly5.includes(hitCords)) {
 						enemyHits5++;
 					}
 
 					if (enemyHits1 == 5) {
 						//markerar sänkt skepp på spelplanen
 						for (var i = 0; i < 5; i++) {
-							document.getElementById(friendly1[i]).style.backgroundColor = "#860d0d";
+							document.getElementById(friendly1[i]).style.backgroundColor = sunkColor;
 						}
 					}
 
 					if (enemyHits2 == 4) {
 						//markerar sänkt skepp på spelplanen
 						for (var i = 0; i < 4; i++) {
-							document.getElementById(friendly2[i]).style.backgroundColor = "#860d0d";
+							document.getElementById(friendly2[i]).style.backgroundColor = sunkColor;
 						}
 					}
 
 					if (enemyHits3 == 3) {
 						//markerar sänkt skepp på spelplanen
 						for (var i = 0; i < 3; i++) {
-							document.getElementById(friendly3[i]).style.backgroundColor = "#860d0d";
+							document.getElementById(friendly3[i]).style.backgroundColor = sunkColor;
 						}
 					}
 
 					if (enemyHits4 == 3) {
 						//markerar sänkt skepp på spelplanen
 						for (var i = 0; i < 3; i++) {
-							document.getElementById(friendly4[i]).style.backgroundColor = "#860d0d";
+							document.getElementById(friendly4[i]).style.backgroundColor = sunkColor;
 						}
 					}
 
 					if (enemyHits5 == 2) {
 						//markerar sänkt skepp på spelplanen
 						for (var i = 0; i < 2; i++) {
-							document.getElementById(friendly5[i]).style.backgroundColor = "#860d0d";
+							document.getElementById(friendly5[i]).style.backgroundColor = sunkColor;
 						}
 					}
-
 				}
-			}
+		}
 
 			//Uppdaterar spelarens statistik vid förlust
 			if (hitsFiende.length == egnaSkepp.length) {
-				alert("Du förlorade!");
+				var text = "ytetete";
+				alertify.alert(text).set('closable', false).setHeader('<em id="message"> Du förlorade! </em> ').set('notifier','position', 'bottom-right').setting({'label':'agree', 'label':'center-right'});;
 				var request = new XMLHttpRequest();
-				request.open('GET', 'SpelAjax.php?text='+"loss", true);
+				request.open('GET', 'SpelAjax.php?val=loss&dif='+difficulty, true);
 				request.onload = () => {
 
 					data = request.responseText;
@@ -574,9 +866,50 @@
 			}
 		}
 
+		function randomShot() {
+			felFiende = 0;
+			localHit = 0;
+
+			xR = Math.floor(Math.random()*10);
+			yR = Math.floor(Math.random()*10);
+
+			for (let i = 0; i < klickadeFiende.length; i++) {
+				if ((xR+"-"+yR) == klickadeFiende[i]) {
+					felFiende = 1;
+				}
+			}
+			if (felFiende == 0) {
+				for (let j = 0; j < egnaSkepp.length; j++) {
+					if ((xR+"-"+yR) == egnaSkepp[j]) {
+						localHit = 1;
+					}
+				}
+
+				if (localHit == 1) {
+					//registrerar och visar en träff
+					klickadeFiende.push(xR+"-"+yR);
+					hitsFiende.push(xR+"-"+yR);
+					document.getElementById(xR+"-"+yR).innerHTML = hitColor;
+					hitCords = (xR+"-"+yR);
+					tur = true;
+					hit = true;
+				} else {
+					//registrerar och visar en miss
+					klickadeFiende.push(xR+"-"+yR);
+					document.getElementById(xR+"-"+yR).innerHTML = '<img src="Images/Kryss.png" class="kryss" />';
+					tur = true;
+					hit = false;
+				}
+		}
+			//Ser till så att nya kordinater slumpas fram vid fel (nytt skott är på en plats som redan är träffad)
+			if (felFiende == 1) {;
+					randomShot();
+			}
+		}
+
 		//Funktion för att sätta ut skepp vid angivna kordinater
 		function skeppPlace(x, y) {
-			document.getElementById(x+"-"+y).style.backgroundColor = "#333333";
+			// document.getElementById(x+"-"+y).style.backgroundColor = "red";
 			if (antalKlick == 1) {
 				skeppLength = 0;
 			}
@@ -614,7 +947,7 @@
 				tempBlocked = true;
 
 				for (var j = firstX+1; j < firstX+skeppLength; j++) {
-					//document.getElementById(j+"-"+y).innerHTML = '<img src="Kryss.png" class="kryss" />';
+					// document.getElementById(j+"-"+y).innerHTML = '<img src="Images/Kryss.png" class="kryss" />';
 
 					if (egnaSkepp.includes(j+"-"+firstY)) {
 					tempBlocked = false;
@@ -632,7 +965,7 @@
 				tempBlocked = true;
 
 				for (var j = firstX-skeppLength+1; j < firstX; j++) {
-					//document.getElementById(j+"-"+y).innerHTML = '<img src="Kryss.png" class="kryss" />';
+					// document.getElementById(j+"-"+y).innerHTML = '<img src="Images/Kryss.png" class="kryss" />';
 					if (egnaSkepp.includes(j+"-"+firstY)) {
 					tempBlocked = false;
 					return false;
@@ -710,9 +1043,8 @@
 					}
 
 
-
 					for (var i = 0; i < allowedPlace.length; i++) {
-						document.getElementById(allowedPlace[i]).style.backgroundColor = "#333333";
+						document.getElementById(allowedPlace[i]).style.backgroundColor = shipColor;
 					}
 				}
 
@@ -754,7 +1086,7 @@
 
 						//sätter alla rutor till skepp-färgen
 						for (var i = 0; i < egnaSkepp.length; i++) {
-							document.getElementById(egnaSkepp[i]).style.backgroundColor = "#333333";
+							document.getElementById(egnaSkepp[i]).style.backgroundColor = shipColor;
 						}
 
 						antalKlick--;
@@ -769,6 +1101,10 @@
 
 			}
 		}
+    function randomKord(){
+      let rand = Math.floor(Math.random()*10);
+      return rand;
+    }
 
 		function fiendePlacera() {
 			let fiendeSkeppNummer = 1;
@@ -783,12 +1119,12 @@
 
 				let overlap = false;
 
-				xR = Math.floor(Math.random()*10);
-				yR = Math.floor(Math.random()*10);
+				xR = randomKord();
+				yR = randomKord();
 
 				while(fiendeSkepp.includes(xR+"."+yR)) {
-					xR = Math.floor(Math.random()*10);
-					yR = Math.floor(Math.random()*10);
+          xR = randomKord();
+  				yR = randomKord();
 				}
 
 
@@ -816,59 +1152,97 @@
 					}
 
 				//vilket riktning skeppet ligger åt
-				overlapNum = new Array();
+				DirectionError = new Array();
 
-				while(fiendeFel && !overlap) {
+        let Error = true;
 
-				overlap = 0;
+				direction = Math.floor(Math.random()*4);
 
-					Dir = Math.floor(Math.random()*4);
-					while(overlap > 0){
-						overlap = 0;
-						for (var i = xR; i < xLast ; i++) {
-							if (fiendeSkepp.includes(i+"."+yR)) {
-								document.getElementById(i+"."+yLast).innerHTML = '<img src="Kryss.png" class="kryss" />';
+				while(Error){
+          direction = Math.floor(Math.random()*4);
 
-								overlap++;
-							}
+        	DirectionError = [];
+
+					let antalFel = 0;
+
+					for (var i = xR; i < xR+fiendeLength ; i++) {
+						if (fiendeSkepp.includes(i+"."+yR)) {
+							DirectionError[0] = 0;
 						}
-						Dir = Math.floor(Math.random()*4);
+            if (xR+fiendeLength > 9) {
+              DirectionError[0] = 0;
+            }
 					}
 
-					switch(Dir){
-						case 0:
-							xLast = xR + fiendeLength;
-							yLast = yR;
-							break;
-						case 1:
-							xLast = xR - fiendeLength;
-							yLast = yR;
-							for (var i = xR; i < xLast ; i++) {
-								if (fiendeSkepp.includes(i+"."+xR)) {
-								document.getElementById(i+"."+yLast).style.backgroundColor = "red";
-								}
-							}
-							break;
-						case 2:
-							yLast = yR + fiendeLength;
-							xLast = xR;
-							break;
-						case 3:
-							yLast = yR - fiendeLength;
-							xLast = xR;
-							break;
+          for (var i = (xR-fiendeLength); i < xR ; i++) {
+						if (fiendeSkepp.includes(i+"."+yR)) {
+							DirectionError[1] = 1;
+						}
+            if ((xR-fiendeLength) < 0) {
+              DirectionError[1] = 1;
+            }
 					}
 
-					if (xLast > -1 && xLast < 11 && yLast > -1 && yLast < 11) {
-						fiendeFel = false;
+          for (var i = yR; i < yR+fiendeLength ; i++) {
+						if (fiendeSkepp.includes(xR+"."+i)) {
+							DirectionError[2] = 2;
+						}
+            if (yR+fiendeLength > 9) {
+              DirectionError[2] = 2;
+            }
+					}
+
+          for (var i = (yR-fiendeLength); i < yR ; i++) {
+						if (fiendeSkepp.includes(xR+"."+i)) {
+							DirectionError[3] = 3;
+						}
+            if ((yR-fiendeLength) < 0) {
+              DirectionError[3] = 3;
+            }
 					}
 
 
+          for (var i = 0; i < DirectionError.length; i++) {
+            if (DirectionError.includes(i)) {
+              antalFel++
+            }
+          }
 
+          if (antalFel < 4) {
+            Error = false;
+          }
 				}
 
-				//console.log(xR +" | "+ yR);
-				//console.log("X: " + xLast + " | Y: " + yLast);
+
+        let wrongDirection = true;
+
+        //Ser till att riktningen inte blir till någon av de rikningarna där problem uppstod
+        while (wrongDirection) {
+          direction = Math.floor(Math.random()*4);
+          if (!DirectionError.includes(direction)) {
+            wrongDirection = false;
+          }
+        }
+
+				switch(direction){
+					case 0:
+						xLast = xR + fiendeLength;
+						yLast = yR;
+						break;
+					case 1:
+						xLast = xR - fiendeLength;
+						yLast = yR;
+						break;
+					case 2:
+						yLast = yR + fiendeLength;
+						xLast = xR;
+						break;
+					case 3:
+						yLast = yR - fiendeLength;
+						xLast = xR;
+						break;
+				}
+
 
 				if (xR != xLast) {
 					if (xR < xLast) {
@@ -974,7 +1348,7 @@
 
 		function egnaSkeppPaint() {
 			for (var i = 0; i < egnaSkepp.length; i++) {
-					document.getElementById(egnaSkepp[i]).style.backgroundColor = "#333333";
+					document.getElementById(egnaSkepp[i]).style.backgroundColor = shipColor;
 			}
 		}
 
@@ -1042,15 +1416,14 @@
 
 
 				if (firstX+skeppLength < 11 && allowShadow) {
-					//console.log("test: "+overLap1(x,y));
 
 					if (x == (firstX+skeppLength-1) && y == firstY ) {
 						shipBP = [];
 						for (var i = firstX+1; i < (firstX+skeppLength); i++) {
-							document.getElementById(i+"-"+firstY).style.backgroundColor = "#555555";
+							document.getElementById(i+"-"+firstY).style.backgroundColor = shadowColor;
 							shipBP.push(i+"-"+firstY);
 						}
-						document.getElementById((firstX+skeppLength-1)+"-"+firstY).style.backgroundColor = "#333333";
+						document.getElementById((firstX+skeppLength-1)+"-"+firstY).style.backgroundColor = shipColor;
 
 						//tar bort det visade skeppet från de andra lägerna
 						remove2();
@@ -1067,11 +1440,11 @@
 
 						shipBP = [];
 						for (var i = (firstX-skeppLength+1); i < firstX; i++) {
-							document.getElementById(i+"-"+firstY).style.backgroundColor = "#555555";
+							document.getElementById(i+"-"+firstY).style.backgroundColor = shadowColor;
 							shipBP.push(i+"-"+firstY);
 
 						}
-						document.getElementById((firstX-skeppLength+1)+"-"+firstY).style.backgroundColor = "#333333";
+						document.getElementById((firstX-skeppLength+1)+"-"+firstY).style.backgroundColor = shipColor;
 
 						//tar bort det visade skeppet från de andra lägerna
 						remove1();
@@ -1086,10 +1459,10 @@
 					if (x == firstX && y == (firstY+skeppLength-1)) {
 						shipBP = [];
 						for (var i = firstY+1; i < (firstY+skeppLength); i++) {
-							document.getElementById(firstX+"-"+i).style.backgroundColor = "#555555";
+							document.getElementById(firstX+"-"+i).style.backgroundColor = shadowColor;
 							shipBP.push(firstX+"-"+i);
 						}
-						document.getElementById(firstX+"-"+(firstY+skeppLength-1)).style.backgroundColor = "#333333";
+						document.getElementById(firstX+"-"+(firstY+skeppLength-1)).style.backgroundColor = shipColor;
 
 						//tar bort det visade skeppet från de andra lägerna
 						remove1();
@@ -1105,10 +1478,10 @@
 						shipBP = [];
 						for (var i = (firstY-skeppLength+1); i < firstY; i++) {
 
-							document.getElementById(firstX+"-"+i).style.backgroundColor = "#555555";
+							document.getElementById(firstX+"-"+i).style.backgroundColor = shadowColor;
 							shipBP.push(firstX+"-"+i);
 						}
-						document.getElementById(firstX+"-"+(firstY-skeppLength+1)).style.backgroundColor = "#333333";
+						document.getElementById(firstX+"-"+(firstY-skeppLength+1)).style.backgroundColor = shipColor;
 
 						//tar bort det visade skeppet från de andra lägerna
 						remove1();
@@ -1124,19 +1497,15 @@
 			if (!start && !end) {
 
 				if (antalKlick == 2) {
-					document.getElementById(x+"-"+y).style.backgroundColor = "#333333";
+					document.getElementById(x+"-"+y).style.backgroundColor = shipColor;
 				}
 
 
 				if (antalKlick == 1) {
-					for (var i = 0; i < allowedPlace.length; i++) {
 
-
-					}
 
 				possiblePlace(x,y);
 
-				//console.log("Mus: "+x+"-"+y);
 
 
 				}
@@ -1184,7 +1553,7 @@
 				orig = document.getElementById("meny").innerHTML;
 
 				var request = new XMLHttpRequest();
-				request.open('GET', 'SpelAjax.php?text='+"stats", true);
+				request.open('GET', 'SpelAjax.php?val=stats&dif='+difficulty, true);
 				request.onload = () => {
 
 					data = request.responseText;
@@ -1243,7 +1612,6 @@
 	</script>
 </head>
 <body id="body">
-<link rel="stylesheet" type="text/css" href="SpelStil.css">
 	<div id="spelplan">
 		<div id="egen" class="spel"></div>
 		<div id="meny">
@@ -1274,21 +1642,24 @@
 				<div class="templSkepp1"></div><div class="templSkepp2"></div>
 			</div>
 		</div>
+		<div id="vs">
+
+		</div>
 		<div id="fiendeSkepp" class="skeppPlan">
 			<div id="skepp6" class="skepp">
-				<div class="templSkepp1 enemy1"></div><div class="templSkepp1 enemy1"></div><div class="templSkepp1 enemy1"></div><div class="templSkepp1 enemy1"></div><div class="templSkepp2 enemy1"></div>
+				<div class="templSkepp1 enemy1 enemyShip"></div><div class="templSkepp1 enemy1 enemyShip"></div><div class="templSkepp1 enemy1 enemyShip"></div><div class="templSkepp1 enemy1 enemyShip"></div><div class="templSkepp2 enemy1 enemyShip"></div>
 			</div>
 			<div id="skepp7" class="skepp">
-				<div class="templSkepp1 enemy2"></div><div class="templSkepp1 enemy2"></div><div class="templSkepp1 enemy2"></div><div class="templSkepp2 enemy2"></div>
+				<div class="templSkepp1 enemy2 enemyShip"></div><div class="templSkepp1 enemy2 enemyShip"></div><div class="templSkepp1 enemy2 enemyShip"></div><div class="templSkepp2 enemy2 enemyShip"></div>
 			</div>
 			<div id="skepp8" class="skepp">
-				<div class="templSkepp1 enemy3"></div><div class="templSkepp1 enemy3"></div><div class="templSkepp2 enemy3"></div>
+				<div class="templSkepp1 enemy3 enemyShip"></div><div class="templSkepp1 enemy3 enemyShip"></div><div class="templSkepp2 enemy3 enemyShip"></div>
 			</div>
 			<div id="skepp9" class="skepp">
-				<div class="templSkepp1 enemy4"></div><div class="templSkepp1 enemy4"></div><div class="templSkepp2 enemy4"></div>
+				<div class="templSkepp1 enemy4 enemyShip"></div><div class="templSkepp1 enemy4 enemyShip"></div><div class="templSkepp2 enemy4 enemyShip"></div>
 			</div>
 			<div id="skepp10" class="skepp">
-				<div class="templSkepp1 enemy5"></div><div class="templSkepp2 enemy5"></div>
+				<div class="templSkepp1 enemy5 enemyShip"></div><div class="templSkepp2 enemy5 enemyShip"></div>
 			</div>
 		</div>
 	</div>

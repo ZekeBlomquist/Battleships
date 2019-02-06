@@ -29,18 +29,33 @@
 		userID int NOT NULL AUTO_INCREMENT,
 		mail varchar(255) NOT NULL,
 		password varchar(255) NOT NULL,
-		wins int, 
-		losses int, 
+		wins int,
+		losses int,
+		currency int,
+		xp int,
+		selected varchar(255),
 		PRIMARY KEY (userID)
-		)"; 
+		)";
 		if ($conn->query($sql) === TRUE) {
-			echo "Tabellen är skapad!";
+			echo "Tabellen med användare är skapad!";
 		}
 		else {
 			echo "Färfrågan misslyckades med följande fel:" . $conn->error;
 		}
 
-		
+		$sql = "CREATE TABLE Unlocked(
+		userID int NOT NULL,
+		country varchar(255) NOT NULL,
+		PRIMARY KEY (userID)
+		)";
+		if ($conn->query($sql) === TRUE) {
+			echo "Tabellen med upplåsta länder är skapad!";
+		}
+		else {
+			echo "Färfrågan misslyckades med följande fel:" . $conn->error;
+		}
+
+
 
 
 		$conn->close();

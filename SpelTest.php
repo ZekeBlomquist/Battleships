@@ -154,13 +154,13 @@
 		let enemyHits5 = 0;
 
 		//Svårighetsgraden på datorn
-		let difficulty = 2;
+		let difficulty = 3;
 
 		//antal skott sedan datorn senast skött ett "fuskskott"
 		let cheat = 0;
 
 		//temporär hårdkodning av spelarens design
-		let layout = "SWE";
+		let layout = "FIN";
 
 		//Färger för de egna skeppens olika lägen
 		let shipColor;
@@ -218,6 +218,35 @@
 			hitColor = '<img src="Hit_White.png" class="kryss" />';
 			flagEgen = "Flag_NOR.png";
 		}
+		if (layout == "EST") {
+			shipColor = "#0073D0";
+			shadowColor = "#33a3ff";
+			sunkColor = "#005499";
+			hitColor = '<img src="Hit_White.png" class="kryss" />';
+			flagEgen = "Flag_EST.png";
+		}
+		if (layout == "LVA") {
+			shipColor = "#9E292B";
+			shadowColor = "#d0494b";
+			sunkColor = "#7a1f21";
+			hitColor = '<img src="Hit_White.png" class="kryss" />';
+			flagEgen = "Flag_LVA.png";
+		}
+		if (layout == "LTU") {
+			shipColor = "#006A44";
+			shadowColor = "#00b371";
+			sunkColor = "#003320";
+			hitColor = '<img src="Hit_Lit.png" class="kryss" />';
+			flagEgen = "Flag_LTU.png";
+		}
+		if (layout == "DEU") {
+			shipColor = "#FFCF00";
+			shadowColor = "#ffe366";
+			sunkColor = "#cca700";
+			hitColor = '<img src="Hit_rED.png" class="kryss" />';
+			flagEgen = "Flag_DEU.png";
+		}
+
 		elements = document.getElementsByClassName("templSkepp1");
 		for (var i = 0; i < elements.length; i++) {
 			elements[i].innerHTML = shipColor;
@@ -232,7 +261,7 @@
 		};
 
 		function randomColor() {
-			let colorR = Math.floor(Math.random()*5);
+			let colorR = Math.floor(Math.random()*8);
 			switch(colorR){
 				case 0:
 					//Standard färg
@@ -268,6 +297,34 @@
 					sunkColorEnemy = "#EF2B2D";
 					hitColorEnemy = '<img src="Hit_White.png" class="kryss" />';
 					flagEnemy = "Flag_NOR.png";
+					break;
+				case 5:
+					//Estoniska färger
+					shipColorEnemy = "#0073D0";
+					sunkColorEnemy = "#005499";
+					hitColorEnemy = '<img src="Hit_White.png" class="kryss" />';
+					flagEnemy = "Flag_EST.png";
+					break;
+				case 6:
+					//latviska färger
+					shipColorEnemy = "#9E292B";
+					sunkColorEnemy = "#7a1f21";
+					hitColorEnemy = '<img src="Hit_White.png" class="kryss" />';
+					flagEnemy = "Flag_LVA.png";
+					break;
+				case 7:
+					//Litauiska färger
+					shipColorEnemy = "#006A44";
+					sunkColorEnemy = "#003320";
+					hitColorEnemy = '<img src="Hit_Lit.png" class="kryss" />';
+					flagEnemy = "Flag_LTU.png";
+					break;
+				case 8:
+					//Tyska färger
+					shipColorEnemy = "#FFCF00";
+					sunkColorEnemy = "#b39200";
+					hitColorEnemy = '<img src="Hit_rED.png" class="kryss" />';
+					flagEnemy = "Flag_DEU.png";
 					break;
 			}
 		}
@@ -543,7 +600,7 @@
 				if ((shipHits1+shipHits2+shipHits3+shipHits4+shipHits5) == fiendeSkepp.length) {
 					alertify.alert("alert").set('closable', false).setHeader('<em id="message"> Du vann! </em> ');
 					var request = new XMLHttpRequest();
-					request.open('GET', 'SpelAjax.php?text='+"win", true);
+					request.open('GET', 'SpelAjax.php?val=win&dif='+difficulty, true);
 					request.onload = () => {
 
 						data = request.responseText;

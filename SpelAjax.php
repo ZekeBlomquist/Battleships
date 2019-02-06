@@ -11,7 +11,8 @@
 
 		if (isset($_SESSION["mail"])) {
 			$mail = $_SESSION["mail"];
-			$val = $_GET['text'];
+			$val = $_GET['val'];
+			$dif = $_GET['dif'];
 
 			$sql = "SELECT wins AS W FROM User WHERE mail = '$mail'";
 			$result = $conn->query($sql);
