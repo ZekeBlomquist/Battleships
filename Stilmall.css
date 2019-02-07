@@ -1,6 +1,6 @@
 html, body {
 	height: 100%;
-	width: 1000vh;
+	width: 100vh;
 }
 
 .knappar {
@@ -13,6 +13,8 @@ html, body {
 	width: 100%;
 	display: table;
   position: absolute;
+	background-image: url("Images/Background.png");
+	background-size: cover;
 }
 
 input {

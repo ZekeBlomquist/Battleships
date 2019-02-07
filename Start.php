@@ -1,9 +1,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Skapa</title>
+	<title>Startsida</title>
 </head>
 <body>
+	<?php
+		require "./Felhantering.php";
+ 	?>
+
 	<link rel="stylesheet" type="text/css" href="Stilmall.css">
 
 	<script>
@@ -154,13 +158,16 @@
 		}
 
 		function game() {
-			window.location.href = "Spel.php";
+			window.open("Spel.php", "_self");
 		}
+
+		function shop() {
+			window.open("Shop.php", "_self");
+		}
+
 	</script>
 
 	<?php
-
-	require "./Felhantering.php";
 
 	$servername = "localhost";
 	$username = "root";

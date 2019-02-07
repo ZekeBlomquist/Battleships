@@ -77,7 +77,8 @@
       echo '
 				<div id="start">
 	        <h1> Startsida </h1>
-	        <input class="knappar" type="button" name="create" value="Logga in" onclick="game()">
+	        <input class="knappar" type="button" name="create" value="Gå till spelet" onclick="game()">
+					<input class="knappar" type="button" name="create" value="Gå till affär" onclick="shop()">
 	        <p> Du är nu inloggad </p>
 				</div>
       ';
