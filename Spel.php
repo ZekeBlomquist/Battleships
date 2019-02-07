@@ -154,13 +154,13 @@
 		let enemyHits5 = 0;
 
 		//Svårighetsgraden på datorn
-		let difficulty = 3;
+		let difficulty = 2;
 
 		//antal skott sedan datorn senast skött ett "fuskskott"
 		let cheat = 0;
 
 		//temporär hårdkodning av spelarens design
-		let layout = "FIN";
+		let layout = "DEF";
 
 		//Färger för de egna skeppens olika lägen
 		let shipColor;
@@ -175,76 +175,87 @@
 		let hitColorEnemy = '<img src="Images/Hit_Red.png" class="kryss" />';
 		let flagEnemy;
 
+			//Tar ut spelarens valda skepp-design
+			var request = new XMLHttpRequest();
+			request.open('GET', 'SpelAjax.php?val=dif', true);
+			request.onload = () => {
 
+				layout = request.responseText;
+				console.log(layout);
+				templateColor();
+			};
+				request.send();
 
+		
 
+		function playerDesign() {
+			if (layout == "DEF") {
+				shipColor = "#333333";
+				shadowColor = "#555555";
+				sunkColor = "#860d0d";
+				hitColor = '<img src="Images/Hit_Red.png" class="kryss" />';
+				flagEgen = "Images/Flag_DEF.png";
+			}
 
-		if (layout == "DEF") {
-			shipColor = "#333333";
-			shadowColor = "#555555";
-			sunkColor = "#860d0d";
-			hitColor = '<img src="Images/Hit_Red.png" class="kryss" />';
-			flagEgen = "Images/Flag_DEF.png";
-		}
+			if (layout == "SWE") {
+				shipColor = "#2d5fa1";
+				shadowColor = "#6091d2";
+				sunkColor = "#1c3b63";
+				hitColor = '<img src="Images/Hit_Yellow.png" class="kryss" />';
+				flagEgen = "Images/Flag_SWE.png";
+			}
 
-		if (layout == "SWE") {
-			shipColor = "#2d5fa1";
-			shadowColor = "#6091d2";
-			sunkColor = "#1c3b63";
-			hitColor = '<img src="Images/Hit_Yellow.png" class="kryss" />';
-			flagEgen = "Images/Flag_SWE.png";
-		}
+			if (layout == "DNK") {
+				shipColor = "#C60C30";
+				shadowColor = "#f43e63";
+				sunkColor = "#910824";
+				hitColor = '<img src="Images/Hit_White.png" class="kryss" />';
+				flagEgen = "Images/Flag_DNK.png";
+			}
 
-		if (layout == "DNK") {
-			shipColor = "#C60C30";
-			shadowColor = "#f43e63";
-			sunkColor = "#910824";
-			hitColor = '<img src="Images/Hit_White.png" class="kryss" />';
-			flagEgen = "Images/Flag_DNK.png";
-		}
+			if (layout == "FIN") {
+				shipColor = "#003580";
+				shadowColor = "#0060e6";
+				sunkColor = "#001533";
+				hitColor = '<img src="Images/Hit_White.png" class="kryss" />';
+				flagEgen = "Images/Flag_FIN.png";
+			}
 
-		if (layout == "FIN") {
-			shipColor = "#003580";
-			shadowColor = "#0060e6";
-			sunkColor = "#001533";
-			hitColor = '<img src="Images/Hit_White.png" class="kryss" />';
-			flagEgen = "Images/Flag_FIN.png";
-		}
-
-		if (layout == "NOR") {
-			shipColor = "#002868";
-			shadowColor = "#0044b3";
-			sunkColor = "#EF2B2D";
-			hitColor = '<img src="Images/Hit_White.png" class="kryss" />';
-			flagEgen = "Images/Flag_NOR.png";
-		}
-		if (layout == "EST") {
-			shipColor = "#0073D0";
-			shadowColor = "#33a3ff";
-			sunkColor = "#005499";
-			hitColor = '<img src="Images/Hit_White.png" class="kryss" />';
-			flagEgen = "Images/Flag_EST.png";
-		}
-		if (layout == "LVA") {
-			shipColor = "#9E292B";
-			shadowColor = "#d0494b";
-			sunkColor = "#7a1f21";
-			hitColor = '<img src="Images/Hit_White.png" class="kryss" />';
-			flagEgen = "Images/Flag_LVA.png";
-		}
-		if (layout == "LTU") {
-			shipColor = "#006A44";
-			shadowColor = "#00b371";
-			sunkColor = "#003320";
-			hitColor = '<img src="Images/Hit_Lit.png" class="kryss" />';
-			flagEgen = "Images/Flag_LTU.png";
-		}
-		if (layout == "DEU") {
-			shipColor = "#FFCF00";
-			shadowColor = "#ffe366";
-			sunkColor = "#cca700";
-			hitColor = '<img src="Images/Hit_rED.png" class="kryss" />';
-			flagEgen = "Images/Flag_DEU.png";
+			if (layout == "NOR") {
+				shipColor = "#002868";
+				shadowColor = "#0044b3";
+				sunkColor = "#EF2B2D";
+				hitColor = '<img src="Images/Hit_White.png" class="kryss" />';
+				flagEgen = "Images/Flag_NOR.png";
+			}
+			if (layout == "EST") {
+				shipColor = "#0073D0";
+				shadowColor = "#33a3ff";
+				sunkColor = "#005499";
+				hitColor = '<img src="Images/Hit_White.png" class="kryss" />';
+				flagEgen = "Images/Flag_EST.png";
+			}
+			if (layout == "LVA") {
+				shipColor = "#9E292B";
+				shadowColor = "#d0494b";
+				sunkColor = "#7a1f21";
+				hitColor = '<img src="Images/Hit_White.png" class="kryss" />';
+				flagEgen = "Images/Flag_LVA.png";
+			}
+			if (layout == "LTU") {
+				shipColor = "#006A44";
+				shadowColor = "#00b371";
+				sunkColor = "#003320";
+				hitColor = '<img src="Images/Hit_Lit.png" class="kryss" />';
+				flagEgen = "Images/Flag_LTU.png";
+			}
+			if (layout == "DEU") {
+				shipColor = "#FFCF00";
+				shadowColor = "#ffe366";
+				sunkColor = "#cca700";
+				hitColor = '<img src="Images/Hit_rED.png" class="kryss" />';
+				flagEgen = "Images/Flag_DEU.png";
+			}
 		}
 
 		elements = document.getElementsByClassName("templSkepp1");
@@ -257,7 +268,7 @@
 		window.onload= () => {
 			buggFix();
 			saveShips();
-			templateColor();
+
 		};
 
 		function randomColor() {
@@ -331,6 +342,7 @@
 
 		function templateColor() {
 			randomColor();
+			playerDesign();
 			elements = document.getElementsByClassName("templSkepp1");
 			for (var i = 0; i < elements.length; i++) {
 				elements[i].style.backgroundColor = shipColor;
@@ -856,7 +868,7 @@
 				var text = "ytetete";
 				alertify.alert(text).set('closable', false).setHeader('<em id="message"> Du förlorade! </em> ').set('notifier','position', 'bottom-right').setting({'label':'agree', 'label':'center-right'});;
 				var request = new XMLHttpRequest();
-				request.open('GET', 'SpelAjax.php?val=loss&dif='+difficulty, true);
+				request.open('GET', 'SpelAjax.php?val=loss', true);
 				request.onload = () => {
 
 					data = request.responseText;
@@ -1553,7 +1565,7 @@
 				orig = document.getElementById("meny").innerHTML;
 
 				var request = new XMLHttpRequest();
-				request.open('GET', 'SpelAjax.php?val=stats&dif='+difficulty, true);
+				request.open('GET', 'SpelAjax.php?val=stats', true);
 				request.onload = () => {
 
 					data = request.responseText;

@@ -6,6 +6,104 @@
 <body>
 	<link rel="stylesheet" type="text/css" href="Stilmall.css">
 
+	<script>
+		var mail;
+		var pass;
+
+		function mailFel(mailTest) {
+			var request = new XMLHttpRequest();
+			request.open('GET', 'SkapaAjax.php?mailTest='+mailTest, true);
+			request.onload = function() {
+
+				var data = request.responseText;
+
+				console.log(data);
+				document.getElementById("mailFel").innerHTML = data;
+				mail = mailTest;
+			};
+			request.send();
+		}
+
+		function passFel(passTest) {
+			var request = new XMLHttpRequest();
+			request.open('GET', 'SkapaAjax.php?passTest='+passTest, true);
+			request.onload = function() {
+
+				var data = request.responseText;
+
+				console.log(data);
+				document.getElementById("passFel").innerHTML = data;
+				pass = passTest;
+			};
+			request.send();
+		}
+
+		function verifiera() {
+			var mailText = document.getElementById("mailFel").innerHTML;
+			var passText = document.getElementById("passFel").innerHTML;
+
+			if (mailText == "" && passText == "") {
+				console.log("mail: " + mail + ", pass: " + pass);
+
+				var request = new XMLHttpRequest();
+				request.open('GET', 'SkapaAjax.php?mail='+mail+'&pass='+pass, true);
+				request.onload = function() {
+
+					var data = request.responseText;
+
+					console.log(data);
+				};
+				request.send();
+
+				refer(4);
+			}
+		}
+
+		function verifieraLog() {
+			var mailLog = document.getElementById("mailLog").value;
+			var passLog = document.getElementById("passLog").value;
+
+			console.log("mail: " + mailLog + ", pass: " + passLog);
+
+				var request = new XMLHttpRequest();
+				request.open('GET', 'SkapaAjax.php?mailLog='+mailLog+'&passLog='+passLog, true);
+				request.onload = function() {
+
+					var data = request.responseText;
+
+					console.log(data);
+
+					if (data != "Inloggad") {
+
+
+						if (data == "Mail") {
+							document.getElementById("passFelLog").innerHTML = "Användaren finns inte";
+							//document.getElementById("passFelLog").value == "";
+						} else {
+							document.getElementById("passFelLog").innerHTML = "Fel lösenrod";
+							//document.getElementById("passFelLog").innerHTML == "yes";
+						}
+					} else {
+						refer(5);
+					}
+				};
+				request.send();
+
+
+
+		}
+
+		function refer(val) {
+			var request = new XMLHttpRequest();
+			request.open('GET', 'StartAjax.php?val='+val, true);
+			request.onload = function() {
+
+				var data = request.responseText;
+				document.getElementById("content").innerHTML = data;
+			};
+			request.send();
+		}
+	</script>
 
 	<?php
 
@@ -21,58 +119,13 @@
 
 	$conn = new mysqli($servername, $username, $password, "projektDB");
 
-if ($_SERVER['REQUEST_METHOD'] == "POST") {
-
-	$mail = $_POST["mailCreate"];
-	$pass = $_POST["passCreate"];
-
-	if (!preg_match("/^[^0-9][A-z0-9_]+([.][A-z0-9_]+)*[@][A-z0-9_]+([.][A-z0-9_]+)*[.][A-z]{2,4}$/", sanitize($mail))) {
-			$mailError = 0;
-		} else {
-			$mailError = 1;
-		}
-	if (!preg_match("/^.*(?=.{8,})(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).*$/", sanitize($pass))) {
-			$passwordError = 0;
-		} else {
-			$passwordError = 1;
-		}
-
-
-
-		if ($passwordError == 1 && $mailError == 1) {
-			$sql = "SELECT mail FROM User WHERE mail = '$mail'";
-			$result = $conn->query($sql);
-			if ($result->num_rows === 0) {
-				$sql = "INSERT INTO User(mail, password, wins, losses, currency, xp, selected) VALUES('$mail', '$pass', 0, 0, 0, 0, "DEF")"; 
-				$result = $conn->query($sql);
-				$skapad = "Din användare är nu skapad <br> <br> <a class='knapp' href='Login.php'>Klicka här för att återvända </a>";
-			} else {
-				$skapad = "Mailadressen är upptagen";
-			}
-
-		}
-
-
-	}
 	?>
 
-	<form method="post" action="Skapa.php" >
-	Mailadress <br> <input type="text" name="mailCreate">
-	<?php if ($mailError == 0) {
-		echo "Fel format";
-	} ?> <br><br>
-
-	Lösenord <br> <input type="text" name="passCreate">
-	<?php if ($passwordError == 0) {
-		echo "Fel format";
-	}
-	 ?>
-	 <br><br>
-	<input class="knappar" type="submit" name="create" value="Skapa Användare">
-	<input id="btntest" type="button" value="Gå tillbaka" class="knappar"
-       onclick="window.location.href = 'Login.php'" />
-
-	<br><br> <?php echo $skapad; ?>
-</form>
+	<div id="content">
+		<h1> Startsida </h1>
+		<input class="knappar" type="button" name="create" value="Logga in" onclick="refer(2)">
+		<input class="knappar" type="button" name="create" value="Registrera" onclick="refer(3)">
+		<p id="skapadText"> </p>
+	</div>
 </body>
 </html>

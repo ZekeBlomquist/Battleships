@@ -12,7 +12,10 @@
 		if (isset($_SESSION["mail"])) {
 			$mail = $_SESSION["mail"];
 			$val = $_GET['val'];
-			$dif = $_GET['dif'];
+
+			if (isset($_GET['dif'])) {
+				$dif = $_GET['dif'];
+			}
 
 			$sql = "SELECT wins AS W FROM User WHERE mail = '$mail'";
 			$result = $conn->query($sql);
@@ -22,7 +25,13 @@
 			$result = $conn->query($sql);
 			$losses = $result->fetch_assoc()["L"];
 
+			$sql = "SELECT xp AS xp FROM User WHERE mail = '$mail'";
+			$result = $conn->query($sql);
+			$xp = $result->fetch_assoc()["xp"];
 
+			$sql = "SELECT currency AS cur FROM User WHERE mail = '$mail'";
+			$result = $conn->query($sql);
+			$cur = $result->fetch_assoc()["cur"];
 
 			if ($val == "stats") {
 
@@ -30,10 +39,30 @@
 
 			} else if ($val == "win") {
 
+				if ($dif == 1) {
+					$xp += 50;
+					$cur += 10;
+				} else if ($dif == 2) {
+					$xp += 100;
+					$cur += 25;
+				} else if ($dif == 3) {
+					$xp += 150;
+					$cur += 60;
+				}
+
 				$wins++;
 
 				$sql = "UPDATE User SET wins = '$wins' WHERE mail = '$mail'";
 				$conn->query($sql);
+
+				$sql = "UPDATE User SET xp = '$xp' WHERE mail = '$mail'";
+				$conn->query($sql);
+
+				$sql = "UPDATE User SET currency = '$cur' WHERE mail = '$mail'";
+				$conn->query($sql);
+
+
+
 
 				echo "<span style='color:green;'> W: " . $wins . "</span>" . " | " . "<span style='color:red;'> L: " . $losses . " </span>";
 
@@ -45,6 +74,13 @@
 				$conn->query($sql);
 
 				echo "<span style='color:green;'> W: " . $wins . "</span>" . " | " . "<span style='color:red;'> L: " . $losses . " </span>";
+			} else if ($val == "dif") {
+
+				$sql = "SELECT selected AS S FROM User WHERE mail = '$mail'";
+				$result = $conn->query($sql);
+				$selected = $result->fetch_assoc()["S"];
+
+				echo $selected;
 			}
 		} else {
 		echo "Inte inloggad";

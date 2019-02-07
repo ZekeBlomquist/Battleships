@@ -1,10 +1,10 @@
-<?php 
+<?php
 	require "./Felhantering.php";
 
 	$conn = connect();
 
 	$inloggadtext = "";
-	$start = 1;	
+	$start = 1;
 	$mail = "";
 	$pass = "";
 
@@ -46,7 +46,7 @@
 
 
 
-		
+
 	}
 	else if ($_SERVER['REQUEST_METHOD'] == "GET") {
 		logout();
@@ -60,70 +60,74 @@
 	<title>Session Uppgift Sida</title>
 </head>
 <body>
+
 <link rel="stylesheet" type="text/css" href="Stilmall.css">
- 
+
+<div id="test">
+
 <?php if ($start == 1) { ; ?>
 		<form method="post" action="login.php" target="_self">
 
-	Mailadress <br> <input type="text" name="mail" value="<?php echo sanitize($mail); ?>"> 
-	
+	Mailadress <br> <input type="text" name="mail" value="<?php echo sanitize($mail); ?>">
+
 	<br> <br>
 
 	Lösenord <br> <input type="text" name="pass" value="<?php echo sanitize($pass); ?>"> <br> <br>
 
 	<?php if (!empty($inloggadtext)) {
-		
+
 		echo $inloggadtext; ?>
 		<br> <br>
 		<?php
-	} 
-
+	} else {
+		?> <br> <br> <?php
+	}
 	?>
 
-
-
 	<input class="knappar" type="submit" name="login" value="Logga in">
-	<br><br> 
+	<br><br>
 
 
-</form>
+	</form>
 
-<?php } else{ echo $inloggadtext ?> <br> <br>
-	<form method="post" action="taBort.php" target="_self">
-	<input class="knappar" type="submit" name="login" value="Ta bort användare"> <br><br>
-<?php } 
+	<?php } else{ echo $inloggadtext ?> <br> <br>
+		<form method="post" action="taBort.php" target="_self">
+			<input class="knappar" type="submit" name="login" value="Ta bort användare"> <br><br>
+		<?php }
 
 
 					if (!islogged()) {
-						?> <input id="btntest" type="button" value="Skapa användare" 
-     						onclick="window.location.href = 'Skapa.php'" /> <br> <br> <?php 
-					}			
+						?> <input id="btntest" type="button" value="Skapa användare"
+     						onclick="window.location.href = 'Skapa.php'" /> <br> <br> <?php
+					}
 	?>
-		
+
 		<div>
 			<?php
 				if ($_SERVER['REQUEST_METHOD'] == "POST") {
 					if (islogged()) {
-						?> <input id="btntest" type="button" value="Gå till spelet" 
+						?> <input id="btntest" type="button" value="Gå till spelet"
      						onclick="window.location.href = 'Spel.php'" /> <?php
 					}
 				}
-			?> 
-		
+			?>
+
 		</div>
 		<br>
 		<div>
 			<?php
 				if ($_SERVER['REQUEST_METHOD'] == "POST") {
 					if (islogged()) {
-						?> <input id="btntest" type="button" value="Logga ut" 
+						?> <input id="btntest" type="button" value="Logga ut"
      						onclick="window.location.href = 'login.php?log=0'" /> <?php
 					}
 				}
-			?> 
-		
+			?>
+
 		</div>
 
 	</form>
+
+</div>
 </body>
 </html>
