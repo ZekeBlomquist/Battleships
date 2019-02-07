@@ -186,7 +186,7 @@
 			};
 				request.send();
 
-		
+
 
 		function playerDesign() {
 			if (layout == "DEF") {
@@ -1628,7 +1628,7 @@
 		<div id="egen" class="spel"></div>
 		<div id="meny">
 			<div id="startKnapp" class="knapp unselectable" onclick="startSpel()">Starta spel</div>
-			<div class="knapp unselectable" onclick="window.location.href = 'login.php?'">Till menyn</div>
+			<div class="knapp unselectable" onclick="window.location.href = 'start.php?'">Till menyn</div>
 			<div class="knapp unselectable" onclick="showStats()">Statistik</div>
 		</div>
 		<div id="fiende" class="spel"></div>

@@ -7,8 +7,23 @@
 	<link rel="stylesheet" type="text/css" href="Stilmall.css">
 
 	<script>
+		var name;
 		var mail;
 		var pass;
+
+		function nameFel(nameTest) {
+			var request = new XMLHttpRequest();
+			request.open('GET', 'SkapaAjax.php?nameTest='+nameTest, true);
+			request.onload = function() {
+
+				var data = request.responseText;
+
+				console.log(data);
+				document.getElementById("nameFel").innerHTML = data;
+				name = nameTest;
+			};
+			request.send();
+		}
 
 		function mailFel(mailTest) {
 			var request = new XMLHttpRequest();
@@ -39,14 +54,17 @@
 		}
 
 		function verifiera() {
+			var nameText = document.getElementById("nameFel").innerHTML;
 			var mailText = document.getElementById("mailFel").innerHTML;
 			var passText = document.getElementById("passFel").innerHTML;
 
-			if (mailText == "" && passText == "") {
-				console.log("mail: " + mail + ", pass: " + pass);
+			var verify = {name: name, mail: mail, pass: pass};
 
+			var verifyString = JSON.stringify(verify);
+
+			if (nameText == "" && mailText == "" && passText == "") {
 				var request = new XMLHttpRequest();
-				request.open('GET', 'SkapaAjax.php?mail='+mail+'&pass='+pass, true);
+				request.open('GET', 'SkapaAjax.php?verifyString='+verifyString, true);
 				request.onload = function() {
 
 					var data = request.responseText;
@@ -60,37 +78,37 @@
 		}
 
 		function verifieraLog() {
-			var mailLog = document.getElementById("mailLog").value;
+			var userLog = document.getElementById("userLog").value;
 			var passLog = document.getElementById("passLog").value;
 
-			console.log("mail: " + mailLog + ", pass: " + passLog);
+			var verifyLog = {userLog: userLog, passLog: passLog};
 
-				var request = new XMLHttpRequest();
-				request.open('GET', 'SkapaAjax.php?mailLog='+mailLog+'&passLog='+passLog, true);
-				request.onload = function() {
+			var verifyLogString = JSON.stringify(verifyLog);
 
-					var data = request.responseText;
+			var request = new XMLHttpRequest();
+			request.open('GET', 'SkapaAjax.php?verifyLogString='+verifyLogString, true);
+			request.onload = function() {
 
-					console.log(data);
+				var data = request.responseText;
 
-					if (data != "Inloggad") {
+				console.log(data);
 
+				if (data != "Inloggad") {
 
-						if (data == "Mail") {
-							document.getElementById("passFelLog").innerHTML = "Användaren finns inte";
-							//document.getElementById("passFelLog").value == "";
-						} else {
-							document.getElementById("passFelLog").innerHTML = "Fel lösenrod";
-							//document.getElementById("passFelLog").innerHTML == "yes";
-						}
+					if (data == "User") {
+						document.getElementById("userFelLog").innerHTML = "Användaren finns inte";
+						document.getElementById("passFelLog").innerHTML = "";
+						document.getElementById("passLog").value = "";
 					} else {
-						refer(5);
+						document.getElementById("userFelLog").innerHTML = "";
+						document.getElementById("passFelLog").innerHTML = "Fel lösenord";
+						document.getElementById("passLog").value = "";
 					}
-				};
-				request.send();
-
-
-
+				} else {
+					refer(5);
+				}
+			};
+			request.send();
 		}
 
 		function refer(val) {
@@ -102,6 +120,10 @@
 				document.getElementById("content").innerHTML = data;
 			};
 			request.send();
+		}
+
+		function game() {
+			window.location.href = "Spel.php";
 		}
 	</script>
 
@@ -122,10 +144,12 @@
 	?>
 
 	<div id="content">
-		<h1> Startsida </h1>
-		<input class="knappar" type="button" name="create" value="Logga in" onclick="refer(2)">
-		<input class="knappar" type="button" name="create" value="Registrera" onclick="refer(3)">
-		<p id="skapadText"> </p>
+		<div id="start">
+			<h1> Startsida </h1>
+			<input class="knappar" type="button" name="create" value="Logga in" onclick="refer(2)">
+			<input class="knappar" type="button" name="create" value="Registrera" onclick="refer(3)">
+			<p id="skapadText"> </p>
+		</div>
 	</div>
 </body>
 </html>

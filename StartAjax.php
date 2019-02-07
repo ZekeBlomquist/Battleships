@@ -13,59 +13,73 @@
 
     if ($val == "1") {
       echo '
-        <h1> Startsida </h1>
-        <input class="knappar" type="button" name="create" value="Logga in" onclick="refer(2)">
-        <input class="knappar" type="button" name="create" value="Registrera" onclick="refer(3)">
-        <p id="skapadText"> </p>
+				<div id="start">
+	        <h1> Startsida </h1>
+	        <input class="knappar" type="button" name="create" value="Logga in" onclick="refer(2)">
+	        <input class="knappar" type="button" name="create" value="Registrera" onclick="refer(3)">
+	        <p id="skapadText"> </p>
+				</div>
       ';
     }
 
     if ($val == "2") {
       echo '
-        <h1> Logga in </h1>
+				<div id="log">
+	        <h1> Logga in </h1>
 
-        Mailadress <br> <input id="mailLog" type="text" name="mailCreate">
-        <span id="mailFelLog"></span>
-        <br><br>
+	        Namn eller mail <br> <input id="userLog" type="text" name="userLog">
+	        <span class="fel" id="userFelLog"></span>
+	        <br><br>
 
-        Lösenord <br> <input id="passLog" type="password" name="passCreate">
-        <span id="passFelLog"></span>
-        <br><br>
-        <input class="knappar" type="button" name="logIn" value="Logga in" onclick="verifieraLog()">
+	        Lösenord <br> <input id="passLog" type="password" name="passLog">
+	        <span class="fel" id="passFelLog"></span>
+	        <br><br>
+	        <input class="knappar" type="button" name="logIn" value="Logga in" onclick="verifieraLog()">
+					<input id="btntest" type="button" value="Gå tillbaka" class="knappar"	onclick="refer(1)" />
+					</div>
       ';
     }
 
     if ($val == "3") {
       echo '
-        <h1> Registrera konto </h1>
+				<div id="reg">
+	        <h1> Registrera konto </h1>
 
-  			Mailadress <br> <input type="text" name="mailCreate" onkeyup="mailFel(this.value)">
-  			<span id="mailFel"></span>
-  			<br><br>
+					Användarnamn <br> <input type="text" name="nameCreate" onkeyup="nameFel(this.value)">
+	  			<span class="fel" id="nameFel"></span>
+	  			<br><br>
 
-  			Lösenord <br> <input type="password" name="passCreate" onkeyup="passFel(this.value)">
-  			<span id="passFel"></span>
-  	 		<br><br>
-  			<input class="knappar" type="button" name="create" value="Skapa Användare" onclick="verifiera()">
-  			<input id="btntest" type="button" value="Gå tillbaka" class="knappar"	onclick="refer(1)" />
+	  			Mailadress <br> <input type="text" name="mailCreate" onkeyup="mailFel(this.value)">
+	  			<span class="fel" id="mailFel"></span>
+	  			<br><br>
+
+	  			Lösenord <br> <input type="password" name="passCreate" onkeyup="passFel(this.value)">
+	  			<span class="fel" id="passFel"></span>
+	  	 		<br><br>
+	  			<input id="btnReg" class="knappar" type="button" name="create" value="Skapa Användare" disabled="disabled" onclick="verifiera()">
+	  			<input id="btntest" type="button" value="Gå tillbaka" class="knappar"	onclick="refer(1)" />
+				</div>
       ';
     }
 
     if ($val == "4") {
       echo '
-        <h1> Startsida </h1>
-        <input class="knappar" type="button" name="create" value="Logga in" onclick="refer(2)">
-        <input class="knappar" type="button" name="create" value="Registrera" onclick="refer(3)">
-        <p> Användare skapad </p>
+				<div id="start">
+	        <h1> Startsida </h1>
+	        <input class="knappar" type="button" name="create" value="Logga in" onclick="refer(2)">
+	        <input class="knappar" type="button" name="create" value="Registrera" onclick="refer(3)">
+	        <p> Användare skapad </p>
+				</div>
       ';
     }
 
     if ($val == "5") {
       echo '
-        <h1> Startsida </h1>
-        <input class="knappar" type="button" name="create" value="Logga in" onclick="refer(2)">
-        <input class="knappar" type="button" name="create" value="Registrera" onclick="refer(3)">
-        <p> Du är nu inloggad </p>
+				<div id="start">
+	        <h1> Startsida </h1>
+	        <input class="knappar" type="button" name="create" value="Logga in" onclick="game()">
+	        <p> Du är nu inloggad </p>
+				</div>
       ';
     }
 
