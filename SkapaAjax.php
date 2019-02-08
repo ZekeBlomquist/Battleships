@@ -64,6 +64,10 @@
 			$mail = $verify->mail;
 			$pass = $verify->pass;
 
+			$name = sanitize($name);
+			$mail = sanitize($mail);
+			$pass = sanitize($pass);
+
 	    $sql = "INSERT INTO User(name, mail, password, wins, losses, currency, xp, selected) VALUES('$name', '$mail', '$pass', 0, 0, 0, 0, 'DEF')";
 			$result = $conn->query($sql);
 
@@ -76,6 +80,9 @@
 
 	    $userLog = $verifyLog->userLog;
 	    $passLog = $verifyLog->passLog;
+
+			$userLog = sanitize($userLog);
+			$passLog = sanitize($passLog);
 
 			//Variabel som håller koll på om användarnamnet eller mailen finns i databasen
 			$exist = 0;
@@ -108,16 +115,16 @@
 				if ($passCheck == $passLog) {
 
 
-				if ($exist == 2) {
+				if ($exist == 1) {
 					//sätter in användarens mail i sessionen
 
-					$_SESSION["mail"] = $userLog;
+					$_SESSION["name"] = $userLog;
 				} else {
 					//tar fram användarens mail och sedan sätter in den i sessionen
 
-					$sql = "SELECT mail AS userMail FROM User WHERE name = '$userLog'";
+					$sql = "SELECT name AS userName FROM User WHERE mail = '$userLog'";
 					$result = $conn->query($sql);
-					$_SESSION["mail"] = $result->fetch_assoc()["userMail"];
+					$_SESSION["name"] = $result->fetch_assoc()["userName"];
 
 				}
 

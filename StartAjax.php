@@ -12,6 +12,7 @@
     $val = $_GET["val"];
 
     if ($val == "1") {
+			logout();
       echo '
 				<div id="start">
 	        <h1> Startsida </h1>
@@ -77,13 +78,36 @@
       echo '
 				<div id="start">
 	        <h1> Startsida </h1>
-	        <input class="knappar" type="button" name="create" value="Gå till spelet" onclick="game()">
-					<input class="knappar" type="button" name="create" value="Gå till affär" onclick="shop()">
+	        <input class="knappar" type="button" name="game" value="Spela" onclick="game()">
+					<input class="knappar" type="button" name="shop" value="Profil" onclick="refer(7)">
+					<input class="knappar" type="button" name="logout" value="Logga ut" onclick="refer(1)">
 	        <p> Du är nu inloggad </p>
 				</div>
       ';
     }
 
+		if ($val == "6") {
+      echo '
+				<div id="start">
+	        <h1> Startsida </h1>
+	        <input class="knappar" type="button" name="game" value="Spela" onclick="game()">
+					<input class="knappar" type="button" name="shop" value="Profil" onclick="refer(7)">
+					<input class="knappar" type="button" name="logout" value="logga ut" onclick="refer(1)">
+				</div>
+      ';
+    }
+
+		if ($val == "7") {
+			$user = $_SESSION["name"];
+      echo '
+				<div id="spelarSida">
+					<h1> ', $user, "s profil", ' </h1>
+	        <input class="knappar" type="button" name="game" value="Statistik" onclick="game()">
+					<input class="knappar" type="button" name="shop" value="Affär" onclick="shop()">
+					<input class="knappar" type="button" name="back" value="Tillbaka" onclick="refer(6)">
+				</div>
+      ';
+    }
 
   }
 ?>

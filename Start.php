@@ -8,6 +8,31 @@
 		require "./Felhantering.php";
  	?>
 
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<!-- JavaScript -->
+	<script src="//cdn.jsdelivr.net/npm/alertifyjs@1.11.2/build/alertify.min.js"></script>
+
+	<!-- CSS -->
+	<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.11.2/build/css/alertify.min.css"/>
+	<!-- Default theme -->
+	<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.11.2/build/css/themes/default.min.css"/>
+	<!-- Semantic UI theme -->
+	<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.11.2/build/css/themes/semantic.min.css"/>
+	<!-- Bootstrap theme -->
+	<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.11.2/build/css/themes/bootstrap.min.css"/>
+
+	<!--
+			RTL version
+	-->
+	<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.11.2/build/css/alertify.rtl.min.css"/>
+	<!-- Default theme -->
+	<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.11.2/build/css/themes/default.rtl.min.css"/>
+	<!-- Semantic UI theme -->
+	<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.11.2/build/css/themes/semantic.rtl.min.css"/>
+	<!-- Bootstrap theme -->
+	<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.11.2/build/css/themes/bootstrap.rtl.min.css"/>
+
+
 	<link rel="stylesheet" type="text/css" href="Stilmall.css">
 
 	<script>
@@ -88,7 +113,6 @@
 
 		function verifiera() {
 
-
 			var verify = {name: name, mail: mail, pass: pass};
 
 			var verifyString = JSON.stringify(verify);
@@ -157,6 +181,19 @@
 			request.send();
 		}
 
+		function logout() {
+			var val = "6";
+			var request = new XMLHttpRequest();
+			request.open('GET', 'StartAjax.php?val='+val, true);
+			request.onload = function() {
+
+				var data = request.responseText;
+			};
+			request.send();
+		}
+
+
+
 		function game() {
 			window.open("Spel.php", "_self");
 		}
@@ -165,9 +202,87 @@
 			window.open("Shop.php", "_self");
 		}
 
+		function user() {
+
+		}
+
+
+		window.onload= () => {
+
+		};
+
+
+		function functionConfirm(msg, myYes, myNo, cancel) {
+            var confirmBox = $("#confirm");
+            confirmBox.find(".message").text(msg);
+            confirmBox.find(".yes,.no,.cancel").unbind().click(function() {
+               confirmBox.hide();
+            });
+            confirmBox.find(".yes").click(myYes);
+            confirmBox.find(".no").click(myNo);
+            confirmBox.find(".no").click(cancel);
+            confirmBox.show();
+         }
+
+
 	</script>
 
+	<style>
+				#confirm {
+					 display: none;
+					 background-color: #91FF00;
+					 border: 1px solid #aaa;
+					 position: fixed;
+					 width: 250px;
+					 left: 50%;
+					 margin-left: -100px;
+					 padding: 6px 8px 8px;
+					 box-sizing: border-box;
+					 text-align: center;
+				}
+				#confirm button {
+					 background-color: #48E5DA;
+					 display: inline-block;
+					 border-radius: 5px;
+					 border: 1px solid #aaa;
+					 padding: 5px;
+					 text-align: center;
+					 width: 80px;
+					 cursor: pointer;
+				}
+				#confirm .message {
+					 text-align: left;
+				}
+		 </style>
+
+	<div id="confirm">
+         <div class="message"></div>
+         <button class="yes">Yes</button>
+         <button class="no">No</button>
+         <button class="cancel">Cancel</button>
+      </div>
+      <button onclick='functionConfirm("Do you like Football?", function yes() {
+         alert("Yes")
+      }, function no() {
+         alert("no")
+
+      }
+      );'>submit</button>
+
+
 	<?php
+
+	if (isset($_SESSION["mail"])) {
+		echo '
+			<script type="text/javascript">',
+     	'refer("6");',
+     	'</script>';
+	} else {
+		echo '
+			<script type="text/javascript">',
+     	'refer("1");',
+     	'</script>';
+	}
 
 	$servername = "localhost";
 	$username = "root";
@@ -182,12 +297,7 @@
 	?>
 <div id="pane">
 	<div id="content">
-		<div id="start">
-			<h1> Startsida </h1>
-			<input class="knappar" type="button" name="create" value="Logga in" onclick="refer(2)">
-			<input class="knappar" type="button" name="create" value="Registrera" onclick="refer(3)">
-			<p id="skapadText"> </p>
-		</div>
+
 	</div>
 </div>
 </body>

@@ -9,27 +9,27 @@
 
 	if ($_SERVER['REQUEST_METHOD'] === "GET") {
 
-		if (isset($_SESSION["mail"])) {
-			$mail = $_SESSION["mail"];
+		if (isset($_SESSION["name"])) {
+			$name = $_SESSION["name"];
 			$val = $_GET['val'];
 
 			if (isset($_GET['dif'])) {
 				$dif = $_GET['dif'];
 			}
 
-			$sql = "SELECT wins AS W FROM User WHERE mail = '$mail'";
+			$sql = "SELECT wins AS W FROM User WHERE name = '$name'";
 			$result = $conn->query($sql);
 			$wins = $result->fetch_assoc()["W"];
 
-			$sql = "SELECT losses AS L FROM User WHERE mail = '$mail'";
+			$sql = "SELECT losses AS L FROM User WHERE name = '$name'";
 			$result = $conn->query($sql);
 			$losses = $result->fetch_assoc()["L"];
 
-			$sql = "SELECT xp AS xp FROM User WHERE mail = '$mail'";
+			$sql = "SELECT xp AS xp FROM User WHERE name = '$name'";
 			$result = $conn->query($sql);
 			$xp = $result->fetch_assoc()["xp"];
 
-			$sql = "SELECT currency AS cur FROM User WHERE mail = '$mail'";
+			$sql = "SELECT currency AS cur FROM User WHERE name = '$name'";
 			$result = $conn->query($sql);
 			$cur = $result->fetch_assoc()["cur"];
 
@@ -52,13 +52,13 @@
 
 				$wins++;
 
-				$sql = "UPDATE User SET wins = '$wins' WHERE mail = '$mail'";
+				$sql = "UPDATE User SET wins = '$wins' WHERE name = '$name'";
 				$conn->query($sql);
 
-				$sql = "UPDATE User SET xp = '$xp' WHERE mail = '$mail'";
+				$sql = "UPDATE User SET xp = '$xp' WHERE name = '$name'";
 				$conn->query($sql);
 
-				$sql = "UPDATE User SET currency = '$cur' WHERE mail = '$mail'";
+				$sql = "UPDATE User SET currency = '$cur' WHERE name = '$name'";
 				$conn->query($sql);
 
 
@@ -70,13 +70,13 @@
 
 				$losses++;
 
-				$sql = "UPDATE User SET losses = '$losses' WHERE mail = '$mail'";
+				$sql = "UPDATE User SET losses = '$losses' WHERE name = '$name'";
 				$conn->query($sql);
 
 				echo "<span style='color:green;'> W: " . $wins . "</span>" . " | " . "<span style='color:red;'> L: " . $losses . " </span>";
 			} else if ($val == "dif") {
 
-				$sql = "SELECT selected AS S FROM User WHERE mail = '$mail'";
+				$sql = "SELECT selected AS S FROM User WHERE name = '$name'";
 				$result = $conn->query($sql);
 				$selected = $result->fetch_assoc()["S"];
 

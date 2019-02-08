@@ -629,6 +629,8 @@
 
 		}
 
+		
+
 		//Fiendens skott
 		function fiendeSkott() {
 			while(!tur) {
