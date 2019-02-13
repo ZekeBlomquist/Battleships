@@ -6,6 +6,10 @@
 <body>
   <link rel="stylesheet" type="text/css" href="ShopStil.css">
 
+	<?php
+		require "./Felhantering.php";
+  ?>
+
   <script>
     function buy(ISO) {
       var request = new XMLHttpRequest();
@@ -17,6 +21,8 @@
       };
       request.send();
     }
+
+		
   </script>
 
 	<div id="DEF" class="country">
@@ -96,9 +102,6 @@
 
   <br><input id="back" class="knappar" type="button" name="create" value="Gå tillbaka" onclick="document.location.href='Start.php'">
 
-  <?php
-  require "./Felhantering.php";
-  ?>
 
 </body>
 </html>

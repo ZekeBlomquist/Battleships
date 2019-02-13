@@ -211,77 +211,22 @@
 
 		};
 
-
-		function functionConfirm(msg, myYes, myNo, cancel) {
-            var confirmBox = $("#confirm");
-            confirmBox.find(".message").text(msg);
-            confirmBox.find(".yes,.no,.cancel").unbind().click(function() {
-               confirmBox.hide();
-            });
-            confirmBox.find(".yes").click(myYes);
-            confirmBox.find(".no").click(myNo);
-            confirmBox.find(".no").click(cancel);
-            confirmBox.show();
-         }
-
-
 	</script>
-
-	<style>
-				#confirm {
-					 display: none;
-					 background-color: #91FF00;
-					 border: 1px solid #aaa;
-					 position: fixed;
-					 width: 250px;
-					 left: 50%;
-					 margin-left: -100px;
-					 padding: 6px 8px 8px;
-					 box-sizing: border-box;
-					 text-align: center;
-				}
-				#confirm button {
-					 background-color: #48E5DA;
-					 display: inline-block;
-					 border-radius: 5px;
-					 border: 1px solid #aaa;
-					 padding: 5px;
-					 text-align: center;
-					 width: 80px;
-					 cursor: pointer;
-				}
-				#confirm .message {
-					 text-align: left;
-				}
-		 </style>
-
-	<div id="confirm">
-         <div class="message"></div>
-         <button class="yes">Yes</button>
-         <button class="no">No</button>
-         <button class="cancel">Cancel</button>
-      </div>
-      <button onclick='functionConfirm("Do you like Football?", function yes() {
-         alert("Yes")
-      }, function no() {
-         alert("no")
-
-      }
-      );'>submit</button>
-
 
 	<?php
 
-	if (isset($_SESSION["mail"])) {
+	if (isset($_SESSION["name"])) {
 		echo '
 			<script type="text/javascript">',
      	'refer("6");',
      	'</script>';
+			?> <script> console.log("haha> yes"); </script> <?php
 	} else {
 		echo '
 			<script type="text/javascript">',
      	'refer("1");',
      	'</script>';
+			?> <script> console.log("haha no"); </script> <?php
 	}
 
 	$servername = "localhost";

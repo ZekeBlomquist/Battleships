@@ -13,18 +13,18 @@
 
     if ($val == "1") {
 			logout();
-      echo '
+      ?>
 				<div id="start">
 	        <h1> Startsida </h1>
 	        <input class="knappar" type="button" name="create" value="Logga in" onclick="refer(2)">
 	        <input class="knappar" type="button" name="create" value="Registrera" onclick="refer(3)">
 	        <p id="skapadText"> </p>
 				</div>
-      ';
+      <?php
     }
 
     if ($val == "2") {
-      echo '
+      ?>
 				<div id="log">
 	        <h1> Logga in </h1>
 
@@ -38,11 +38,11 @@
 	        <input class="knappar" type="button" name="logIn" value="Logga in" onclick="verifieraLog()">
 					<input id="btntest" type="button" value="Gå tillbaka" class="knappar"	onclick="refer(1)" />
 					</div>
-      ';
+      <?php
     }
 
     if ($val == "3") {
-      echo '
+			?>
 				<div id="reg">
 	        <h1> Registrera konto </h1>
 
@@ -60,22 +60,22 @@
 	  			<input id="btnReg" class="knappar" type="button" name="create" value="Skapa Användare" disabled="disabled" onclick="verifiera()">
 	  			<input id="btntest" type="button" value="Gå tillbaka" class="knappar"	onclick="refer(1)" />
 				</div>
-      ';
+			<?php
     }
 
     if ($val == "4") {
-      echo '
+      ?>
 				<div id="start">
 	        <h1> Startsida </h1>
 	        <input class="knappar" type="button" name="create" value="Logga in" onclick="refer(2)">
 	        <input class="knappar" type="button" name="create" value="Registrera" onclick="refer(3)">
 	        <p> Användare skapad </p>
 				</div>
-      ';
+      <?php
     }
 
     if ($val == "5") {
-      echo '
+      ?>
 				<div id="start">
 	        <h1> Startsida </h1>
 	        <input class="knappar" type="button" name="game" value="Spela" onclick="game()">
@@ -83,30 +83,30 @@
 					<input class="knappar" type="button" name="logout" value="Logga ut" onclick="refer(1)">
 	        <p> Du är nu inloggad </p>
 				</div>
-      ';
+      <?php
     }
 
 		if ($val == "6") {
-      echo '
+      ?>
 				<div id="start">
 	        <h1> Startsida </h1>
 	        <input class="knappar" type="button" name="game" value="Spela" onclick="game()">
 					<input class="knappar" type="button" name="shop" value="Profil" onclick="refer(7)">
 					<input class="knappar" type="button" name="logout" value="logga ut" onclick="refer(1)">
 				</div>
-      ';
+      <?php
     }
 
 		if ($val == "7") {
 			$user = $_SESSION["name"];
-      echo '
+			echo '
 				<div id="spelarSida">
-					<h1> ', $user, "s profil", ' </h1>
+					<h1> ', $user, "´s profil", ' </h1>
 	        <input class="knappar" type="button" name="game" value="Statistik" onclick="game()">
 					<input class="knappar" type="button" name="shop" value="Affär" onclick="shop()">
 					<input class="knappar" type="button" name="back" value="Tillbaka" onclick="refer(6)">
 				</div>
-      ';
+			';
     }
 
   }
