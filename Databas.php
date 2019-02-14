@@ -45,9 +45,10 @@
 		}
 
 		$sql = "CREATE TABLE Unlocked(
+		unlockID int NOT NULL AUTO_INCREMENT,
 		userID int NOT NULL,
 		country varchar(255) NOT NULL,
-		PRIMARY KEY (userID)
+		PRIMARY KEY (unlockID)
 		)";
 		if ($conn->query($sql) === TRUE) {
 			echo "Tabellen med upplåsta länder är skapad!";

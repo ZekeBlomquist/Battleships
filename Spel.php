@@ -448,7 +448,7 @@
 						text += `<div id="${i + "-" + j}" class="ruta" ${"x"+i} ${"y" + j} onmouseenter=\"placeraMus(${i}, ${j})\" onmouseleave=\"placeraMusRemove(${i}, ${j})\" onclick=\"placera(${i}, ${j})\">&nbsp</div>`;
 					}
 				}
-				document.getElementById('egen').innerHTML = text;
+				$("#egen").html(text);
 
 				//Skapar fiendens spelplan pånytt
  				text = '';
@@ -457,10 +457,11 @@
 					text += `<div id="${i + "." + j}" class="rutaFiende" ${"x"+i} ${"y" + j} onclick=\"skott(${i}, ${j})\">&nbsp</div>`;
 					}
 				}
-				document.getElementById('fiende').innerHTML = text;
+				$("#fiende").html(text);
 
 				//Resettar skepplistan
-				document.getElementById("egnaSkepp").innerHTML = document.getElementById("temp").innerHTML;
+				$("#egnaSkepp").html($("#temp").html());
+
 			} else {
 				start = true;
 				fiendePlacera();
@@ -629,7 +630,7 @@
 
 		}
 
-		
+
 
 		//Fiendens skott
 		function fiendeSkott() {
