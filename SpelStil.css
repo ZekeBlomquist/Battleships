@@ -82,25 +82,64 @@ html,body {
 
 }
 
+.knappDisabled {
+	color: #9C8080;
+}
+
 #stats {
 	font-size: 25px;
-	padding-left: 5px;
-	padding-right: 5px;
+	padding-left: 9px;
+	padding-right: 9px;
 	border-style: solid;
 	border-color: #860d0d;
-	padding-top: 19px;
-	padding-bottom: 19px;
+	padding-top: 9px;
 	margin: 20px;
 	text-align: center;
 	font-size: 25px;
 	border-radius: 25px;
 	background-color: lightgrey;
+	height: 70px;
 }
 
 #stats:hover {
 	border-color: #860d0d;
 	background-color: lightgrey;
 	color: black;
+}
+
+.difficulty {
+	float: left;
+}
+
+#easy {
+	background-color: limegreen;
+	width: 42px;
+	height: 46px;
+	border-style: solid;
+	border-color: black;
+	border-top-left-radius: 15px;
+	border-bottom-left-radius: 15px;
+}
+
+#medium {
+	background-color: yellow;
+	width: 42px;
+	height: 46px;
+	border-style: solid;
+	border-color: black;
+	border-left: none;
+	border-right: none;
+}
+
+#hard {
+	background-color: red;
+	width: 42px;
+	height: 46px;
+	border-style: solid;
+	border-color: black;
+	border-top-right-radius: 15px;
+	border-bottom-right-radius: 15px;
+
 }
 
 .kryss {

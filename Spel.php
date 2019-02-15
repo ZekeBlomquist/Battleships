@@ -395,7 +395,7 @@
 				fiendeSkepp = [];
 				hitsFiende = [];
 				hitsEgna = [];
-
+				$("#startKnapp").addClass("knappDisabled");
 				//Nollställer träff-indikatörerna
 				elements = document.getElementsByClassName("enemy1");
 				for (var i = 0; i < elements.length; i++) {
@@ -657,6 +657,9 @@
 					xR = parseInt(hitCordsSplit[0]);
 					yR = parseInt(hitCordsSplit[1]);
 
+					xTest = xR;
+					yTest = yR;
+
 					console.log("Cords Pre: "+(xR+"-"+yR));
 
 					while(slumpa){
@@ -681,35 +684,63 @@
 								break;
 						}
 						//Felhantering så det nya skottet inte hamnar utanför spelplanen
-						if (xR == -1) {
-							xR += 2;
+
+						if (xR == 10) {
+							overlap = true;
 							intillLiggande[0] = 1;
-							console.log("Fuckup: "+1);
 						}
-						if (xR == 11) {
-							xR -= 2;
+						if (xR == -1) {
+							overlap = true;
 							intillLiggande[1] = 1;
-							console.log("Fuckup: "+2);
+						}
+						if (yR == 10) {
+							overlap = true;
+							intillLiggande[2] = 1;
 						}
 						if (yR == -1) {
-							yR += 2;
-							intillLiggande[2] = 1;
-							console.log("Fuckup: "+3);
-						}
-						if (yR == 11) {
-							yR -= 2;
+							overlap = true;
 							intillLiggande[3] = 1;
-							console.log("Fuckup: "+4);
 						}
 
 						//Kollar igenom tidigare skott så att det nya inte överlappar med gamla skott
 
 						if (hitsFiende.includes(xR+"-"+yR)) {
 							overlap = true;
+							if (xR == (xTest+1)) {
+								intillLiggande[0] = 1;
+							}
+							if (xR == (xTest-1)) {
+								overlap = true;
+								intillLiggande[1] = 1;
+							}
+							if (yR == (yTest+1)) {
+								overlap = true;
+								intillLiggande[2] = 1;
+							}
+							if (yR == (yTest-1)) {
+								overlap = true;
+								intillLiggande[3] = 1;
+							}
 						}
 						if (klickadeFiende.includes(xR+"-"+yR)) {
 							overlap = true;
+							if (xR == (xTest+1)) {
+								intillLiggande[0] = 1;
+							}
+							if (xR == (xTest-1)) {
+								overlap = true;
+								intillLiggande[1] = 1;
+							}
+							if (yR == (yTest+1)) {
+								overlap = true;
+								intillLiggande[2] = 1;
+							}
+							if (yR == (yTest-1)) {
+								overlap = true;
+								intillLiggande[3] = 1;
+							}
 						}
+
 
 						//slutar slumpa fram närliggande kordinater om alla intillliggande rutor är träffar
 						if (intillLiggande.length == 4) {
@@ -723,10 +754,10 @@
 
 						if (!overlap) {
 							slumpa = false;
+							console.log("Cords EPIC: "+(xR+"-"+yR));
 						}
 					}
-					localHit = 0;
-					console.log("Cords: "+(xR+"-"+yR));
+
 
 					if (egnaSkepp.includes(xR+"-"+yR)) {
 						localHit = 1;
@@ -750,17 +781,12 @@
 						console.log("fucking miss");
 					}
 
-					localHit = 0;
-
-
-
 				} else {
 					//slumpar fram kordinater för skott
 					xR = Math.floor(Math.random()*10);
 					yR = Math.floor(Math.random()*10);
 
 					if (difficulty == 3) {
-						localHit = 0;
 						if (cheat == 3) {
 							for (var i = 0; i < egnaSkepp.length; i++) {
 								if (!hitsFiende.includes(egnaSkepp[i])) {
@@ -783,7 +809,6 @@
 					}
 
 					else if (difficulty == 2) {
-						localHit = 0;
 						if (cheat == 6) {
 							for (var i = 0; i < egnaSkepp.length; i++) {
 								if (!hitsFiende.includes(egnaSkepp[i])) {
@@ -808,7 +833,6 @@
 
 					else if (difficulty == 1) {
 
-						localHit = 0;
 						felFiende = 0;
 
 						if (klickadeFiende.includes(xR+"-"+yR)) {
@@ -894,6 +918,7 @@
 							document.getElementById(friendly5[i]).style.backgroundColor = sunkColor;
 						}
 					}
+					localHit = 0;
 				}
 		}
 
@@ -914,7 +939,6 @@
 
 		function randomShot() {
 			felFiende = 0;
-			localHit = 0;
 
 			xR = Math.floor(Math.random()*10);
 			yR = Math.floor(Math.random()*10);
@@ -1141,6 +1165,7 @@
 
 					if (egnaSkepp.length == 17) {
 						$("#startKnapp").click(function(){ startSpel(); })
+						$("#startKnapp").removeClass("knappDisabled");
 						//lös detta pls
 					}
 				}
@@ -1614,7 +1639,8 @@
 			//visar eller gömmer statisiktabben
 			if (stats == 1 || stats == 2) {
 				let text = document.getElementById("meny").innerHTML;
-				text += `<div id="stats" class="unselectable">${data}</div>`;
+				//text += `<div id="stats" class="unselectable">${data}</div>`;
+				text += `<div id="stats" class="unselectable">	<div id="easy" class="difficulty">&nbsp</div>	<div id="medium" class="difficulty">&nbsp</div> <div id="hard" class="difficulty">&nbsp</div>	</div>`
 				stats = 3;
 				document.getElementById("meny").innerHTML = text;
 			} else {
@@ -1665,7 +1691,7 @@
 	<div id="spelplan">
 		<div id="egen" class="spel"></div>
 		<div id="meny">
-			<div id="startKnapp" class="knapp unselectable" >Starta spel</div>
+			<div id="startKnapp" class="knapp unselectable knappDisabled" >Starta spel</div>
 			<div class="knapp unselectable" onclick="window.location.href = 'start.php?'">Till menyn</div>
 			<div class="knapp unselectable" onclick="showStats()">Statistik</div>
 		</div>
@@ -1713,6 +1739,7 @@
 			</div>
 		</div>
 	</div>
+	<input class="yeet" id="DEU" type="button" name="buy" value="Köp" onclick="pick('DEU')" disabled="false">
 
 	<div id="temp"></div>
 </body>
