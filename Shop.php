@@ -34,7 +34,7 @@
     function pick(ISO) {
 
 			//om man klickar på ett redan ägt land så väljer man det
-			if ($("#"+ISO).prop('value', 'Välj')) {
+			if (!$("#"+ISO).hasClass('buy')) {
 				//Sätter det valda landet som spelaren valda land
 	      var request = new XMLHttpRequest();
 	      request.open('GET', 'ShopAjax.php?ISO='+ISO+'&click=selected', true);

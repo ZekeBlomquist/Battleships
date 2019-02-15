@@ -71,6 +71,14 @@
 	    $sql = "INSERT INTO User(name, mail, password, wins, losses, currency, xp, selected) VALUES('$name', '$mail', '$pass', 0, 0, 0, 0, 'DEF')";
 			$result = $conn->query($sql);
 
+			$sql = "SELECT userID AS userID FROM User WHERE name = '$name'";
+			$result = $conn->query($sql);
+			$ID = $result->fetch_assoc()["userID"];
+
+			//Lägger till default utseendet i unlocked arrayen
+			$sql = "INSERT INTO Unlocked (userID, country) VALUES ('$ID', 'DEF')";
+			$conn->query($sql);
+
 	    echo "Användare Skapad";
 
 	  }

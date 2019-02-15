@@ -739,31 +739,25 @@
 						document.getElementById(xR+"-"+yR).innerHTML = hitColor;
 						tur = true;
 						hit = true;
-						hitCords = xR+"-"+yR;
+						hitCords = (xR+"-"+yR);
+						console.log("fucking träff");
 					} else {
 						//registrerar och visar en miss
 						klickadeFiende.push(xR+"-"+yR);
 						document.getElementById(xR+"-"+yR).innerHTML = '<img src="Images/Kryss.png" class="kryss" />';
 						tur = true;
 						hit = false;
+						console.log("fucking miss");
 					}
 
 					localHit = 0;
-						console.log("fuck")
+
 
 
 				} else {
 					//slumpar fram kordinater för skott
 					xR = Math.floor(Math.random()*10);
 					yR = Math.floor(Math.random()*10);
-				}
-
-				localHit = 0;
-
-				hitCords = "";
-
-				if (!hit) {
-
 
 					if (difficulty == 3) {
 						localHit = 0;
@@ -812,42 +806,41 @@
 						cheat++;
 					}
 
-				else if (difficulty == 1) {
+					else if (difficulty == 1) {
 
-					localHit = 0;
+						localHit = 0;
+						felFiende = 0;
 
-					for (let i = 0; i < klickadeFiende.length; i++) {
-						if ((xR+"-"+yR) == klickadeFiende[i]) {
+						if (klickadeFiende.includes(xR+"-"+yR)) {
 							felFiende = 1;
 						}
-					}
-					if (felFiende == 0) {
-						for (let j = 0; j < egnaSkepp.length; j++) {
-							if ((xR+"-"+yR) == egnaSkepp[j]) {
+						if (felFiende == 0) {
+
+							if (egnaSkepp.includes(xR+"-"+yR)) {
 								localHit = 1;
 							}
-						}
-						if (localHit == 1) {
-							//registrerar och visar en träff
-							klickadeFiende.push(xR+"-"+yR);
-							hitsFiende.push(xR+"-"+yR);
-							document.getElementById(xR+"-"+yR).innerHTML = hitColor;
-							tur = true;
-							hit = true;
-							hitCords = xR+"-"+yR;
-						} else {
-							//registrerar och visar en miss
-							klickadeFiende.push(xR+"-"+yR);
-							document.getElementById(xR+"-"+yR).innerHTML = '<img src="Images/Kryss.png" class="kryss" />';
-							tur = true;
-							hit = false;
-						}
 
+							if (localHit == 1) {
+								//registrerar och visar en träff
+								klickadeFiende.push(xR+"-"+yR);
+								hitsFiende.push(xR+"-"+yR);
+								document.getElementById(xR+"-"+yR).innerHTML = hitColor;
+								tur = true;
+								hit = true;
+								hitCords = (xR+"-"+yR);
+							} else {
+								//registrerar och visar en miss
+								klickadeFiende.push(xR+"-"+yR);
+								document.getElementById(xR+"-"+yR).innerHTML = '<img src="Images/Kryss.png" class="kryss" />';
+								tur = true;
+								hit = false;
+							}
+
+
+						}
 
 					}
-
 				}
-			}
 
 
 				if (localHit == 1) {
@@ -992,7 +985,6 @@
 					friendly5.push(x+"-"+y);
 					break;
 			}
-
 		}
 
 		function overLap1() {
@@ -1145,7 +1137,12 @@
 						antalKlick--;
 					}
 
+					console.log("LÄNGD: "+egnaSkepp.length);
 
+					if (egnaSkepp.length == 17) {
+						$("#startKnapp").click(function(){ startSpel(); })
+						//lös detta pls
+					}
 				}
 
 
@@ -1668,7 +1665,7 @@
 	<div id="spelplan">
 		<div id="egen" class="spel"></div>
 		<div id="meny">
-			<div id="startKnapp" class="knapp unselectable" onclick="startSpel()">Starta spel</div>
+			<div id="startKnapp" class="knapp unselectable" >Starta spel</div>
 			<div class="knapp unselectable" onclick="window.location.href = 'start.php?'">Till menyn</div>
 			<div class="knapp unselectable" onclick="showStats()">Statistik</div>
 		</div>
