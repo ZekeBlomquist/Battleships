@@ -41,13 +41,13 @@
 
 				if ($dif == 1) {
 					$xp += 50;
-					$cur += 10;
+					$cur += 25;
 				} else if ($dif == 2) {
 					$xp += 100;
-					$cur += 25;
+					$cur += 50;
 				} else if ($dif == 3) {
 					$xp += 150;
-					$cur += 60;
+					$cur += 70;
 				}
 
 				$wins++;

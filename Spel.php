@@ -120,6 +120,7 @@
 		//id't på skeppet som läggs ut
 		let id = 0;
 
+
 		let hitCords = "";
 
 		//om spelet är avslutat eller inte
@@ -154,7 +155,7 @@
 		let enemyHits5 = 0;
 
 		//Svårighetsgraden på datorn
-		let difficulty = 2;
+		let difficulty = 3;
 
 		//antal skott sedan datorn senast skött ett "fuskskott"
 		let cheat = 0;
@@ -612,6 +613,7 @@
 
 				if ((shipHits1+shipHits2+shipHits3+shipHits4+shipHits5) == fiendeSkepp.length) {
 					alertify.alert("alert").set('closable', false).setHeader('<em id="message"> Du vann! </em> ');
+					console.log(difficulty);
 					var request = new XMLHttpRequest();
 					request.open('GET', 'SpelAjax.php?val=win&dif='+difficulty, true);
 					request.onload = () => {
@@ -649,54 +651,64 @@
 
 
 				if (hit) {
+					console.log("hitCords:"+hitCords);
+					var hitCordsSplit = hitCords.split("-");
+
+					xR = parseInt(hitCordsSplit[0]);
+					yR = parseInt(hitCordsSplit[1]);
+
+					console.log("Cords Pre: "+(xR+"-"+yR));
 
 					while(slumpa){
+						console.log("yeet");
+						intillLiggande = [];
 						let overlap = false;
 						R = Math.floor(Math.random()*5);
 
 						//slumpar fram nytt
 						switch(R){
 							case 1:
-								xR = xR + 1;
+								xR++;
 								break;
 							case 2:
-								xR = xR - 1;
+								xR--;
 								break;
 							case 3:
-								yR = yR + 1;
+								yR++;
 								break;
 							case 4:
-								yR = yR - 1;
+								yR--;
 								break;
 						}
 						//Felhantering så det nya skottet inte hamnar utanför spelplanen
 						if (xR == -1) {
 							xR += 2;
 							intillLiggande[0] = 1;
+							console.log("Fuckup: "+1);
 						}
 						if (xR == 11) {
 							xR -= 2;
 							intillLiggande[1] = 1;
+							console.log("Fuckup: "+2);
 						}
 						if (yR == -1) {
 							yR += 2;
 							intillLiggande[2] = 1;
+							console.log("Fuckup: "+3);
 						}
 						if (yR == 11) {
 							yR -= 2;
 							intillLiggande[3] = 1;
+							console.log("Fuckup: "+4);
 						}
 
 						//Kollar igenom tidigare skott så att det nya inte överlappar med gamla skott
-						for (let i = 0; i < hitsFiende.length; i++) {
-							if ((xR+"-"+yR) == hitsFiende[i]) {
-								overlap = true;
-							}
+
+						if (hitsFiende.includes(xR+"-"+yR)) {
+							overlap = true;
 						}
-						for (let i = 0; i < klickadeFiende.length; i++) {
-							if ((xR+"-"+yR) == klickadeFiende[i]) {
-								overlap = true;
-							}
+						if (klickadeFiende.includes(xR+"-"+yR)) {
+							overlap = true;
 						}
 
 						//slutar slumpa fram närliggande kordinater om alla intillliggande rutor är träffar
@@ -713,7 +725,31 @@
 							slumpa = false;
 						}
 					}
+					localHit = 0;
+					console.log("Cords: "+(xR+"-"+yR));
 
+					if (egnaSkepp.includes(xR+"-"+yR)) {
+						localHit = 1;
+					}
+
+					if (localHit == 1) {
+						//registrerar och visar en träff
+						klickadeFiende.push(xR+"-"+yR);
+						hitsFiende.push(xR+"-"+yR);
+						document.getElementById(xR+"-"+yR).innerHTML = hitColor;
+						tur = true;
+						hit = true;
+						hitCords = xR+"-"+yR;
+					} else {
+						//registrerar och visar en miss
+						klickadeFiende.push(xR+"-"+yR);
+						document.getElementById(xR+"-"+yR).innerHTML = '<img src="Images/Kryss.png" class="kryss" />';
+						tur = true;
+						hit = false;
+					}
+
+					localHit = 0;
+						console.log("fuck")
 
 
 				} else {
@@ -726,54 +762,55 @@
 
 				hitCords = "";
 
-				if (difficulty == 3) {
-					localHit = 0;
-					if (cheat == 4) {
-						for (var i = 0; i < egnaSkepp.length; i++) {
-							if (!hitsFiende.includes(egnaSkepp[i])) {
-								klickadeFiende.push(egnaSkepp[i]);
-								hitsFiende.push(egnaSkepp[i]);
-								document.getElementById(egnaSkepp[i]).innerHTML = hitColor;
-								hit = true;
-								localHit = 1;
-								cheat = -1;
-								hitCords = egnaSkepp[i];
+				if (!hit) {
 
-								break;
-							}
-						}
-					} else {
-						randomShot();
-					}
-					tur = true;
-					cheat++;
-				}
 
-				else if (difficulty == 2) {
-					localHit = 0;
-					if (cheat == 8) {
-						for (var i = 0; i < egnaSkepp.length; i++) {
-							if (!hitsFiende.includes(egnaSkepp[i])) {
-								klickadeFiende.push(egnaSkepp[i]);
-								hitsFiende.push(egnaSkepp[i]);
-								if (	document.getElementById(egnaSkepp[i]).innerHTML == hitColor) {
-									console.log("negerfan");
+					if (difficulty == 3) {
+						localHit = 0;
+						if (cheat == 3) {
+							for (var i = 0; i < egnaSkepp.length; i++) {
+								if (!hitsFiende.includes(egnaSkepp[i])) {
+									klickadeFiende.push(egnaSkepp[i]);
+									hitsFiende.push(egnaSkepp[i]);
+									document.getElementById(egnaSkepp[i]).innerHTML = hitColor;
+									hit = true;
+									localHit = 1;
+									cheat = -1;
+									hitCords = egnaSkepp[i];
+
+									break;
 								}
-								document.getElementById(egnaSkepp[i]).innerHTML = hitColor;
-								hit = true;
-								localHit = 1;
-								cheat = -1;
-								hitCords = egnaSkepp[i];
-								console.log("cuck:"+hitCords);
-								break;
 							}
+						} else {
+							randomShot();
 						}
-					} else {
-						randomShot();
+						tur = true;
+						cheat++;
 					}
-					tur = true;
-					cheat++;
-				}
+
+					else if (difficulty == 2) {
+						localHit = 0;
+						if (cheat == 6) {
+							for (var i = 0; i < egnaSkepp.length; i++) {
+								if (!hitsFiende.includes(egnaSkepp[i])) {
+									klickadeFiende.push(egnaSkepp[i]);
+									hitsFiende.push(egnaSkepp[i]);
+									if (	document.getElementById(egnaSkepp[i]).innerHTML == hitColor) {
+									}
+									document.getElementById(egnaSkepp[i]).innerHTML = hitColor;
+									hit = true;
+									localHit = 1;
+									cheat = -1;
+									hitCords = egnaSkepp[i];
+									break;
+								}
+							}
+						} else {
+							randomShot();
+						}
+						tur = true;
+						cheat++;
+					}
 
 				else if (difficulty == 1) {
 
@@ -810,6 +847,7 @@
 					}
 
 				}
+			}
 
 
 				if (localHit == 1) {

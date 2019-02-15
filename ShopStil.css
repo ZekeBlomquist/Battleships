@@ -5,6 +5,7 @@
 .knappar {
 	padding-top: 2px;
 	padding-bottom: 2px;
+	float: left;
 }
 
 input {
@@ -52,21 +53,56 @@ h2 {
 }
 
 .templSkepp1 {
-	background-color: #333333;
+	border-style: solid;
+	border-color: black;
+	border-width: 3px;
+	border-right: none;
 	float: left;
 	width: 25px;
 	height: 25px;
-	border-style: solid;
-	border-color: black;
-	border-right: none;
-	border-width: 3px;
+
 }
 .templSkepp2 {
-	background-color: #333333;
-	float: left;
-	width: 25px;
-	height: 25px;
 	border-style: solid;
 	border-color: black;
 	border-width: 3px;
+	float: left;
+	width: 25px;
+	height: 25px;
+}
+
+.skeppDEF {
+	background-color: #333333;
+}
+.skeppDEU {
+	background-color: #FFCE00;
+}
+.skeppDNK {
+	background-color: #C60C30;
+}
+.skeppEST {
+	background-color: #0072CE;
+}
+.skeppFIN {
+	background-color: #003580;
+}
+.skeppLTU {
+	background-color: #006A44;
+}
+.skeppLVA {
+	background-color: #9E3039;
+}
+.skeppNOR {
+	background-color: #002868;
+}
+.skeppSWE {
+	background-color: #006AA7 ;
+}
+
+p {
+	margin: 0px;
+	margin-left: 5px;
+	margin-top: 3px;
+	padding: 0px;
+	float: left;
 }

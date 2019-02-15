@@ -13,131 +13,198 @@
 
   <script>
 
-
-    function buy(ISO) {
-
-			//Lägger till landets ISO kod i tabellen med upplåsta länder
-      var request = new XMLHttpRequest();
-      request.open('GET', 'ShopAjax.php?ISO='+ISO, true);
-      request.onload = function() {
-
-        var data = request.responseText;
-        console.log("Köp: "+data);
-      };
-      request.send();
-		}
-
-		//Kollar spelarens pengar
+		//Tar fram spelarens valda land
 		var request = new XMLHttpRequest();
-		request.open('GET', 'ShopAjax.php?val='+"money", true);
+		request.open('GET', 'ShopAjax.php?val='+"selected", true);
 		request.onload = function() {
 
 			var data = request.responseText;
-			console.log("pengar: "+data);
+			console.log("Selected: "+data);
 
-			if (data < 150) {
-				console.log("yup");
-				$(".buy").prop('disabled', true);
-			}
-			unlocked();
+			//Sätter knappens text till "Vald"
+			$("#"+data).prop('value', 'Vald');
+			//Ger knappen klassen "selected" för identifiering
+			$("#"+data).addClass("selected");
+			//Gör knappen oklickbar
+			$(".selected").prop('disabled', true);
+
 		};
 		request.send();
 
+    function pick(ISO) {
+
+			//om man klickar på ett redan ägt land så väljer man det
+			if ($("#"+ISO).prop('value', 'Välj')) {
+				//Sätter det valda landet som spelaren valda land
+	      var request = new XMLHttpRequest();
+	      request.open('GET', 'ShopAjax.php?ISO='+ISO+'&click=selected', true);
+	      request.onload = function() {
+
+	        var data = request.responseText;
+	        console.log("Valt: "+data);
+
+					//Gör det förra valda landets knapp klickbar
+					$(".selected").prop('disabled', false);
+					//Sätter förra valets knapp-text till "Välj"
+					$(".selected").prop('value', 'Välj');
+					//Tar bort identifieringsklassen "selected" från förra valets knapp
+					$(".selected").removeClass("selected");
+
+					//Sätter knappens text till "Vald"
+					$("#"+ISO).prop('value', 'Vald');
+					//Ger knappen klassen "selected" för identifiering
+					$("#"+ISO).addClass("selected");
+					//Gör knappen oklickbar
+					$(".selected").prop('disabled', true);
+
+
+	      };
+	      request.send();
+			} else {
+
+				//Om man inte äger landet så köper man landet
+	      var request = new XMLHttpRequest();
+	      request.open('GET', 'ShopAjax.php?ISO='+ISO+'&click=buy', true);
+	      request.onload = function() {
+
+	        var data = request.responseText;
+	        console.log("Köpt: "+data);
+					unlocked();
+	      };
+	      request.send();
+			}
+
+		}
+		function moneyCheck() {
+			//Kollar spelarens pengar
+			var request = new XMLHttpRequest();
+			request.open('GET', 'ShopAjax.php?val='+"money", true);
+			request.onload = function() {
+
+				var data = request.responseText;
+				console.log("pengar: "+data);
+
+				//Undersöker om spelaren har råd att köpa nya länder, om inte gör den köp knappen oklickbar
+				if (data < 150) {
+					$(".buy").prop('disabled', true);
+				}
+
+			};
+			request.send();
+		}
+
+
+
 		function unlocked() {
 			var unlocked = new Array();
-			var unlocked2 = new Array();
+			var unlockedISO = new Array();
+
 			//Kollar spelarens upplåsta länder
 			var request = new XMLHttpRequest();
 			request.open('GET', 'ShopAjax.php?val='+"unlocked", true);
 			request.onload = function() {
 
 				var unlocked = request.responseText;
-				var j = 0;
-				for (var i = 0; i < unlocked.length; i++) {
-					if (i%3 == 0 && i != 0) {
-						j++;
-					}
-					unlocked2[j] += unlocked[i].toString();
+				var text = "";
 
+				for (var i = 0; i < unlocked.length; i++) {
+					text += unlocked[i];
+
+					if ((i+1)%3 == 0 && i != 0) {
+						unlockedISO.push(text);
+						text = "";
+					}
 				}
-				console.log(unlocked2)
+
+				for (var i = 0; i < unlockedISO.length; i++) {
+					//Tar bort identifieringsklassen "buy" från köpta länders knappar
+					$("#"+unlockedISO[i]).removeClass("buy");
+					//Sätter kanppens text till "Välj"
+					$("#"+unlockedISO[i]).prop('value', 'Välj');
+					$("#"+unlockedISO[i]+"buy").html("");
+
+					//Sätter det ursprungligt valda landets knapp till valt läge
+					$(".selected").prop('value', 'Vald');
+				}
 			};
 			request.send();
+			moneyCheck();
 		}
+
+		unlocked();
 
   </script>
 
-	<div id="DEF" class="country">
+	<div id="DEFdiv" class="country">
 		<h2> Default </h2>
 		<div class="skepp" >
-			<div class="templSkepp1 skepp1"></div><div class="templSkepp1 skepp1"></div><div class="templSkepp1 skepp1"></div><div class="templSkepp1 skepp1"></div><div class="templSkepp2 skepp1"></div>
+			<div class="templSkepp1 skeppDEF"></div><div class="templSkepp1 skeppDEF"></div><div class="templSkepp1 skeppDEF"></div><div class="templSkepp1 skeppDEF"></div><div class="templSkepp2 skeppDEF"></div>
 		</div>
-  	<input class="knappar buy" id="DEF" type="button" name="buy" value="Köp" onclick="buy('DEF')"> 150$
-
+  	<input class="knappar buy" id="DEF" type="button" name="buy" value="Köp" onclick="pick('DEF')"> <p id="DEFbuy"> 150$</p>
 	</div>
 
-	<div id="DEU" class="country">
+	<div id="DEUdiv" class="country">
 		<h2> Tyskland </h2>
 		<div class="skepp" >
-			<div class="templSkepp1 skepp1"></div><div class="templSkepp1 skepp1"></div><div class="templSkepp1 skepp1"></div><div class="templSkepp1 skepp1"></div><div class="templSkepp2 skepp1"></div>
+			<div class="templSkepp1 skeppDEU"></div><div class="templSkepp1 skeppDEU"></div><div class="templSkepp1 skeppDEU"></div><div class="templSkepp1 skeppDEU"></div><div class="templSkepp2 skeppDEU"></div>
 		</div>
-	  <input class="knappar buy" id="DEU" type="button" name="buy" value="Köp" onclick="buy('DEU')"> 150$
+	  <input class="knappar buy" id="DEU" type="button" name="buy" value="Köp" onclick="pick('DEU')"> <p id="DEUbuy"> 150$</p>
 	</div>
 
-	<div id="DNK" class="country">
+	<div id="DNKdiv" class="country">
 		<h2> Danmark </h2>
 		<div class="skepp" >
-			<div class="templSkepp1 skepp1"></div><div class="templSkepp1 skepp1"></div><div class="templSkepp1 skepp1"></div><div class="templSkepp1 skepp1"></div><div class="templSkepp2 skepp1"></div>
+			<div class="templSkepp1 skeppDNK"></div><div class="templSkepp1 skeppDNK"></div><div class="templSkepp1 skeppDNK"></div><div class="templSkepp1 skeppDNK"></div><div class="templSkepp2 skeppDNK"></div>
 		</div>
-	  <input class="knappar buy" id="DNK" type="button" name="buy" value="Köp" onclick="buy('DNK')"> 150$
+	  <input class="knappar buy" id="DNK" type="button" name="buy" value="Köp" onclick="pick('DNK')"> <p id="DNKbuy"> 150$</p>
 	</div>
 
-	<div id="EST" class="country">
+	<div id="ESTdiv" class="country">
 		<h2> Estland </h2>
 		<div class="skepp" >
-			<div class="templSkepp1 skepp1"></div><div class="templSkepp1 skepp1"></div><div class="templSkepp1 skepp1"></div><div class="templSkepp1 skepp1"></div><div class="templSkepp2 skepp1"></div>
+			<div class="templSkepp1 skeppEST"></div><div class="templSkepp1 skeppEST"></div><div class="templSkepp1 skeppEST"></div><div class="templSkepp1 skeppEST"></div><div class="templSkepp2 skeppEST"></div>
 		</div>
-	  <input class="knappar buy" id="EST" type="button" name="buy" value="Köp" onclick="buy('EST')"> 150$
+	  <input class="knappar buy" id="EST" type="button" name="buy" value="Köp" onclick="pick('EST')"> <p id="ESTbuy"> 150$</p>
 	</div>
 
-	<div id="FIN" class="country">
+	<div id="FINdiv" class="country">
 		<h2> Finland </h2>
 		<div class="skepp" >
-			<div class="templSkepp1 skepp1"></div><div class="templSkepp1 skepp1"></div><div class="templSkepp1 skepp1"></div><div class="templSkepp1 skepp1"></div><div class="templSkepp2 skepp1"></div>
+			<div class="templSkepp1 skeppFIN"></div><div class="templSkepp1 skeppFIN"></div><div class="templSkepp1 skeppFIN"></div><div class="templSkepp1 skeppFIN"></div><div class="templSkepp2 skeppFIN"></div>
 		</div>
-	  <input class="knappar buy" id="FIN" type="button" name="buy" value="Köp" onclick="buy('FIN')"> 150$
+	  <input class="knappar buy" id="FIN" type="button" name="buy" value="Köp" onclick="pick('FIN')"> <p id="FINbuy"> 150$</p>
 	</div>
 
-	<div id="LTU" class="country">
+	<div id="LTUdiv" class="country">
 		<h2> Litauen </h2>
 		<div class="skepp" >
-			<div class="templSkepp1 skepp1"></div><div class="templSkepp1 skepp1"></div><div class="templSkepp1 skepp1"></div><div class="templSkepp1 skepp1"></div><div class="templSkepp2 skepp1"></div>
+			<div class="templSkepp1 skeppLTU"></div><div class="templSkepp1 skeppLTU"></div><div class="templSkepp1 skeppLTU"></div><div class="templSkepp1 skeppLTU"></div><div class="templSkepp2 skeppLTU"></div>
 		</div>
-	  <input class="knappar buy" id="LTU" type="button" name="buy" value="Köp" onclick="buy('LTU')"> 150$
+	  <input class="knappar buy" id="LTU" type="button" name="buy" value="Köp" onclick="pick('LTU')"> <p id="LTUbuy"> 150$</p>
 	</div>
 
-	<div id="LVA" class="country">
+	<div id="LVAdiv" class="country">
 		<h2> Lettland </h2>
 		<div class="skepp" >
-			<div class="templSkepp1 skepp1"></div><div class="templSkepp1 skepp1"></div><div class="templSkepp1 skepp1"></div><div class="templSkepp1 skepp1"></div><div class="templSkepp2 skepp1"></div>
+			<div class="templSkepp1 skeppLVA"></div><div class="templSkepp1 skeppLVA"></div><div class="templSkepp1 skeppLVA"></div><div class="templSkepp1 skeppLVA"></div><div class="templSkepp2 skeppLVA"></div>
 		</div>
-	  <input class="knappar buy" id="LVA" type="button" name="buy" value="Köp" onclick="buy('LVA')"> 150$
+	  <input class="knappar buy" id="LVA" type="button" name="buy" value="Köp" onclick="pick('LVA')"> <p id="LVAbuy"> 150$</p>
 	</div>
 
-	<div id="NOR" class="country">
+	<div id="NORdiv" class="country">
 		<h2> Norge </h2>
 		<div class="skepp" >
-			<div class="templSkepp1 skepp1"></div><div class="templSkepp1 skepp1"></div><div class="templSkepp1 skepp1"></div><div class="templSkepp1 skepp1"></div><div class="templSkepp2 skepp1"></div>
+			<div class="templSkepp1 skeppNOR"></div><div class="templSkepp1 skeppNOR"></div><div class="templSkepp1 skeppNOR"></div><div class="templSkepp1 skeppNOR"></div><div class="templSkepp2 skeppNOR"></div>
 		</div>
-	  <input class="knappar buy" id="NOR" type="button" name="buy" value="Köp" onclick="buy('NOR')"> 150$
+	  <input class="knappar buy" id="NOR" type="button" name="buy" value="Köp" onclick="pick('NOR')"> <p id="NORbuy"> 150$</p>
 	</div>
 
-	<div id="SWE" class="country">
+	<div id="SWEdiv" class="country">
 		<h2> Sverige </h2>
 		<div class="skepp" >
-			<div class="templSkepp1 skepp1"></div><div class="templSkepp1 skepp1"></div><div class="templSkepp1 skepp1"></div><div class="templSkepp1 skepp1"></div><div class="templSkepp2 skepp1"></div>
+			<div class="templSkepp1 skeppSWE"></div><div class="templSkepp1 skeppSWE"></div><div class="templSkepp1 skeppSWE"></div><div class="templSkepp1 skeppSWE"></div><div class="templSkepp2 skeppSWE"></div>
 		</div>
-	  <input class="knappar buy" id="SWE" type="button" name="buy" value="Köp" onclick="buy('SWE')"> 150$
+	  <input class="knappar buy" id="SWE" type="button" name="buy" value="Köp" onclick="pick('SWE')"> <p id="SWEbuy"> 150$</p>
 	</div>
 
   <br> <br> <br>
