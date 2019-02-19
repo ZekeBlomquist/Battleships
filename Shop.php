@@ -12,6 +12,7 @@
   ?>
 
   <script>
+		unlocked();
 
 		//Tar fram spelarens valda land
 		var request = new XMLHttpRequest();
@@ -94,9 +95,9 @@
 		}
 
 
-
+		//Undersöker vilka länder som spelaren har upplåst, och gör de länderna oköpbara
 		function unlocked() {
-			var unlocked = new Array();
+			var unlocked;
 			var unlockedISO = new Array();
 
 			//Kollar spelarens upplåsta länder
@@ -107,6 +108,7 @@
 				var unlocked = request.responseText;
 				var text = "";
 
+				//Splittar de inkommande ordsträngen till
 				for (var i = 0; i < unlocked.length; i++) {
 					text += unlocked[i];
 
@@ -131,7 +133,7 @@
 			moneyCheck();
 		}
 
-		unlocked();
+
 
   </script>
 
@@ -205,6 +207,22 @@
 			<div class="templSkepp1 skeppSWE"></div><div class="templSkepp1 skeppSWE"></div><div class="templSkepp1 skeppSWE"></div><div class="templSkepp1 skeppSWE"></div><div class="templSkepp2 skeppSWE"></div>
 		</div>
 	  <input class="knappar buy" id="SWE" type="button" name="buy" value="Köp" onclick="pick('SWE')"> <p id="SWEbuy"> 150$</p>
+	</div>
+
+	<div id="ITAdiv" class="country">
+		<h2> Italien </h2>
+		<div class="skepp" >
+			<div class="templSkepp1 skeppITA"></div><div class="templSkepp1 skeppITA"></div><div class="templSkepp1 skeppITA"></div><div class="templSkepp1 skeppITA"></div><div class="templSkepp2 skeppITA"></div>
+		</div>
+	  <input class="knappar buy" id="ITA" type="button" name="buy" value="Köp" onclick="pick('ITA')"> <p id="ITAbuy"> 150$</p>
+	</div>
+
+	<div id="BELdiv" class="country">
+		<h2> Belgien </h2>
+		<div class="skepp" >
+			<div class="templSkepp1 skeppBEL"></div><div class="templSkepp1 skeppBEL"></div><div class="templSkepp1 skeppBEL"></div><div class="templSkepp1 skeppBEL"></div><div class="templSkepp2 skeppBEL"></div>
+		</div>
+	  <input class="knappar buy" id="BEL" type="button" name="buy" value="Köp" onclick="pick('BEL')"> <p id="BELbuy"> 150$</p>
 	</div>
 
   <br> <br> <br>

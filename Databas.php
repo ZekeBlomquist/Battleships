@@ -25,13 +25,13 @@
 
 		mysqli_select_db($conn,"projektDB");
 
+?> <br> <br> <?php
+
 		$sql = "CREATE TABLE User(
 		userID int NOT NULL AUTO_INCREMENT,
 		name varchar(255) NOT NULL,
 		mail varchar(255) NOT NULL,
 		password varchar(255) NOT NULL,
-		wins int,
-		losses int,
 		currency int,
 		xp int,
 		selected varchar(255),
@@ -43,6 +43,8 @@
 		else {
 			echo "Färfrågan misslyckades med följande fel:" . $conn->error;
 		}
+
+?> <br> <br> <?php
 
 		$sql = "CREATE TABLE Unlocked(
 		unlockID int NOT NULL AUTO_INCREMENT,
@@ -57,8 +59,24 @@
 			echo "Färfrågan misslyckades med följande fel:" . $conn->error;
 		}
 
+?> <br> <br> <?php
 
-
+		$sql = "CREATE TABLE Statistics(
+		StatisticID int NOT NULL AUTO_INCREMENT,
+		userID int NOT NULL,
+		outcome varchar(255) NOT NULL,
+		difficulty varchar(255) NOT NULL,
+		shots int,
+		hits int,
+		matchTime int,
+		PRIMARY KEY (StatisticID)
+		)";
+		if ($conn->query($sql) === TRUE) {
+			echo "Tabellen med statistik är skapad!";
+		}
+		else {
+			echo "Färfrågan misslyckades med följande fel:" . $conn->error;
+		}
 
 		$conn->close();
 	?>

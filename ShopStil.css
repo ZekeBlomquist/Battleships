@@ -2,6 +2,13 @@
 	box-sizing: border-box;
 }
 
+html,body {
+    height:100%;
+    width: 100%;
+		background-image: url("Images/Background.png");
+		background-size: cover;
+}
+
 .knappar {
 	padding-top: 2px;
 	padding-bottom: 2px;
@@ -98,6 +105,14 @@ h2 {
 .skeppSWE {
 	background-color: #006AA7 ;
 }
+.skeppITA {
+	background-color: #009344 ;
+}
+.skeppBEL {
+	background-color: #FAE042 ;
+}
+
+
 
 p {
 	margin: 0px;

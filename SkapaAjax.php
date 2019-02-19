@@ -68,9 +68,11 @@
 			$mail = sanitize($mail);
 			$pass = sanitize($pass);
 
-	    $sql = "INSERT INTO User(name, mail, password, wins, losses, currency, xp, selected) VALUES('$name', '$mail', '$pass', 0, 0, 0, 0, 'DEF')";
+			//Lägger till spelarens profil till databasen
+	    $sql = "INSERT INTO User(name, mail, password, currency, xp, selected) VALUES('$name', '$mail', '$pass', 0, 0, 'DEF')";
 			$result = $conn->query($sql);
 
+			//Tar fram den skapade spelarens ID för att sätta in default desgnen till spelaren
 			$sql = "SELECT userID AS userID FROM User WHERE name = '$name'";
 			$result = $conn->query($sql);
 			$ID = $result->fetch_assoc()["userID"];
