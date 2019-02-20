@@ -440,6 +440,10 @@
 				hitsEgna = [];
 				time = 0;
 
+				$("#startKnapp").addClass("knappDisabled");
+				$("#startKnapp").removeClass("knapp");
+				shipCorrect = false;
+
 				//Nollställer träff-indikatörerna
 				elements = document.getElementsByClassName("enemy1");
 				for (var i = 0; i < elements.length; i++) {
@@ -664,6 +668,7 @@
 						var sekunder = minuter%60;
 
 						minuter -= sekunder;
+						minuter = minuter/60;
 						var tidText = minuter+"m, " + sekunder + "s";
 					} else {
 						var tidText = time + " sekunder";
@@ -990,6 +995,7 @@
 					var minuter = time;
 					var sekunder = minuter%60;
 
+					minuter = minuter/60;
 					minuter -= sekunder;
 					var tidText = minuter+"m, " + sekunder + "s";
 				} else {

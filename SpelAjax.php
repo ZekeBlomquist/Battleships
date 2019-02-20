@@ -26,7 +26,6 @@
 				$shots = $stats->shots;
 				$hits = $stats->hits;
 				$time = $stats->time;
-
 			}
 
 			//Tar fram spelarens valda design
@@ -75,11 +74,11 @@
 				$conn->query($sql);
 
 				//Bokför matchen i statikstik-tabellen
-				$sql = "INSERT INTO Statistics(userID, outcome, difficulty, shots, hits, matchTime) VALUES('$ID', 'win', '$dif', '$shots', '$hits', '$time')";
+				$sql = "INSERT INTO Statistics(userID, outcome, difficulty, shots, hits, matchTime) VALUES('$ID', 'Win', '$dif', '$shots', '$hits', '$time')";
 				$result = $conn->query($sql);
 			}
 			if ($val == "loss") {
-				$sql = "INSERT INTO Statistics(userID, outcome, difficulty, shots, hits, matchTime) VALUES('$ID', 'loss', '$dif', '$shots', '$hits', '$time')";
+				$sql = "INSERT INTO Statistics(userID, outcome, difficulty, shots, hits, matchTime) VALUES('$ID', 'Loss', '$dif', '$shots', '$hits', '$time')";
 				$result = $conn->query($sql);
 			}
 		} else {
