@@ -91,7 +91,7 @@
 				<div id="start">
 	        <h1> Startsida </h1>
 	        <input class="knappar" type="button" name="game" value="Spela" onclick="game()">
-					<input class="knappar" type="button" name="shop" value="Profil" onclick="refer(7)">
+					<input class="knappar" type="button" name="profile" value="Profil" onclick="refer(7)">
 					<input class="knappar" type="button" name="logout" value="logga ut" onclick="refer(1)">
 				</div>
       <?php
@@ -102,7 +102,7 @@
 			echo '
 				<div id="spelarSida">
 					<h1> ', $user, "´s profil", ' </h1>
-	        <input class="knappar" type="button" name="game" value="Statistik" onclick="game()">
+	        <input class="knappar" type="button" name="game" value="Statistik" onclick="user()">
 					<input class="knappar" type="button" name="shop" value="Affär" onclick="shop()">
 					<input class="knappar" type="button" name="back" value="Tillbaka" onclick="refer(6)">
 				</div>

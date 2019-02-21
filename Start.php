@@ -33,7 +33,7 @@
 	<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.11.2/build/css/themes/bootstrap.rtl.min.css"/>
 
 
-	<link rel="stylesheet" type="text/css" href="Stilmall.css">
+	<link rel="stylesheet" type="text/css" href="StartStil.css">
 
 	<script>
 		var name;
@@ -203,7 +203,7 @@
 		}
 
 		function user() {
-
+			window.open("statistik.php", "_self");
 		}
 
 

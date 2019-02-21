@@ -1,0 +1,146 @@
+html, body {
+	height: 100%;
+	width: 100vh;
+}
+
+.knappar {
+	padding-top: 2px;
+	padding-bottom: 2px;
+}
+
+#pane {
+	height: 100%;
+	width: 100%;
+	display: table;
+  position: absolute;
+	background-image: url("Images/Background.png");
+	background-size: cover;
+}
+
+input {
+	border-color: black;
+	border-style: solid;
+	border-width: 3px;
+	border-radius: 5px;
+	padding: 5px;
+}
+
+input[type=text]:focus{
+	border-color: #860d0d;
+	border-style: solid;
+	border-width: 3px;
+	border-radius: 5px;
+	padding: 5px;
+}
+
+input[type=text]:hover{
+	border-color: #860d0d;
+	border-style: solid;
+	border-width: 3px;
+	border-radius: 5px;
+	padding: 5px;
+}
+
+input[type=password]:focus{
+	border-color: #860d0d;
+	border-style: solid;
+	border-width: 3px;
+	border-radius: 5px;
+	padding: 5px;
+}
+
+input[type=password]:hover{
+	border-color: #860d0d;
+	border-style: solid;
+	border-width: 3px;
+	border-radius: 5px;
+	padding: 5px;
+}
+
+.knapp {
+	border-style: solid;
+	border-color: #860d0d;
+	padding-left: 10px;
+	padding-right: 10px;
+	padding-top: 19px;
+	padding-bottom: 19px;
+	margin: 20px;
+	text-align: center;
+	font-size: 25px;
+	border-radius: 25px;
+	background-color: lightgrey;
+}
+
+.knapp:hover {
+	background-color: #860d0d;
+	color: lightgrey;
+}
+
+.fel {
+	color: #860d0d;
+}
+
+#content {
+	display: table-cell;
+  vertical-align: middle;
+	width: 1000vh;
+	height: 100%;
+	text-align: center;
+}
+
+#start {
+	padding: 20px;
+	padding-top: 0px;
+	width: 300px;
+	border-style: solid;
+	border-color: black;
+	border-width: 5px;
+	background-color: #b3b3b3;
+	margin: auto;
+}
+
+#log {
+	padding: 20px;
+	padding-top: 0px;
+	width: 300px;
+	border-style: solid;
+	border-color: black;
+	border-width: 5px;
+	background-color: #b3b3b3;
+	margin: auto;
+}
+
+#reg {
+	padding: 20px;
+	padding-top: 0px;
+	width: 300px;
+	border-style: solid;
+	border-color: black;
+	border-width: 5px;
+	background-color: #b3b3b3;
+	margin: auto;
+}
+
+#spelarSida {
+	padding: 20px;
+	padding-top: 0px;
+	width: 300px;
+	border-style: solid;
+	border-color: black;
+	border-width: 5px;
+	background-color: #b3b3b3;
+	margin: auto;
+}
+
+h1 {
+	color: #860d0d;
+}
+
+.unselectable {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}

@@ -1,0 +1,6 @@
+html,body {
+    height:100%;
+    width: 100%;
+		background-image: url("Images/Background.png");
+		background-size: cover;
+}
