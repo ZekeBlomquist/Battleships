@@ -92,7 +92,7 @@
 	        <h1> Startsida </h1>
 	        <input class="knappar" type="button" name="game" value="Spela" onclick="game()">
 					<input class="knappar" type="button" name="profile" value="Profil" onclick="refer(7)">
-					<input class="knappar" type="button" name="logout" value="logga ut" onclick="refer(1)">
+					<input class="knappar" type="button" name="logout" value="Logga ut" onclick="refer(1)">
 				</div>
       <?php
     }

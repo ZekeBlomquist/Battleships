@@ -6,7 +6,8 @@
 		require "./Felhantering.php";
 	?>
 
-	<title></title>
+	<title>Battleships</title>
+
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 		<!-- JavaScript -->
 		<script src="//cdn.jsdelivr.net/npm/alertifyjs@1.11.2/build/alertify.min.js"></script>
@@ -35,8 +36,6 @@
 		<link rel="stylesheet" type="text/css" href="SpelStil.css">
 
 	<script>
-
-
 
 		var time = 0;
 
@@ -163,7 +162,7 @@
 		let enemyHits5 = 0;
 
 		//Svårighetsgraden på datorn
-		let difficulty = 3;
+		let difficulty = 2;
 
 		//antal skott sedan datorn senast skött ett "fuskskott"
 		let cheat = 0;
@@ -190,7 +189,6 @@
 			request.onload = () => {
 
 				layout = request.responseText;
-				console.log(layout);
 				templateColor();
 			};
 				request.send();
@@ -279,6 +277,13 @@
 				hitColor = '<img src="Images/Hit_Red.png" class="kryss" />';
 				flagEgen = "Images/Flag_BEL.png";
 			}
+			if (layout == "AUT") {
+				shipColor = "#EE2536";
+				shadowColor = "#F4717C";
+				sunkColor = "#A60C19";
+				hitColor = '<img src="Images/Hit_White.png" class="kryss" />';
+				flagEgen = "Images/Flag_AUT.png";
+			}
 		}
 
 		elements = document.getElementsByClassName("templSkepp1");
@@ -291,11 +296,10 @@
 		window.onload= () => {
 			buggFix();
 			saveShips();
-
 		};
 
 		function randomColor() {
-			let colorR = Math.floor(Math.random()*10);
+			let colorR = Math.floor(Math.random()*11);
 			switch(colorR){
 				case 0:
 					//Standard färg
@@ -368,11 +372,18 @@
 					flagEnemy = "Images/Flag_ITA.png";
 					break;
 				case 9:
-					//belgiska färger
+					//Belgiska färger
 					shipColorEnemy = "#FAE042";
 					sunkColorEnemy = "#ED2939";
 					hitColorEnemy = '<img src="Images/Hit_White.png" class="kryss" />';
 					flagEnemy = "Images/Flag_BEL.png";
+					break;
+				case 10:
+					//Österikiska färger
+					shipColorEnemy = "#EE2536";
+					sunkColorEnemy = "#A60C19";
+					hitColorEnemy = '<img src="Images/Hit_White.png" class="kryss" />';
+					flagEnemy = "Images/Flag_AUT.png";
 					break;
 			}
 		}
@@ -398,19 +409,14 @@
 		}
 
 		//Sparar rutan med skepp som kan placeras  när programmet först laddas
-
-
 		function saveShips() {
 			if (reset) {
-				document.getElementById("temp").innerHTML = document.getElementById("egnaSkepp").innerHTML;
-				document.getElementById("temp").style.visibility = "hidden";
+				document.getElementById("storage").innerHTML = document.getElementById("egnaSkepp").innerHTML;
+				document.getElementById("storage").style.visibility = "hidden";
 				reset = false;
 			}
 		}
 
-		function testing() {
-			console.log("fucking fuck")
-		}
 
 		//Funktion för att starta spelet och nollställa
 		function startSpel() {
@@ -440,9 +446,14 @@
 				hitsEgna = [];
 				time = 0;
 
+				//Gör startknappen oklickbar tills spelarens skepp har lagts ut
 				$("#startKnapp").addClass("knappDisabled");
 				$("#startKnapp").removeClass("knapp");
 				shipCorrect = false;
+
+				//Gör svårighetsgradsknappen klickbar
+				$("#difficultyKnapp").addClass("knapp");
+				$("#difficultyKnapp").removeClass("knappDisabled");
 
 				//Nollställer träff-indikatörerna
 				elements = document.getElementsByClassName("enemy1");
@@ -509,9 +520,9 @@
 				$("#fiende").html(text);
 
 				//Resettar skepplistan
-				$("#egnaSkepp").html($("#temp").html());
+				$("#egnaSkepp").html($("#storage").html());
 
-				//Om spelet inte var startat och alla skeppen var utlaggda så startar
+				//Om spelet inte var startat och alla skeppen var utlaggda så startar spelet
 			} else if(shipCorrect) {
 				start = true;
 				fiendePlacera();
@@ -520,8 +531,11 @@
 				$("#difficultyKnapp").removeClass("knapp");
 				$("#difficultyKnapp").addClass("knappDisabled");
 
+				$("#startKnapp").addClass("knapp");
+				$("#startKnapp").removeClass("knappDisabled");
+
 				//ändrar knappens text
-				document.getElementById("startKnapp").innerHTML = "Starta om";
+				document.getElementById("startKnapp").innerHTML = "Restart";
 			}
 		}
 
@@ -551,7 +565,6 @@
 		//Funktikon för att registrera och visa skjutet skott på vald ruta
 		function skott(x, y) {
 			if (start && !end) {
-				console.log("Fiende längd: "+fiendeSkepp.length)
 				//Om skotten är satt på en ledig ruta (inget tidigare skott)
 				let fel = 0;
 
@@ -663,6 +676,8 @@
 				}
 
 				if ((shipHits1+shipHits2+shipHits3+shipHits4+shipHits5) == fiendeSkepp.length) {
+
+					//Delar upp tiden i sekunder och minuter
 					if (time > 59) {
 						var minuter = time;
 						var sekunder = minuter%60;
@@ -679,11 +694,8 @@
 					var stats = {difficulty: difficulty, shots: egnaSkott.length, hits: hitsEgna.length, time: time};
 					var statsString = JSON.stringify(stats);
 
-					console.log("svårighetsgrad: "+difficulty);
-
 					let winText = "Efter " + tidText + " och " + egnaSkott.length +" skott så är fiendens flotta sänkt!";
 					alertify.alert(winText).set('closable', false).setHeader('<em id="message"> Du vann! </em> ').set('notifier','position', 'bottom-right').setting({'label':'agree', 'label':'Stäng'});;
-					console.log(difficulty);
 					var request = new XMLHttpRequest();
 					request.open('GET', 'SpelAjax.php?val=win&statsString='+statsString, true);
 					request.onload = () => {
@@ -718,7 +730,6 @@
 
 
 				if (hit) {
-					console.log("hitCords:"+hitCords);
 					var hitCordsSplit = hitCords.split("-");
 
 					xR = parseInt(hitCordsSplit[0]);
@@ -727,10 +738,8 @@
 					xTest = xR;
 					yTest = yR;
 
-					console.log("Cords Pre: "+(xR+"-"+yR));
-
 					while(slumpa){
-						console.log("yeet");
+						//Nollställer arrayen
 						intillLiggande = [];
 						let overlap = false;
 						R = Math.floor(Math.random()*5);
@@ -821,7 +830,6 @@
 
 						if (!overlap) {
 							slumpa = false;
-							console.log("Cords EPIC: "+(xR+"-"+yR));
 						}
 					}
 
@@ -838,14 +846,12 @@
 						tur = true;
 						hit = true;
 						hitCords = (xR+"-"+yR);
-						console.log("fucking träff");
 					} else {
 						//registrerar och visar en miss
 						fiendeSkott.push(xR+"-"+yR);
 						document.getElementById(xR+"-"+yR).innerHTML = '<img src="Images/Kryss.png" class="kryss" />';
 						tur = true;
 						hit = false;
-						console.log("fucking miss");
 					}
 
 				} else {
@@ -991,6 +997,7 @@
 
 			//Uppdaterar spelarens statistik vid förlust
 			if (hitsFiende.length == egnaSkepp.length) {
+
 				if (time > 59) {
 					var minuter = time;
 					var sekunder = minuter%60;
@@ -1243,9 +1250,6 @@
 
 						antalKlick--;
 					}
-
-					console.log("LÄNGD: "+egnaSkepp.length);
-					console.log("LÄNGD 2: "+fiendeSkepp.length);
 
 					shipCorrect = false;
 
@@ -1708,6 +1712,31 @@
 			possiblePlace(x,y);
 		}
 
+		function showDif() {
+			//sparar menyns ursprungliga utseende
+			if (stats == 1) {
+				orig = document.getElementById("meny").innerHTML;
+			}
+
+			if (!start) {
+				//visar eller gömmer svårighetsgradsväljaren
+				if (stats == 1 || stats == 2) {
+					let text = document.getElementById("meny").innerHTML;
+					text += `<div id="difficultySelecter" class="unselectable">
+					<div id="easy" class="difficulty" onclick='changeDifficulty(1)'>&nbsp</div>
+					<div id="medium" class="difficulty" onclick='changeDifficulty(2)'> <img src="Images/Kryss.png" class="kryssDif" /> </div>
+					<div id="hard" class="difficulty" onclick='changeDifficulty(3)'>&nbsp</div>
+					</div>`;
+					stats = 3;
+					document.getElementById("meny").innerHTML = text;
+				} else {
+					stats = 2;
+					document.getElementById("meny").innerHTML = orig;
+				}
+			}
+		}
+
+		//Ändrar svårighetsgraden och markerar vald svårighetsgrad
 		function changeDifficulty(value) {
 			if (value == 1) {
 				difficulty = 1;
@@ -1724,32 +1753,6 @@
 				document.getElementById("easy").innerHTML = '';
 				document.getElementById("medium").innerHTML = '';
 				document.getElementById("hard").innerHTML = '<img src="Images/Kryss.png" class="kryssDif" />';
-			}
-		}
-
-		function showDif() {
-
-
-			//sparar menyns ursprungliga utseende
-			if (stats == 1) {
-				orig = document.getElementById("meny").innerHTML;
-			}
-
-			if (!start) {
-				//visar eller gömmer svårighetsgradsväljaren
-				if (stats == 1 || stats == 2) {
-					let text = document.getElementById("meny").innerHTML;
-					text += `<div id="difficultySelecter" class="unselectable">
-					<div id="easy" class="difficulty" onclick='changeDifficulty(1)'>&nbsp</div>
-					<div id="medium" class="difficulty" onclick='changeDifficulty(2)'>&nbsp</div>
-					<div id="hard" class="difficulty" onclick='changeDifficulty(3)'>&nbsp</div>
-					</div>`;
-					stats = 3;
-					document.getElementById("meny").innerHTML = text;
-				} else {
-					stats = 2;
-					document.getElementById("meny").innerHTML = orig;
-				}
 			}
 		}
 
@@ -1775,7 +1778,7 @@
 					//sätter förra placerade kordinaterna till "nollställt" läge
 					antalKlick = 2;
 
-					document.getElementById("temp").style.visibility = "hidden";
+					document.getElementById("storage").style.visibility = "hidden";
 
 
 					let skeppID = `skepp${id}`;
@@ -1792,7 +1795,9 @@
 		}
 	</script>
 </head>
+
 <body id="body">
+
 	<div id="spelplan">
 		<div id="egen" class="spel"></div>
 		<div id="meny">
@@ -1845,6 +1850,24 @@
 		</div>
 	</div>
 
-	<div id="temp"></div>
+	<?php
+		//Kollar om spelaren är inloggad eller inte
+		if (!isset($_SESSION["name"])) {
+			?>
+				<script>
+				console.log("retard")
+					//Gömmer spelplanens innehåll
+					$("#spelplan").hide();
+					//Skapar popup som tar en tillbaka till startsidan
+					alertify.alert('Error', 'You must be logged in to be able to play', function(){ window.open("Start.php", "_self"); }).set('closable', false).setting({'label':'Back to start'});
+				</script>
+			<?php
+		} else {
+			?> <script> console.log( <?php $_SESSION["name"] ?> ) </script> <?php
+		}
+	?>
+
+	<!-- Osynlig div för largling av menyns utseende -->
+	<div id="storage"></div>
 </body>
 </html>

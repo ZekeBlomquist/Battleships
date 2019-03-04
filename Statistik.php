@@ -12,10 +12,21 @@
   ?>
 
   <script>
+		var request = new XMLHttpRequest();
+		request.open('GET', 'StatistikAjax.php?', true);
+		request.onload = function() {
 
+			var data = request.responseText;
+
+			var test = JSON.parse(data);
+
+			console.log(test[0])
+
+		};
+		request.send();
   </script>
 
-  <div>
+  <div id="statistik">
     game on gamer
   </div>
 
