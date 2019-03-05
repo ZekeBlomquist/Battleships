@@ -50,7 +50,7 @@
 		let start = false;
 
 		//Ser till så att menys utseende sparas första gången showDif funktionen används
-		let stats = 1;
+		let difShow = 1;
 
 		//Array med kordinater för alla ens egna skott, för att förhindra två skott på en ruta
 		let egnaSkott = new Array();
@@ -60,9 +60,6 @@
 
 		//Om det är spelarens tur eller inte
 		let tur = true;
-
-		//Ursprungligt utseende på menyn som används för att gå tillbaka till det ursprungliga utseendet
-		let orig;
 
 		//AJAX data
 		let data;
@@ -420,9 +417,9 @@
 
 		//Funktion för att starta spelet och nollställa
 		function startSpel() {
-			if(stats == 3) {
-				document.getElementById("meny").innerHTML = orig;
-				stats = 2;
+			if(difShow == 2) {
+				$("#difficultySelecter").remove();
+				difShow = 1;
 			}
 
 
@@ -1713,26 +1710,23 @@
 		}
 
 		function showDif() {
-			//sparar menyns ursprungliga utseende
-			if (stats == 1) {
-				orig = document.getElementById("meny").innerHTML;
-			}
-
 			if (!start) {
 				//visar eller gömmer svårighetsgradsväljaren
-				if (stats == 1 || stats == 2) {
+				if (difShow == 1) {
 					let text = document.getElementById("meny").innerHTML;
 					text += `<div id="difficultySelecter" class="unselectable">
 					<div id="easy" class="difficulty" onclick='changeDifficulty(1)'>&nbsp</div>
 					<div id="medium" class="difficulty" onclick='changeDifficulty(2)'> <img src="Images/Kryss.png" class="kryssDif" /> </div>
 					<div id="hard" class="difficulty" onclick='changeDifficulty(3)'>&nbsp</div>
 					</div>`;
-					stats = 3;
+					difShow = 2;
 					document.getElementById("meny").innerHTML = text;
 				} else {
-					stats = 2;
-					document.getElementById("meny").innerHTML = orig;
+					difShow = 1;
+					$("#difficultySelecter").remove();
 				}
+				$("#difficultyKnapp").removeClass("knappDisabled");
+
 			}
 		}
 

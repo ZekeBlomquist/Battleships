@@ -1,6 +1,198 @@
+* {
+  box-sizing: border-box;
+}
+
 html,body {
     height:100%;
     width: 100%;
+    margin: 0px;
 		background-image: url("Images/Background.png");
 		background-size: cover;
+}
+
+#pane {
+	height: 100%;
+	width: 100%;
+	display: table;
+  position: absolute;
+	background-image: url("Images/Background.png");
+	background-size: cover;
+}
+
+#content {
+	display: table-cell;
+  vertical-align: middle;
+	width: 1000vh;
+	height: 100%;
+	text-align: center;
+}
+
+#statisticsFront {
+
+	padding-top: 0px;
+  padding-bottom: 40px;
+	width: 730px;
+	border-style: solid;
+	border-color: black;
+	border-width: 5px;
+	background-color: #b3b3b3;
+	margin: auto;
+  border-color: #860d0d;
+	border-radius: 25px;
+  height: 400px;
+}
+
+h1 {
+	color: #860d0d;
+}
+
+h2 {
+  width: 100%;
+}
+
+#winsHeader {
+  border-style: solid;
+	border-color: black;
+	border-width: 5px;
+  margin-left: 2.5px;
+	background-color: #b3b3b3;
+  border-top-left-radius: 15px;
+  border-bottom-left-radius: 15px;
+  padding-bottom: 30px;
+
+  margin-left: calc(5% + 1.25px);
+  width: 45%;
+  float:left;
+}
+
+.diff {
+  float:left;
+  padding-top: 10px;
+  margin-bottom: 20px;
+  height: 49px;
+  font-size: 20px;
+}
+
+#wEasy {
+  border-style: solid;
+  border-color: black;
+  border-top-left-radius: 15px;
+  border-bottom-left-radius: 15px;
+  margin-left: 5%;
+  width: 30%;
+  background-color: limegreen;
+}
+
+#wMedium {
+  border-style: solid;
+  border-color: black;
+  border-left: 0px;
+  border-right: 0px;
+  width: 30%;
+  background-color: yellow;
+}
+
+#wHard {
+  border-style: solid;
+	border-color: black;
+	border-top-right-radius: 15px;
+	border-bottom-right-radius: 15px;
+  width: 30%;
+  background-color: red;
+}
+
+#lossHeader {
+  border-style: solid;
+	border-color: black;
+	border-width: 5px;
+  margin-left: -5px;
+	background-color: #b3b3b3;
+  border-top-right-radius: 15px;
+  border-bottom-right-radius: 15px;
+  padding-bottom: 30px;
+  width: 45%;
+  float:left;
+}
+
+#lEasy {
+  border-style: solid;
+  border-color: black;
+  border-top-left-radius: 15px;
+  border-bottom-left-radius: 15px;
+  margin-left: 5%;
+  width: 30%;
+  background-color: limegreen;
+}
+
+#lMedium {
+  border-style: solid;
+  border-color: black;
+  border-left: 0px;
+  border-right: 0px;
+  width: 30%;
+  background-color: yellow;
+}
+
+#lHard {
+  border-style: solid;
+	border-color: black;
+	border-top-right-radius: 15px;
+	border-bottom-right-radius: 15px;
+  width: 30%;
+  background-color: red;
+}
+
+.bar {
+  margin-left: 10%;
+  width: 80%;
+  background-color: grey;
+}
+
+.barE {
+  border-style: solid;
+	border-color: black;
+  border-bottom: 0;
+}
+
+.barM {
+  border-style: solid;
+	border-color: black;
+  border-bottom: 0;
+}
+
+.barH {
+  border-style: solid;
+	border-color: black;
+}
+
+.easyBar {
+  padding-top: 6px;
+  width: 1%;
+  height: 30px;
+  background-color: limegreen;
+  border-bottom: 2px;
+}
+
+.mediumBar {
+  padding-top: 6px;
+  width: 1%;
+  height: 30px;
+  background-color: yellow;
+}
+
+.hardBar {
+  padding-top: 6px;
+  width: 1%;
+  height: 30px;
+  background-color: red;
+}
+
+#back {
+	margin-top: 30px;
+  padding-top: 7px;
+	padding-bottom: 7px;
+  border-color: black;
+	border-style: solid;
+	border-width: 3px;
+	border-radius: 5px;
 }
