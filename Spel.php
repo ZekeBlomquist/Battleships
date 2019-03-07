@@ -1714,11 +1714,25 @@
 				//visar eller gömmer svårighetsgradsväljaren
 				if (difShow == 1) {
 					let text = document.getElementById("meny").innerHTML;
-					text += `<div id="difficultySelecter" class="unselectable">
-					<div id="easy" class="difficulty" onclick='changeDifficulty(1)'>&nbsp</div>
-					<div id="medium" class="difficulty" onclick='changeDifficulty(2)'> <img src="Images/Kryss.png" class="kryssDif" /> </div>
-					<div id="hard" class="difficulty" onclick='changeDifficulty(3)'>&nbsp</div>
-					</div>`;
+					if (difficulty == 1) {
+						text += `<div id="difficultySelecter" class="unselectable">
+						<div id="easy" class="difficulty" onclick='changeDifficulty(1)'><img src="Images/Kryss.png" class="kryssDif" /></div>
+						<div id="medium" class="difficulty" onclick='changeDifficulty(2)'>&nbsp</div>
+						<div id="hard" class="difficulty" onclick='changeDifficulty(3)'>&nbsp</div>
+						</div>`;
+					} else if (difficulty == 2) {
+						text += `<div id="difficultySelecter" class="unselectable">
+						<div id="easy" class="difficulty" onclick='changeDifficulty(1)'>&nbsp</div>
+						<div id="medium" class="difficulty" onclick='changeDifficulty(2)'><img src="Images/Kryss.png" class="kryssDif" /></div>
+						<div id="hard" class="difficulty" onclick='changeDifficulty(3)'>&nbsp</div>
+						</div>`;
+					} else {
+						text += `<div id="difficultySelecter" class="unselectable">
+						<div id="easy" class="difficulty" onclick='changeDifficulty(1)'>&nbsp</div>
+						<div id="medium" class="difficulty" onclick='changeDifficulty(2)'>&nbsp</div>
+						<div id="hard" class="difficulty" onclick='changeDifficulty(3)'><img src="Images/Kryss.png" class="kryssDif" /></div>
+						</div>`;
+					}
 					difShow = 2;
 					document.getElementById("meny").innerHTML = text;
 				} else {
@@ -1849,15 +1863,12 @@
 		if (!isset($_SESSION["name"])) {
 			?>
 				<script>
-				console.log("retard")
 					//Gömmer spelplanens innehåll
 					$("#spelplan").hide();
 					//Skapar popup som tar en tillbaka till startsidan
 					alertify.alert('Error', 'You must be logged in to be able to play', function(){ window.open("Start.php", "_self"); }).set('closable', false).setting({'label':'Back to start'});
 				</script>
 			<?php
-		} else {
-			?> <script> console.log( <?php $_SESSION["name"] ?> ) </script> <?php
 		}
 	?>
 

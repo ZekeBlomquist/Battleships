@@ -28,10 +28,9 @@ html,body {
 }
 
 #statisticsFront {
-
 	padding-top: 0px;
   padding-bottom: 40px;
-	width: 730px;
+	width: 550px;
 	border-style: solid;
 	border-color: black;
 	border-width: 5px;
@@ -39,7 +38,7 @@ html,body {
 	margin: auto;
   border-color: #860d0d;
 	border-radius: 25px;
-  height: 400px;
+  height: 520px;
 }
 
 h1 {
@@ -50,7 +49,7 @@ h2 {
   width: 100%;
 }
 
-#winsHeader {
+#winsDiv {
   border-style: solid;
 	border-color: black;
 	border-width: 5px;
@@ -59,7 +58,6 @@ h2 {
   border-top-left-radius: 15px;
   border-bottom-left-radius: 15px;
   padding-bottom: 30px;
-
   margin-left: calc(5% + 1.25px);
   width: 45%;
   float:left;
@@ -101,17 +99,17 @@ h2 {
   background-color: red;
 }
 
-#lossHeader {
+#lossDiv {
   border-style: solid;
 	border-color: black;
 	border-width: 5px;
-  margin-left: -5px;
 	background-color: #b3b3b3;
   border-top-right-radius: 15px;
   border-bottom-right-radius: 15px;
   padding-bottom: 30px;
   width: 45%;
   float:left;
+  border-left: 0px;
 }
 
 #lEasy {
@@ -188,11 +186,40 @@ h2 {
 }
 
 #back {
-	margin-top: 30px;
+	margin-top: 25px;
   padding-top: 7px;
 	padding-bottom: 7px;
   border-color: black;
 	border-style: solid;
 	border-width: 3px;
 	border-radius: 5px;
+}
+
+#shotStats {
+  border-style: solid;
+	border-color: black;
+	border-width: 5px;
+  margin-left: 5%;
+	background-color: #b3b3b3;
+  border-radius: 15px;
+  padding-bottom: 30px;
+  width: 90%;
+  float:left;
+  height: 125px;
+  margin-top: 20px;
+}
+
+.stat {
+  float: left;
+  padding-left: 20px;
+  width: 50%;
+  text-align: left;
+}
+
+#hit {
+  margin-top: -20px;
+}
+
+#timeR {
+  margin-top: -20px;
 }

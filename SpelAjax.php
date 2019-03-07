@@ -78,6 +78,21 @@
 				$result = $conn->query($sql);
 			}
 			if ($val == "loss") {
+
+				if ($dif == 1) {
+					$xp += 50;
+					$cur += 25;
+					$dif = "Easy";
+				} else if ($dif == 2) {
+					$xp += 100;
+					$cur += 50;
+					$dif = "Medium";
+				} else if ($dif == 3) {
+					$xp += 150;
+					$cur += 70;
+					$dif = "Hard";
+				}
+
 				$sql = "INSERT INTO Statistics(userID, outcome, difficulty, shots, hits, matchTime) VALUES('$ID', 'Loss', '$dif', '$shots', '$hits', '$time')";
 				$result = $conn->query($sql);
 			}

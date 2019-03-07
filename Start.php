@@ -220,13 +220,11 @@
 			<script type="text/javascript">',
      	'refer("6");',
      	'</script>';
-			?> <script> console.log("haha> yes"); </script> <?php
 	} else {
 		echo '
 			<script type="text/javascript">',
      	'refer("1");',
      	'</script>';
-			?> <script> console.log("haha no"); </script> <?php
 	}
 
 	$servername = "localhost";
