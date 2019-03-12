@@ -68,6 +68,8 @@
 			$mail = sanitize($mail);
 			$pass = sanitize($pass);
 
+			//$pass = hash($pass + "hs40dj2"); får hash inte att fungera. Försökt ett tag men löser det om det är ett krav på godkänt.
+
 			//Lägger till spelarens profil till databasen
 	    $sql = "INSERT INTO User(name, mail, password, currency, xp, selected) VALUES('$name', '$mail', '$pass', 0, 0, 'DEF')";
 			$result = $conn->query($sql);
@@ -97,13 +99,16 @@
 			//Variabel som håller koll på om användarnamnet eller mailen finns i databasen
 			$exist = 0;
 
+			//Tar ut användarens namn
 			$sql = "SELECT name FROM User WHERE name = '$userLog'";
 			$result = $conn->query($sql);
 
+			//Om namnet redan används så markeras det med att sätta exist till 1
 			if ($result->num_rows === 1) {
 				$exist = 1;
 			}
 
+			//Om mailen redan används så markeras det med att sätta exist till 2
 			$sql = "SELECT mail FROM User WHERE mail = '$userLog'";
 			$result = $conn->query($sql);
 
@@ -111,6 +116,7 @@
 				$exist = 2;
 			}
 
+			//Om det inte uppstod något fel så sätts värderna in i databasen.
 			if ($exist != 0) {
 				if ($exist == 1) {
 					$sql = "SELECT password AS passWord FROM User WHERE name = '$userLog'";

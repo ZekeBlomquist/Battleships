@@ -59,6 +59,7 @@
 			request.send();
 		}
 
+		//Kollar om mailadressen är i rätt format och inte redan är använd
 		function mailFel(mailTest) {
 			var request = new XMLHttpRequest();
 			request.open('GET', 'SkapaAjax.php?mailTest='+mailTest, true);
@@ -74,6 +75,7 @@
 			request.send();
 		}
 
+		//Kollar om lösenordet är i rätt format
 		function passFel(passTest) {
 			var request = new XMLHttpRequest();
 			request.open('GET', 'SkapaAjax.php?passTest='+passTest, true);
@@ -139,6 +141,7 @@
 		function verifieraLog() {
 			var userLog = document.getElementById("userLog").value;
 			var passLog = document.getElementById("passLog").value;
+			passLog = (passLog);
 
 			var verifyLog = {userLog: userLog, passLog: passLog};
 

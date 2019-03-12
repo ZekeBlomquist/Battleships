@@ -936,7 +936,7 @@
 					}
 				}
 
-
+				//Sätter träffen på vänliga skeppet baserat på vilket skepp det var som träffades
 				if (localHit == 1) {
 					if (friendly1.includes(hitCords)) {
 						enemyHits1++;
@@ -1077,7 +1077,7 @@
 				antalKlick--;
 			}
 
-
+			
 			egnaSkepp.push(x+"-"+y);
 			switch (id){
 				case 1:

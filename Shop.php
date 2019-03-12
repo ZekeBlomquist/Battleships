@@ -116,7 +116,7 @@
 				}
 
 				//Visar upp spelarens pengar
-				$("#moneyAmount").html("Pengar: " + money + "$");
+				$("#moneyAmount").html("Pengar: $" + money);
 			};
 			request.send();
 		}

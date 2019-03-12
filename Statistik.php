@@ -67,18 +67,22 @@
 				time: parseInt(parseData[10])
 			};
 
+			//Metod för att ta fram spelarens level, gör nästa level progressivt mer svårnådd.
 			var level = 1;
 			while ((statistics.xp/((level*100) * Math.pow(1.2 , level-1))) >= 1) {
 				level++;
+				console.log("yee")
 			}
 
+
+			//Progressbar med xp som visar hur nära man är på att levla upp till nästa level
 			var elem = document.getElementById("xpBar");
 		  var width = 100*(statistics.xp/((level*100) * Math.pow(1.2 , level-1)));
 
 		  elem.style.width = width + '%';
 		  elem.innerHTML = statistics.xp+"xp";
 
-			$("#level").html(level);
+			$("#level").html(level-1);
 
 			console.log(statistics.xp/((level*100) * Math.pow(1.2 , level-1)))
 
@@ -109,6 +113,7 @@
 
 			$("#wHardBar").html(statistics.winsHard);
 
+
 			//Ändrar progressbarens storlek baserat på procentuella andelen vinster av den här typen
 			var elem = document.getElementById("wEasyBar");
 		  var width = 100*percentEasy;
@@ -116,12 +121,14 @@
 		  elem.style.width = width + '%';
 		  elem.innerHTML = statistics.winsEasy;
 
+
 			//Ändrar progressbarens storlek baserat på procentuella andelen vinster av den här typen
 			var elem = document.getElementById("wMediumBar");
 		 	var width = 100*percentMedium;
 
 			elem.style.width = width + '%';
 			elem.innerHTML = statistics.winsMedium;
+
 
 			//Ändrar progressbarens storlek baserat på procentuella andelen vinster av den här typen
 			var elem = document.getElementById("wHardBar");
