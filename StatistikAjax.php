@@ -15,7 +15,7 @@
       $sql = "SELECT userID AS userID FROM User WHERE name = '$name'";
       $result = $conn->query($sql);
       $ID = $result->fetch_assoc()["userID"];
-			
+
 
 			//tar fram spelarens antal vinster mot lätt dator
 			$sql = "SELECT count(outcome) AS outcome FROM Statistics WHERE userID = '$ID' AND outcome = 'Win' AND difficulty = 'Easy'";
@@ -48,7 +48,6 @@
       $result = $conn->query($sql);
       $lossesHard = $result->fetch_assoc()["outcome"];
 
-
       //tar fram spelarens totala avfyrade skott
       $sql = "SELECT sum(shots) AS shots FROM Statistics WHERE userID = '$ID'";
       $result = $conn->query($sql);
@@ -66,7 +65,7 @@
 
       //Lägger inte värderna i en array
       $statistics = array($name, $winsEasy, $winsMedium, $winsHard, $lossesEasy, $lossesMedium, $lossesHard, $shots, $hits, $time);
-
+			
       //Encodar arrayen så den kan skickas tillbaka
       $statisticsJSON = json_encode($statistics);
 

@@ -45,8 +45,7 @@
 
 			var data = request.responseText;
 
-			var parseData = JSON.parse(data);
-
+			var parseData = JSON.parse(data);<
 
 			//Objekt med all importerad information
 			var statistics = {
