@@ -48,7 +48,6 @@
 		request.onload = function() {
 
 			var data = request.responseText;
-			console.log("Selected: "+data);
 
 			//Sätter knappens text till "Vald"
 			$("#"+data).prop('value', 'Vald');
@@ -109,7 +108,6 @@
 			request.onload = function() {
 
 				var money = request.responseText;
-				console.log("pengar: "+money);
 
 				//Undersöker om spelaren har råd att köpa nya länder, om inte gör den köp knappen oklickbar och köp priserna röda
 				if (money < 150) {

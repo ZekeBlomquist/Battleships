@@ -999,20 +999,20 @@
 					var minuter = time;
 					var sekunder = minuter%60;
 
-					minuter = minuter/60;
 					minuter -= sekunder;
+					minuter = minuter/60;
 					var tidText = minuter+"m, " + sekunder + "s";
 				} else {
 					var tidText = time + " sekunder";
 				}
-				end = true;
+					end = true;
 
 				//Skapar ett objekt för att skicka med diverse info till ajaxsidan
 				var stats = {difficulty: difficulty, shots: egnaSkott.length, hits: hitsEgna.length, time: time};
 				var statsString = JSON.stringify(stats);
 
 				let loseText = "Efter " + tidText + " och " + fiendeSkott.length +" skott så är din flotta sänkt!";
-				alertify.alert(loseText).set('closable', false).setHeader('<em id="message"> Du förlorade! </em> ').set('notifier','position', 'bottom-right').setting({'label':'agree', 'label':'Stäng'});;
+				alertify.alert(loseText).set('closable', false).setHeader('<em id="message"> Du förlorade! </em> ').set('notifier','position', 'bottom-right').setting({'label':'agree', 'label':'Stäng'});
 				var request = new XMLHttpRequest();
 				request.open('GET', 'SpelAjax.php?val=loss&statsString='+statsString, true);
 				request.onload = () => {

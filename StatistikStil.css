@@ -223,3 +223,34 @@ h2 {
 #timeR {
   margin-top: -20px;
 }
+
+#barXP {
+  border-style: solid;
+	border-color: black;
+  margin-bottom: 30px;
+  margin-left: 90px;
+  width: 70%;
+  background-color: grey;
+}
+
+#xpBar {
+  padding-top: 6px;
+  width: 1%;
+  height: 30px;
+  background-color: skyblue;
+  border-bottom: 2px;
+}
+
+#level {
+  display: inline;
+  float: left;
+  border-style: solid;
+  border-color: black;
+  border-right: 0px;
+  height: 36px;
+  width: 36px;
+  margin-top: 0;
+  margin-left: 55px;
+  font-size: 25px;
+  padding-top: 2px;
+}

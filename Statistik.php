@@ -39,27 +39,50 @@
 
   <script>
 
+
+
+
+
 		var request = new XMLHttpRequest();
-		request.open('GET', 'StatistikAjax.php?', true);
+		request.open('GET', 'StatistikAjax.php?val='+"stats", true);
 		request.onload = function() {
+
 
 			var data = request.responseText;
 
-			var parseData = JSON.parse(data);<
+			var parseData = JSON.parse(data);
 
 			//Objekt med all importerad information
 			var statistics = {
 				name: parseData[0],
-				winsEasy: parseInt(parseData[1]),
-				winsMedium: parseInt(parseData[2]),
-				winsHard: parseInt(parseData[3]),
-				lossesEasy: parseInt(parseData[4]),
-				lossesMedium: parseInt(parseData[5]),
-				lossesHard: parseInt(parseData[6]),
-				shots: parseInt(parseData[7]),
-				hits: parseInt(parseData[8]),
-				time: parseInt(parseData[9])
+				xp: parseData[1],
+				winsEasy: parseInt(parseData[2]),
+				winsMedium: parseInt(parseData[3]),
+				winsHard: parseInt(parseData[4]),
+				lossesEasy: parseInt(parseData[5]),
+				lossesMedium: parseInt(parseData[6]),
+				lossesHard: parseInt(parseData[7]),
+				shots: parseInt(parseData[8]),
+				hits: parseInt(parseData[9]),
+				time: parseInt(parseData[10])
 			};
+
+			var level = 1;
+			while ((statistics.xp/((level*100) * Math.pow(1.2 , level-1))) >= 1) {
+				level++;
+			}
+
+			var elem = document.getElementById("xpBar");
+		  var width = 100*(statistics.xp/((level*100) * Math.pow(1.2 , level-1)));
+
+		  elem.style.width = width + '%';
+		  elem.innerHTML = statistics.xp+"xp";
+
+			$("#level").html(level);
+
+			console.log(statistics.xp/((level*100) * Math.pow(1.2 , level-1)))
+
+			console.log(level)
 
 			//Gör sidan mer personlig genom att visa spelarens namn
 			$("#header").html(statistics.name + "'s statistik");
@@ -168,12 +191,18 @@
 		request.send();
 
 
+
   </script>
 
 	<div id="pane">
 		<div id="content">
 			<div id="statisticsFront">
 				<h1 id="header"> Statistik </h1>
+
+				<p id="level"> ayup </p>
+				<div id="barXP">
+					<div id="xpBar"></div>
+				</div>
 
 				<div id="winsDiv">
 					<h2 id="wTot"> Wins </h2>
