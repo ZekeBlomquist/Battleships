@@ -11,6 +11,7 @@
 		var mail;
 		var pass;
 
+		//Funktion för att testa om namnet är i korrekt format
 		function nameFel(nameTest) {
 			var request = new XMLHttpRequest();
 			request.open('GET', 'SkapaAjax.php?nameTest='+nameTest, true);
@@ -25,6 +26,7 @@
 			request.send();
 		}
 
+		//Funktion för att testa om mailen är i korrekt format
 		function mailFel(mailTest) {
 			var request = new XMLHttpRequest();
 			request.open('GET', 'SkapaAjax.php?mailTest='+mailTest, true);
@@ -39,6 +41,7 @@
 			request.send();
 		}
 
+		//Funktion för att testa om lösenordet är i korrekt format
 		function passFel(passTest) {
 			var request = new XMLHttpRequest();
 			request.open('GET', 'SkapaAjax.php?passTest='+passTest, true);
@@ -53,6 +56,7 @@
 			request.send();
 		}
 
+		//Lägger till användaren till databasen
 		function verifiera() {
 			var nameText = document.getElementById("nameFel").innerHTML;
 			var mailText = document.getElementById("mailFel").innerHTML;
@@ -77,6 +81,7 @@
 			}
 		}
 
+		//Verifierar användares uppgifter genom att undersöka om de stämmer överens med de lagrade uppgifterna
 		function verifieraLog() {
 			var userLog = document.getElementById("userLog").value;
 			var passLog = document.getElementById("passLog").value;
@@ -111,6 +116,7 @@
 			request.send();
 		}
 
+		//Ändrar utseendet på sidan till diverse olika lägen. T.ex till "inloggat läge" eller "profil-läge"
 		function refer(val) {
 			var request = new XMLHttpRequest();
 			request.open('GET', 'StartAjax.php?val='+val, true);

@@ -1625,18 +1625,9 @@
 				if (antalKlick == 2) {
 					document.getElementById(x+"-"+y).style.backgroundColor = shipColor;
 				}
-
-
-				if (antalKlick == 1) {
-
-
-				possiblePlace(x,y);
-
-
-
+				else if (antalKlick == 1) {
+				      possiblePlace(x,y);
 				}
-
-
 			}
 		}
 

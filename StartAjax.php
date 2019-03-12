@@ -11,6 +11,7 @@
 
     $val = $_GET["val"];
 
+			//Ändrar sidans utseende till "start-läge"
     if ($val == "1") {
 			logout();
       ?>
@@ -23,6 +24,7 @@
       <?php
     }
 
+		//Ändrar sidans utseende till "login-läge"
     if ($val == "2") {
       ?>
 				<div id="log">
@@ -41,6 +43,7 @@
       <?php
     }
 
+		//Ändrar sidans utseende till "registrerings-läge"
     if ($val == "3") {
 			?>
 				<div id="reg">
@@ -63,6 +66,7 @@
 			<?php
     }
 
+		//Ändrar sidans utseende till "start-läge" med tilllagt notis om att användaren är skapad
     if ($val == "4") {
       ?>
 				<div id="start">
@@ -74,6 +78,7 @@
       <?php
     }
 
+		//Ändrar sidans utseende till "startside-läge" med tilllagt notis om att man nu är inloggad
     if ($val == "5") {
       ?>
 				<div id="start">
@@ -86,6 +91,7 @@
       <?php
     }
 
+		//Ändrar sidans utseende till "startside-läge"
 		if ($val == "6") {
       ?>
 				<div id="start">
@@ -97,6 +103,7 @@
       <?php
     }
 
+		//Ändrar sidans utseende till "profilläge"
 		if ($val == "7") {
 			$user = $_SESSION["name"];
 			echo '

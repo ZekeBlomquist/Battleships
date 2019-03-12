@@ -1,8 +1,7 @@
 
+  $(document).ready(function() {
 
-
-
-
+    //Ajax request för att hämta relevant information från databasen
 		var request = new XMLHttpRequest();
 		request.open('GET', 'StatistikAjax.php?val='+"stats", true);
 		request.onload = function() {
@@ -146,6 +145,7 @@
 			var timeRatio = statistics.shots/statistics.time;
 			timeRatio = timeRatio.toFixed(3);
 
+      //Lägger till diverse text-baserad statistik
 			$("#shots").html("Total shots: " + statistics.shots);
 
 			$("#hits").html("Total hits: " + statistics.hits);
@@ -156,3 +156,5 @@
 
 		};
 		request.send();
+
+  });
