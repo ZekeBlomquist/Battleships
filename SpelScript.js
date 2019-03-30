@@ -259,6 +259,7 @@
 
 		function randomColor() {
 			let colorR = Math.floor(Math.random()*11);
+
 			switch(colorR){
 				case 0:
 					//Standard färg
@@ -1197,10 +1198,6 @@
 							}
 						}
 						shipBP = [];
-
-
-						for (var i = 0; i < friendly1.length; i++) {
-						}
 
 						//sätter alla rutor till skepp-färgen
 						for (var i = 0; i < egnaSkepp.length; i++) {
