@@ -31,6 +31,7 @@ html,body {
 	padding-top: 0px;
   padding-bottom: 40px;
 	width: 550px;
+  height: 535px;
 	border-style: solid;
 	border-color: black;
 	border-width: 5px;
@@ -38,7 +39,6 @@ html,body {
 	margin: auto;
   border-color: #860d0d;
 	border-radius: 25px;
-  height: 520px;
 }
 
 h1 {
