@@ -465,7 +465,7 @@
  				let text = '';
 				for (let i = 0; i < 10; i++) {
 					for (let j = 0; j < 10; j++) {
-						text += `<div id="${i + "-" + j}" class="ruta" ${"x"+i} ${"y" + j} onmouseenter=\"placeraMus(${i}, ${j})\" onmouseleave=\"placeraMusRemove(${i}, ${j})\" onclick=\"placera(${i}, ${j})\">&nbsp</div>`;
+						text += `<div id="${j + "-" + i}" class="ruta" ${"x"+j} ${"y" + i} onmouseenter=\"placeraMus(${j}, ${i})\" onmouseleave=\"placeraMusRemove(${j}, ${i})\" onclick=\"placera(${j}, ${i})\">&nbsp</div>`;
 					}
 				}
 				$("#egen").html(text);
@@ -474,7 +474,7 @@
  				text = '';
 				for (let i = 0; i < 10; i++) {
 					for (let j = 0; j < 10; j++) {
-					text += `<div id="${i + "." + j}" class="rutaFiende" ${"x"+i} ${"y" + j} onclick=\"skott(${i}, ${j})\">&nbsp</div>`;
+					text += `<div id="${j + "." + i}" class="rutaFiende" ${"x"+j} ${"y" + i} onclick=\"skott(${j}, ${i})\">&nbsp</div>`;
 					}
 				}
 				$("#fiende").html(text);
@@ -505,7 +505,7 @@
  			let text = '';
 			for (var i = 0; i < 10; i++) {
 				for (var j = 0; j < 10; j++) {
-					text += `<div id="${i + "-" + j}" class="ruta" ${"x"+i} ${"y" + j} onmouseenter=\"placeraMus(${i}, ${j})\" onmouseleave=\"placeraMusRemove(${i}, ${j})\" onclick=\"placera(${i}, ${j})\">&nbsp</div>`;
+					text += `<div id="${j + "-" + i}" class="ruta" ${"x"+j} ${"y" + i} onmouseenter=\"placeraMus(${j}, ${i})\" onmouseleave=\"placeraMusRemove(${j}, ${i})\" onclick=\"placera(${j}, ${i})\">&nbsp</div>`;
 				}
 			}
 			document.getElementById('egen').innerHTML = text;
@@ -516,7 +516,7 @@
  			let text = '';
 			for (var i = 0; i < 10; i++) {
 				for (var j = 0; j < 10; j++) {
-					text += `<div id="${i + "." + j}" class="rutaFiende" ${"x"+i} ${"y" + j} onclick=\"skott(${i}, ${j})\">&nbsp</div>`;
+					text += `<div id="${j + "." + i}" class="rutaFiende" ${"x"+j} ${"y" + i} onclick=\"skott(${j}, ${i})\">&nbsp</div>`;
 				}
 			}
 			document.getElementById('fiende').innerHTML = text;
