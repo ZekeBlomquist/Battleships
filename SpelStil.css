@@ -1,11 +1,14 @@
 * {
 	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
 }
 
 html,body {
 		height: 100%;
     width: 100%;
 		margin: 0px;
+
 		background-image: url("Images/Background.png");
 		background-size: cover;
 }
@@ -51,8 +54,8 @@ html,body {
 	padding: 30px;
 	background: #f2f2f2;
 	display: inline-block;
-	margin-left: calc(50% - 565px);
-	margin-top: calc(50vh - 329px);
+	margin-left: 50px;
+	margin-top: 50px;
 }
 
 #meny {

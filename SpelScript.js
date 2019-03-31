@@ -255,6 +255,25 @@
 		window.onload= () => {
 			buggFix();
 			saveShips();
+
+
+
+			/* Försök till att fixa buggen med css margin
+
+			var height = $(window).height();
+			var width = $(window).width();
+
+			height = height/2 - 329;
+			width = width/2 - 565;
+
+			document.getElementById("spelplan").style.marginTop = height+"px";
+			document.getElementById("spelplan").style.marginLeft = width+"px";
+
+			css kod:
+			margin-left: calc(50% - 565px);
+			margin-top: calc(50vh - 329px);
+
+			*/
 		};
 
 		function randomColor() {
