@@ -109,11 +109,12 @@ h1{
 	padding-bottom: 7px;
 	text-align: center;
 	margin-left: 47.5%;
-	
+
 }
 
 #countries {
 	text-align: center;
+	margin-top: 50px;
 }
 
 .country {
