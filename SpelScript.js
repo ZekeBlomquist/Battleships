@@ -69,7 +69,7 @@
 		let allowedPlace = new Array();
 
 		//Sparar utlagda platser för skepp;
-		let shipBP = new Array();
+		let skeppBP = new Array();
 
 		//Om någon av möjliga utsättningspunkterna är utanför spelplanens begränsningar
 		let felRev = true;
@@ -1196,27 +1196,27 @@
 						}
 						allowedPlace = [];
 
-						for (var i = 0; i < shipBP.length; i++) {
-							egnaSkepp.push(shipBP[i]);
+						for (var i = 0; i < skeppBP.length; i++) {
+							egnaSkepp.push(skeppBP[i]);
 							switch (id){
 								case 1:
-									friendly1.push(shipBP[i]);
+									friendly1.push(skeppBP[i]);
 									break;
 								case 2:
-									friendly2.push(shipBP[i]);
+									friendly2.push(skeppBP[i]);
 									break;
 								case 3:
-									friendly3.push(shipBP[i]);
+									friendly3.push(skeppBP[i]);
 									break;
 								case 4:
-									friendly4.push(shipBP[i]);
+									friendly4.push(skeppBP[i]);
 									break;
 								case 5:
-									friendly5.push(shipBP[i]);
+									friendly5.push(skeppBP[i]);
 									break;
 							}
 						}
-						shipBP = [];
+						skeppBP = [];
 
 						//sätter alla rutor till skepp-färgen
 						for (var i = 0; i < egnaSkepp.length; i++) {
@@ -1560,10 +1560,10 @@
 				if (firstX+skeppLength < 11 && allowShadow) {
 
 					if (x == (firstX+skeppLength-1) && y == firstY ) {
-						shipBP = [];
+						skeppBP = [];
 						for (var i = firstX+1; i < (firstX+skeppLength); i++) {
 							document.getElementById(i+"-"+firstY).style.backgroundColor = shadowColor;
-							shipBP.push(i+"-"+firstY);
+							skeppBP.push(i+"-"+firstY);
 						}
 						document.getElementById((firstX+skeppLength-1)+"-"+firstY).style.backgroundColor = shipColor;
 
@@ -1580,10 +1580,10 @@
 					if (x == (firstX-skeppLength+1) && y == firstY) {
 
 
-						shipBP = [];
+						skeppBP = [];
 						for (var i = (firstX-skeppLength+1); i < firstX; i++) {
 							document.getElementById(i+"-"+firstY).style.backgroundColor = shadowColor;
-							shipBP.push(i+"-"+firstY);
+							skeppBP.push(i+"-"+firstY);
 
 						}
 						document.getElementById((firstX-skeppLength+1)+"-"+firstY).style.backgroundColor = shipColor;
@@ -1599,10 +1599,10 @@
 
 				if (firstY+skeppLength < 11 && allowShadow) {
 					if (x == firstX && y == (firstY+skeppLength-1)) {
-						shipBP = [];
+						skeppBP = [];
 						for (var i = firstY+1; i < (firstY+skeppLength); i++) {
 							document.getElementById(firstX+"-"+i).style.backgroundColor = shadowColor;
-							shipBP.push(firstX+"-"+i);
+							skeppBP.push(firstX+"-"+i);
 						}
 						document.getElementById(firstX+"-"+(firstY+skeppLength-1)).style.backgroundColor = shipColor;
 
@@ -1617,11 +1617,11 @@
 
 				if (firstY+skeppLength > -2 && allowShadow) {
 					if (x == firstX && y == (firstY-skeppLength+1)) {
-						shipBP = [];
+						skeppBP = [];
 						for (var i = (firstY-skeppLength+1); i < firstY; i++) {
 
 							document.getElementById(firstX+"-"+i).style.backgroundColor = shadowColor;
-							shipBP.push(firstX+"-"+i);
+							skeppBP.push(firstX+"-"+i);
 						}
 						document.getElementById(firstX+"-"+(firstY-skeppLength+1)).style.backgroundColor = shipColor;
 
@@ -1632,7 +1632,6 @@
 					}
 				}
 			}
-
 		}
 
 		function placeraMus(x, y) {
@@ -1647,36 +1646,32 @@
 			}
 		}
 
-		function placeraMusRemove(x, y) {
+function placeraMusRemove(x, y) {
 
-			var fel = 0;
-			for (var i = 0; i < egnaSkepp.length; i++) {
-				if ((x+"-"+y) == egnaSkepp[i]) {
-					fel = 1;
-				}
-			}
+	var fel = 0;
 
-
-			for (var i = 0; i < allowedPlace.length; i++) {
-				if ((x+"-"+y) == allowedPlace[i]) {
-					fel = 1;
-				}
-			}
-			for (var i = 0; i < shipBP.length; i++) {
-				if ((x+"-"+y) == shipBP[i]) {
-					fel = 1;
-				}
-			}
-
-
-
-			if (fel == 0) {
-
-				document.getElementById(x+"-"+y).style.backgroundColor = "";
-			}
-
-			possiblePlace(x,y);
+	for (var i = 0; i < egnaSkepp.length; i++) {
+		if ((x+"-"+y) == egnaSkepp[i]) {
+			fel = 1;
 		}
+	}
+	for (var i = 0; i < allowedPlace.length; i++) {
+		if ((x+"-"+y) == allowedPlace[i]) {
+			fel = 1;
+		}
+	}
+	for (var i = 0; i < skeppBP.length; i++) {
+		if ((x+"-"+y) == skeppBP[i]) {
+			fel = 1;
+		}
+	}
+
+	if (fel == 0) {
+		document.getElementById(x+"-"+y).style.backgroundColor = "";
+	}
+
+	possiblePlace(x,y);
+}
 
 		function showDif() {
 			if (!start) {
@@ -1734,37 +1729,34 @@
 		}
 
 
-		function place(idTemp) {
-			if (antalKlick == 0) {
-				id = idTemp;
+function place(idTemp) {
+	if (antalKlick == 0) {
+		id = idTemp;
 
-				if (!start && !end) {
-					allowedPlace = [];
+		if (!start && !end) {
+			allowedPlace = [];
 
-					if (id == 1) {
-						skeppLength = 5;
-					} else if (id == 2){
-						skeppLength = 4;
-					} else if (id == 3){
-						skeppLength = 3;
-					} else if (id == 4){
-						skeppLength = 3;
-					} else if (id == 5){
-						skeppLength = 2;
-					}
-					//sätter förra placerade kordinaterna till "nollställt" läge
-					antalKlick = 2;
-
-					document.getElementById("storage").style.visibility = "hidden";
-
-
-					let skeppID = `skepp${id}`;
-
-					var element = document.getElementById(skeppID);
-	   				element.parentNode.removeChild(element);
-				}
+			if (id == 1) {
+				skeppLength = 5;
+			} else if (id == 2){
+				skeppLength = 4;
+			} else if (id == 3){
+				skeppLength = 3;
+			} else if (id == 4){
+				skeppLength = 3;
+			} else if (id == 5){
+				skeppLength = 2;
 			}
+			//sätter förra placerade kordinaterna till "nollställt" läge
+			antalKlick = 2;
+
+			let skeppID = `skepp${id}`;
+
+			var element = document.getElementById(skeppID);
+ 				element.parentNode.removeChild(element);
 		}
+	}
+}
 
 		function buggFix() {
 			showDif();
