@@ -547,25 +547,21 @@
 				//Om skotten är satt på en ledig ruta (inget tidigare skott)
 				let fel = 0;
 
-				//loopar ingenom listan med egnaSkott rutor för att kolla om det nya skottet överlappar med gamla
-				for (var i = 0; i < egnaSkott.length; i++) {
-					if ((x+"."+y) == egnaSkott[i]) {
-						fel = 1;
-					}
+				//Söker ingenom listan med egnaSkott rutor för att kolla om det nya skottet överlappar med gamla
+				if (egnaSkott.includes(x+"."+y)) {
+					fel = 1;
 				}
+
 				if (fel == 0) {
 					//lägger i det nya skottet i Arrayen med skott
 					egnaSkott.push(x+"."+y);
 					if (fiendeSkepp.includes(x+"."+y)) {
 						//Träff
+						hitsEgna.push(x+"."+y);
 						document.getElementById(x+"."+y).innerHTML = hitColorEnemy;
 					} else {
 						//Miss
 						document.getElementById(x+"."+y).innerHTML = '<img src="Images/Kryss.png" class="kryss" />';
-					}
-
-					if (fiendeSkepp.includes(x+"."+y)) {
-						hitsEgna.push(x+"."+y);
 					}
 
 					if (enemy1.includes(x+"."+y)) {
@@ -1482,10 +1478,7 @@
 						}
 					}
 				}
-
 			}
-
-
 		}
 
 		function egnaSkeppPaint() {
