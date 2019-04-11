@@ -1494,61 +1494,43 @@
 				document.getElementById(i+"-"+firstY).style.backgroundColor = "";
 				}
 			}
-
-
 			egnaSkeppPaint();
-
 		}
 
 		//tar bort "spökskeppet" från plats 2
 		function remove2(){
-
 			if (firstX+-skeppLength > -2) {
 				for (var i = (firstX-skeppLength+2); i < firstX; i++) {
 				document.getElementById(i+"-"+firstY).style.backgroundColor = "";
 				}
 			}
-
-
-
 			egnaSkeppPaint();
 		}
 
 		//tar bort "spökskeppet" från plats 3
 		function remove3(){
-
 			if (firstY+skeppLength < 11) {
 				for (var i = firstY+1; i < (firstY+skeppLength-1); i++) {
 				document.getElementById(firstX+"-"+i).style.backgroundColor = "";
 				}
 			}
-
-
-
 			egnaSkeppPaint();
 		}
 
 		//tar bort "spökskeppet" från plats 4
 		function remove4(){
-
 			if (firstY+-skeppLength > -2) {
 				for (var i = (firstY-skeppLength+2); i < firstY; i++) {
 				document.getElementById(firstX+"-"+i).style.backgroundColor = "";
 				}
 			}
-
-
-
 			egnaSkeppPaint();
 		}
 
 		function possiblePlace(x, y){
 			if (antalKlick == 1) {
 
-
-
 				allowShadow = overLap1();
-
 
 				if (firstX+skeppLength < 11 && allowShadow) {
 
@@ -1571,13 +1553,10 @@
 
 				if (firstX+skeppLength > -2 && allowShadow) {
 					if (x == (firstX-skeppLength+1) && y == firstY) {
-
-
 						skeppBP = [];
 						for (var i = (firstX-skeppLength+1); i < firstX; i++) {
 							document.getElementById(i+"-"+firstY).style.backgroundColor = shadowColor;
 							skeppBP.push(i+"-"+firstY);
-
 						}
 						document.getElementById((firstX-skeppLength+1)+"-"+firstY).style.backgroundColor = shipColor;
 
@@ -1640,7 +1619,6 @@
 		}
 
 function placeraMusRemove(x, y) {
-
 	var fel = 0;
 
 	for (var i = 0; i < egnaSkepp.length; i++) {
