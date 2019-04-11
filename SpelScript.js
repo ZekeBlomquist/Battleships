@@ -1289,65 +1289,72 @@
 					}
 
 				//vilket riktning skeppet ligger åt
-				DirectionError = new Array();
+				let directionError = new Array();
 
-        let Error = true;
+        let error = true;
 
-				direction = Math.floor(Math.random()*4);
+				let direction = Math.floor(Math.random()*4);
 
-				while(Error){
+				while(error){
           direction = Math.floor(Math.random()*4);
 
-        	DirectionError = [];
+        	directionError = [];
 
 					let antalFel = 0;
 
-					for (var i = xR; i < xR+fiendeLength ; i++) {
+					for (var i = xR; i < xR+fiendeLength; i++) {
 						if (fiendeSkepp.includes(i+"."+yR)) {
-							DirectionError[0] = 0;
+							directionError[0] = 0;
 						}
             if (xR+fiendeLength > 9) {
-              DirectionError[0] = 0;
+              directionError[0] = 0;
             }
 					}
 
-          for (var i = (xR-fiendeLength); i < xR ; i++) {
+          for (var i = (xR-fiendeLength); i < xR; i++) {
 						if (fiendeSkepp.includes(i+"."+yR)) {
-							DirectionError[1] = 1;
+							directionError[1] = 1;
 						}
             if ((xR-fiendeLength) < 0) {
-              DirectionError[1] = 1;
+              directionError[1] = 1;
             }
 					}
 
-          for (var i = yR; i < yR+fiendeLength ; i++) {
+          for (var i = yR; i < yR+fiendeLength; i++) {
 						if (fiendeSkepp.includes(xR+"."+i)) {
-							DirectionError[2] = 2;
+							directionError[2] = 2;
 						}
             if (yR+fiendeLength > 9) {
-              DirectionError[2] = 2;
+              directionError[2] = 2;
             }
 					}
 
-          for (var i = (yR-fiendeLength); i < yR ; i++) {
+          for (var i = (yR-fiendeLength); i < yR; i++) {
 						if (fiendeSkepp.includes(xR+"."+i)) {
-							DirectionError[3] = 3;
+							directionError[3] = 3;
 						}
             if ((yR-fiendeLength) < 0) {
-              DirectionError[3] = 3;
+              directionError[3] = 3;
             }
 					}
 
-
-          for (var i = 0; i < DirectionError.length; i++) {
-            if (DirectionError.includes(i)) {
-              antalFel++
+          for (var i = 0; i < directionError.length; i++) {
+            if (directionError.includes(i)) {
+              antalFel++;
             }
           }
 
           if (antalFel < 4) {
-            Error = false;
-          }
+            error = false;
+          } else {
+						//slumpar fram nya startkoordinater
+						xR = randomKord();
+						yR = randomKord();
+						while(fiendeSkepp.includes(xR+"."+yR)) {
+		        	xR = randomKord();
+		  				yR = randomKord();
+						}
+					}
 				}
 
 
@@ -1356,7 +1363,7 @@
         //Ser till att riktningen inte blir till någon av de rikningarna där problem uppstod
         while (wrongDirection) {
           direction = Math.floor(Math.random()*4);
-          if (!DirectionError.includes(direction)) {
+          if (!directionError.includes(direction)) {
             wrongDirection = false;
           }
         }
