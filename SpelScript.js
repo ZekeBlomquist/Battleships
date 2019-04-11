@@ -1357,7 +1357,6 @@
 					}
 				}
 
-
         let wrongDirection = true;
 
         //Ser till att riktningen inte blir till någon av de rikningarna där problem uppstod
@@ -1388,11 +1387,9 @@
 						break;
 				}
 
-
 				if (xR != xLast) {
 					if (xR < xLast) {
 						for (var i = xR; i < xLast ; i++) {
-							//document.getElementById(i+"."+yLast).style.backgroundColor = "#333333";
 							switch(fiendeSkeppNummer) {
 								case 2:
 									enemy1.push(i+"."+yLast);
@@ -1415,7 +1412,6 @@
 
 					} else {
 						for (var i = xLast; i < xR ; i++) {
-							//document.getElementById(i+"."+yLast).style.backgroundColor = "#333333";
 							switch(fiendeSkeppNummer) {
 								case 2:
 									enemy1.push(i+"."+yLast);
@@ -1440,7 +1436,6 @@
 				} else {
 					if (yR < yLast) {
 						for (var i = yR; i < yLast ; i++) {
-							//document.getElementById(xLast+"."+i).style.backgroundColor = "#333333";
 							switch(fiendeSkeppNummer) {
 								case 2:
 									enemy1.push(xLast+"."+i);
@@ -1463,7 +1458,6 @@
 
 					} else {
 						for (var i = yLast; i < yR ; i++) {
-							//document.getElementById(xLast+"."+i).style.backgroundColor = "#333333";
 							switch(fiendeSkeppNummer) {
 								case 2:
 									enemy1.push(xLast+"."+i);
