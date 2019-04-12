@@ -663,7 +663,7 @@
 					} else {
 						var tidText = time + " sekunder";
 					}
-						end = true;
+					end = true;
 
 					//Skapar ett objekt för att skicka med diverse info till ajaxsidan
 					var stats = {difficulty: difficulty, shots: egnaSkott.length, hits: hitsEgna.length, time: time};
@@ -913,7 +913,7 @@
 					}
 				}
 
-				//Sätter träffen på vänliga skeppet baserat på vilket skepp det var som träffades
+				//Sätter träffen på egna skeppet baserat på vilket skepp det var som träffades
 				if (localHit) {
 					if (friendly1.includes(hitCords)) {
 						enemyHits1++;
@@ -972,6 +972,7 @@
 			//Uppdaterar spelarens statistik vid förlust
 			if (hitsFiende.length == egnaSkepp.length) {
 
+				//Delar upp tiden i sekunder och minuter
 				if (time > 59) {
 					var minuter = time;
 					var sekunder = minuter%60;
@@ -982,7 +983,7 @@
 				} else {
 					var tidText = time + " sekunder";
 				}
-					end = true;
+				end = true;
 
 				//Skapar ett objekt för att skicka med diverse info till ajaxsidan
 				var stats = {difficulty: difficulty, shots: egnaSkott.length, hits: hitsEgna.length, time: time};
