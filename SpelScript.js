@@ -51,7 +51,7 @@
 		let hit = false;
 
 		//om det skjutna skottet var en träff eller inte
-		var localHit = 0;
+		var localHit = false;
 
 		//upptäcker om det uppstår några fel. Om fel > 0 så går det inte att skjuta på valda koordinater
 		var felFiende = false;
@@ -805,10 +805,10 @@
 
 
 					if (egnaSkepp.includes(xR+"-"+yR)) {
-						localHit = 1;
+						localHit = true;
 					}
 
-					if (localHit == 1) {
+					if (localHit) {
 						//registrerar och visar en träff
 						fiendeSkott.push(xR+"-"+yR);
 						hitsFiende.push(xR+"-"+yR);
@@ -852,7 +852,7 @@
 									hitsFiende.push(egnaSkepp[i]);
 									document.getElementById(egnaSkepp[i]).innerHTML = hitColor;
 									hit = true;
-									localHit = 1;
+									localHit = true;
 									cheat = -1;
 									hitCords = egnaSkepp[i];
 
@@ -876,7 +876,7 @@
 									}
 									document.getElementById(egnaSkepp[i]).innerHTML = hitColor;
 									hit = true;
-									localHit = 1;
+									localHit = true;
 									cheat = -1;
 									hitCords = egnaSkepp[i];
 									break;
@@ -892,10 +892,10 @@
 					else if (difficulty == 1) {
 
 						if (egnaSkepp.includes(xR+"-"+yR)) {
-							localHit = 1;
+							localHit = true;
 						}
 
-						if (localHit == 1) {
+						if (localHit) {
 							//registrerar och visar en träff
 							fiendeSkott.push(xR+"-"+yR);
 							hitsFiende.push(xR+"-"+yR);
@@ -914,7 +914,7 @@
 				}
 
 				//Sätter träffen på vänliga skeppet baserat på vilket skepp det var som träffades
-				if (localHit == 1) {
+				if (localHit) {
 					if (friendly1.includes(hitCords)) {
 						enemyHits1++;
 					}
@@ -965,7 +965,7 @@
 							document.getElementById(friendly5[i]).style.backgroundColor = sunkColor;
 						}
 					}
-					localHit = 0;
+					localHit = false;
 				}
 		}
 
@@ -1015,11 +1015,11 @@
 			if (!felFiende) {
 				for (let j = 0; j < egnaSkepp.length; j++) {
 					if ((xR+"-"+yR) == egnaSkepp[j]) {
-						localHit = 1;
+						localHit = true;
 					}
 				}
 
-				if (localHit == 1) {
+				if (localHit) {
 					//registrerar och visar en träff
 					fiendeSkott.push(xR+"-"+yR);
 					hitsFiende.push(xR+"-"+yR);
