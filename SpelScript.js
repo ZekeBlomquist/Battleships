@@ -545,14 +545,14 @@
 		function skott(x, y) {
 			if (start && !end) {
 				//Om skotten är satt på en ledig ruta (inget tidigare skott)
-				let fel = 0;
+				let fel = false;
 
 				//Söker ingenom listan med egnaSkott rutor för att kolla om det nya skottet överlappar med gamla
 				if (egnaSkott.includes(x+"."+y)) {
-					fel = 1;
+					fel = true;
 				}
 
-				if (fel == 0) {
+				if (!fel) {
 					//lägger i det nya skottet i Arrayen med skott
 					egnaSkott.push(x+"."+y);
 					if (fiendeSkepp.includes(x+"."+y)) {
@@ -1619,25 +1619,25 @@
 		}
 
 function placeraMusRemove(x, y) {
-	var fel = 0;
+	var fel = false;
 
 	for (var i = 0; i < egnaSkepp.length; i++) {
 		if ((x+"-"+y) == egnaSkepp[i]) {
-			fel = 1;
+			fel = true;
 		}
 	}
 	for (var i = 0; i < allowedPlace.length; i++) {
 		if ((x+"-"+y) == allowedPlace[i]) {
-			fel = 1;
+			fel = true;
 		}
 	}
 	for (var i = 0; i < skeppBP.length; i++) {
 		if ((x+"-"+y) == skeppBP[i]) {
-			fel = 1;
+			fel = true;
 		}
 	}
 
-	if (fel == 0) {
+	if (!fel) {
 		document.getElementById(x+"-"+y).style.backgroundColor = "";
 	}
 
