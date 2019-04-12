@@ -14,10 +14,10 @@
 		//Ser till så att menys utseende sparas första gången showDif funktionen används
 		let difShow = 1;
 
-		//Array med kordinater för alla ens egna skott, för att förhindra två skott på en ruta
+		//Array med koordinater för alla ens egna skott, för att förhindra två skott på en ruta
 		let egnaSkott = new Array();
 
-		//Array med kordinater för alla fiendens skott, för att förhindra två skott på en ruta
+		//Array med koordinater för alla fiendens skott, för att förhindra två skott på en ruta
 		let fiendeSkott = new Array();
 
 		//Om det är spelarens tur eller inte
@@ -35,15 +35,15 @@
 		//Vilket steg av utläggningsprocessen för ett skepp man är på, 2 = nytt
 		let antalKlick = 0;
 
-		//Array med kordinater för skepp
+		//Array med koordinater för skepp
 		let egnaSkepp = new Array();
 		let fiendeSkepp = new Array();
 
-		//Placerats skepp första kordinater
+		//Placerats skepp första koordinater
 		let firstX;
 		let firstY;
 
-		//Placerats skepp sista kordinater
+		//Placerats skepp sista koordinater
 		let lastX;
 		let lastY;
 
@@ -53,13 +53,13 @@
 		//om det skjutna skottet var en träff eller inte
 		var localHit = 0;
 
-		//upptäcker om det uppstår några fel. Om fel > 0 så går det inte att skjuta på valda kordinater
+		//upptäcker om det uppstår några fel. Om fel > 0 så går det inte att skjuta på valda koordinater
 		var felFiende = 0;
 
-		//Lista med kordinaterna för fiendens träffar
+		//Lista med koordinaterna för fiendens träffar
 		let hitsFiende = new Array();
 
-		//Lista med kordinaterna för egna träffar
+		//Lista med koordinaterna för egna träffar
 		let hitsEgna = new Array();
 
 		//Ser till att skepplistan sparas i början
@@ -83,7 +83,7 @@
 		//Id't på skeppet som läggs ut
 		let id = 0;
 
-		//Kordinater för förra träffen
+		//koordinater för förra träffen
 		let hitCords = "";
 
 		//Om spelet är avslutat eller inte
@@ -92,14 +92,14 @@
 		//Om alla skeppen är uttlagda eller inte
 		let shipCorrect = false;
 
-		//Arrayer med alla fiendeskepps inviduella kordinater
+		//Arrayer med alla fiendeskepps inviduella koordinater
 		let enemy1 = new Array();
 		let enemy2 = new Array();
 		let enemy3 = new Array();
 		let enemy4 = new Array();
 		let enemy5 = new Array();
 
-		//Arrayer med alla de egna skeppens inviduella kordinater
+		//Arrayer med alla de egna skeppens inviduella koordinater
 		let friendly1 = new Array();
 		let friendly2 = new Array();
 		let friendly3 = new Array();
@@ -691,18 +691,15 @@
 		//Fiendens skott
 		function fiendeSkottFunc() {
 			while(!tur) {
-				//Kordinater för slumpande skott baserat på förra träff-kordinater
-				let xR = 1;
-				let yR = 1;
+				//koordinater för slumpande skott
+				let xR;
+				let yR;
 
 				felFiende = 0;
 
-				//Variabel för att bestämma om loopen ska fortsätta slumpa fram kordinater eller inte
+				//Variabel för att bestämma om loopen ska fortsätta slumpa fram koordinater eller inte
 				var slumpa = true;
-
-
 				let intillLiggande = new Array();
-
 
 				if (hit) {
 					var hitCordsSplit = hitCords.split("-");
@@ -754,7 +751,6 @@
 						}
 
 						//Kollar igenom tidigare skott så att det nya inte överlappar med gamla skott
-
 						if (hitsFiende.includes(xR+"-"+yR)) {
 							overlap = true;
 							if (xR == (xTest+1)) {
@@ -792,13 +788,12 @@
 							}
 						}
 
-
-						//slutar slumpa fram närliggande kordinater om alla intillliggande rutor är träffar
+						//slutar slumpa fram närliggande koordinater om alla intillliggande rutor är träffar
 						if (intillLiggande.length == 4) {
 							slumpa = false;
 							intillLiggande = [];
 
-							//slumpar fram kordinater helt slumpmässigt istället
+							//tar fram koordinater helt slumpmässigt istället
 							xR = randomKord();
 							yR = randomKord();
 						}
@@ -830,7 +825,7 @@
 					}
 
 				} else {
-					//slumpar fram kordinater för skott
+					//slumpar fram koordinater för skott
 					xR = randomKord();
 					yR = randomKord();
 
@@ -1012,8 +1007,8 @@
 		function randomShot() {
 			felFiende = 0;
 
-			xR = Math.floor(Math.random()*10);
-			yR = Math.floor(Math.random()*10);
+			xR = randomKord();
+			yR = randomKord();
 
 			for (let i = 0; i < fiendeSkott.length; i++) {
 				if ((xR+"-"+yR) == fiendeSkott[i]) {
@@ -1043,13 +1038,13 @@
 					hit = false;
 				}
 		}
-			//Ser till så att nya kordinater slumpas fram vid fel (nytt skott är på en plats som redan är träffad)
+			//Ser till så att nya koordinater slumpas fram vid fel (nytt skott är på en plats som redan är träffad)
 			if (felFiende == 1) {;
 					randomShot();
 			}
 		}
 
-		//Funktion för att sätta ut skepp vid angivna kordinater
+		//Funktion för att sätta ut skepp vid angivna koordinater
 		function skeppPlace(x, y) {
 			// document.getElementById(x+"-"+y).style.backgroundColor = "red";
 			if (antalKlick == 1) {
@@ -1374,7 +1369,7 @@
           }
         }
 
-				//Sätter ut skeppets slutkordinater baserat på skeppets riktning
+				//Sätter ut skeppets slutkoordinater baserat på skeppets riktning
 				switch(direction){
 					case 0:
 						xLast = xR + fiendeLength;
@@ -1726,7 +1721,7 @@ function place(idTemp) {
 			} else if (id == 5){
 				skeppLength = 2;
 			}
-			//sätter förra placerade kordinaterna till "nollställt" läge
+			//sätter förra placerade koordinaterna till "nollställt" läge
 			antalKlick = 2;
 
 			let skeppID = `skepp${id}`;
