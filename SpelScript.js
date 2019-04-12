@@ -799,8 +799,8 @@
 							intillLiggande = [];
 
 							//slumpar fram kordinater helt slumpmässigt istället
-							xR = Math.floor(Math.random()*10);
-							yR = Math.floor(Math.random()*10);
+							xR = randomKord();
+							yR = randomKord();
 						}
 
 						if (!overlap) {
