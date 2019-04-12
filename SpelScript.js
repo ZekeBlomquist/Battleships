@@ -54,7 +54,7 @@
 		var localHit = 0;
 
 		//upptäcker om det uppstår några fel. Om fel > 0 så går det inte att skjuta på valda koordinater
-		var felFiende = 0;
+		var felFiende = false;
 
 		//Lista med koordinaterna för fiendens träffar
 		let hitsFiende = new Array();
@@ -695,7 +695,7 @@
 				let xR;
 				let yR;
 
-				felFiende = 0;
+				felFiende = false;
 
 				//Variabel för att bestämma om loopen ska fortsätta slumpa fram koordinater eller inte
 				var slumpa = true;
@@ -829,20 +829,17 @@
 					xR = randomKord();
 					yR = randomKord();
 
-					felFiende = 0;
+					felFiende = false;
 
 					//undersöker om koordinaterna överlappar med tidigare avfyrat skott
 					if (fiendeSkott.includes(xR+"-"+yR)) {
-						felFiende = 1;
-						console.log("dublett " + xR+"-"+yR)
-						while (felFiende == 1) {
+						felFiende = true;
+						while (felFiende) {
 							//vid överloppande koordinater slumpas nya fram
 							xR = randomKord();
 							yR = randomKord();
-							console.log("slumpade " + xR+"-"+yR)
 							if (!fiendeSkott.includes(xR+"-"+yR)) {
-								felFiende = 0;
-								console.log("accepterade " + xR+"-"+yR)
+								felFiende = false;
 							}
 						}
 					}
@@ -1005,17 +1002,17 @@
 		}
 
 		function randomShot() {
-			felFiende = 0;
+			felFiende = false;
 
 			xR = randomKord();
 			yR = randomKord();
 
 			for (let i = 0; i < fiendeSkott.length; i++) {
 				if ((xR+"-"+yR) == fiendeSkott[i]) {
-					felFiende = 1;
+					felFiende = true;
 				}
 			}
-			if (felFiende == 0) {
+			if (!felFiende) {
 				for (let j = 0; j < egnaSkepp.length; j++) {
 					if ((xR+"-"+yR) == egnaSkepp[j]) {
 						localHit = 1;
@@ -1039,7 +1036,7 @@
 				}
 		}
 			//Ser till så att nya koordinater slumpas fram vid fel (nytt skott är på en plats som redan är träffad)
-			if (felFiende == 1) {;
+			if (felFiende) {;
 					randomShot();
 			}
 		}
