@@ -831,8 +831,26 @@
 
 				} else {
 					//slumpar fram kordinater för skott
-					xR = Math.floor(Math.random()*10);
-					yR = Math.floor(Math.random()*10);
+					xR = randomKord();
+					yR = randomKord();
+
+					felFiende = 0;
+
+					//undersöker om koordinaterna överlappar med tidigare avfyrat skott
+					if (fiendeSkott.includes(xR+"-"+yR)) {
+						felFiende = 1;
+						console.log("dublett " + xR+"-"+yR)
+						while (felFiende == 1) {
+							//vid överloppande koordinater slumpas nya fram
+							xR = randomKord();
+							yR = randomKord();
+							console.log("slumpade " + xR+"-"+yR)
+							if (!fiendeSkott.includes(xR+"-"+yR)) {
+								felFiende = 0;
+								console.log("accepterade " + xR+"-"+yR)
+							}
+						}
+					}
 
 					if (difficulty == 3) {
 						if (cheat == 3) {
@@ -881,36 +899,25 @@
 
 					else if (difficulty == 1) {
 
-						felFiende = 0;
-
-						if (fiendeSkott.includes(xR+"-"+yR)) {
-							felFiende = 1;
-						}
-						if (felFiende == 0) {
-
-							if (egnaSkepp.includes(xR+"-"+yR)) {
-								localHit = 1;
-							}
-
-							if (localHit == 1) {
-								//registrerar och visar en träff
-								fiendeSkott.push(xR+"-"+yR);
-								hitsFiende.push(xR+"-"+yR);
-								document.getElementById(xR+"-"+yR).innerHTML = hitColor;
-								tur = true;
-								hit = true;
-								hitCords = (xR+"-"+yR);
-							} else {
-								//registrerar och visar en miss
-								fiendeSkott.push(xR+"-"+yR);
-								document.getElementById(xR+"-"+yR).innerHTML = '<img src="Images/Kryss.png" class="kryss" />';
-								tur = true;
-								hit = false;
-							}
-
-
+						if (egnaSkepp.includes(xR+"-"+yR)) {
+							localHit = 1;
 						}
 
+						if (localHit == 1) {
+							//registrerar och visar en träff
+							fiendeSkott.push(xR+"-"+yR);
+							hitsFiende.push(xR+"-"+yR);
+							document.getElementById(xR+"-"+yR).innerHTML = hitColor;
+							tur = true;
+							hit = true;
+							hitCords = (xR+"-"+yR);
+						} else {
+							//registrerar och visar en miss
+							fiendeSkott.push(xR+"-"+yR);
+							document.getElementById(xR+"-"+yR).innerHTML = '<img src="Images/Kryss.png" class="kryss" />';
+							tur = true;
+							hit = false;
+						}
 					}
 				}
 
