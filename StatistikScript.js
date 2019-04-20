@@ -3,9 +3,8 @@
 
     //Ajax request för att hämta relevant information från databasen
 		var request = new XMLHttpRequest();
-		request.open('GET', 'StatistikAjax.php?val='+"stats", true);
+		request.open('GET', 'StatistikAjax.php?', true);
 		request.onload = function() {
-
 
 			var data = request.responseText;
 
