@@ -41,7 +41,7 @@
 			echo "Tabellen med användare är skapad!";
 		}
 		else {
-			echo "Färfrågan misslyckades med följande fel:" . $conn->error;
+			echo "Skapandet av användar-tabellen misslyckades med följande fel: " . $conn->error;
 		}
 
 ?> <br> <br> <?php
@@ -56,13 +56,13 @@
 			echo "Tabellen med upplåsta länder är skapad!";
 		}
 		else {
-			echo "Färfrågan misslyckades med följande fel:" . $conn->error;
+			echo "Skapandet av upplåst-tabellen misslyckades med följande fel: " . $conn->error;
 		}
 
 ?> <br> <br> <?php
 
 		$sql = "CREATE TABLE Statistics(
-		StatisticID int NOT NULL AUTO_INCREMENT,
+		statisticID int NOT NULL AUTO_INCREMENT,
 		userID int NOT NULL,
 		outcome varchar(255) NOT NULL,
 		difficulty varchar(255) NOT NULL,
@@ -75,7 +75,7 @@
 			echo "Tabellen med statistik är skapad!";
 		}
 		else {
-			echo "Färfrågan misslyckades med följande fel:" . $conn->error;
+			echo "Skapandet av statistik-tabellen misslyckades med följande fel: " . $conn->error;
 		}
 
 		$conn->close();

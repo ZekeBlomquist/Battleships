@@ -665,11 +665,12 @@
 					}
 					end = true;
 
+					let winText = "Efter " + tidText + " och " + egnaSkott.length +" skott så är fiendens flotta sänkt!";
+
 					//Skapar ett objekt för att skicka med diverse info till ajaxsidan
 					var stats = {difficulty: difficulty, shots: egnaSkott.length, hits: hitsEgna.length, time: time};
 					var statsString = JSON.stringify(stats);
 
-					let winText = "Efter " + tidText + " och " + egnaSkott.length +" skott så är fiendens flotta sänkt!";
 					alertify.alert(winText).set('closable', false).setHeader('<em id="message"> Du vann! </em> ').set('notifier','position', 'bottom-right').setting({'label':'agree', 'label':'Stäng'});;
 					var request = new XMLHttpRequest();
 					request.open('GET', 'SpelAjax.php?val=win&statsString='+statsString, true);
@@ -985,11 +986,12 @@
 				}
 				end = true;
 
+				let loseText = "Efter " + tidText + " och " + fiendeSkott.length +" skott så är din flotta sänkt!";
+
 				//Skapar ett objekt för att skicka med diverse info till ajaxsidan
 				var stats = {difficulty: difficulty, shots: egnaSkott.length, hits: hitsEgna.length, time: time};
 				var statsString = JSON.stringify(stats);
 
-				let loseText = "Efter " + tidText + " och " + fiendeSkott.length +" skott så är din flotta sänkt!";
 				alertify.alert(loseText).set('closable', false).setHeader('<em id="message"> Du förlorade! </em> ').set('notifier','position', 'bottom-right').setting({'label':'agree', 'label':'Stäng'});
 				var request = new XMLHttpRequest();
 				request.open('GET', 'SpelAjax.php?val=loss&statsString='+statsString, true);
