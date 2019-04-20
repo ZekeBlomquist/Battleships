@@ -30,7 +30,6 @@
 			var level = 1;
 			while ((statistics.xp/((level*100) * Math.pow(1.2 , level-1))) >= 1) {
 				level++;
-				console.log("yee")
 			}
 
 
@@ -42,10 +41,6 @@
 		  elem.innerHTML = statistics.xp+"xp";
 
 			$("#level").html(level-1);
-
-			console.log(statistics.xp/((level*100) * Math.pow(1.2 , level-1)))
-
-			console.log(level)
 
 			//Gör sidan mer personlig genom att visa spelarens namn
 			$("#header").html(statistics.name + "'s statistik");

@@ -13,7 +13,6 @@ function nameFel(nameTest) {
 
     var data = request.responseText;
 
-    console.log(data);
     document.getElementById("nameFel").innerHTML = data;
     name = nameTest;
     startName = true;
@@ -29,7 +28,6 @@ function mailFel(mailTest) {
 
     var data = request.responseText;
 
-    console.log(data);
     document.getElementById("mailFel").innerHTML = data;
     mail = mailTest;
     startMail = true;
@@ -45,7 +43,6 @@ function passFel(passTest) {
 
     var data = request.responseText;
 
-    console.log(data);
     document.getElementById("passFel").innerHTML = data;
     pass = passTest;
     startPass = true;
@@ -69,9 +66,6 @@ function verifyReg() {
 
   if (nameText == "" && mailText == "" && passText == "") {
     document.getElementById("btnReg").disabled = false;
-    console.log("yes");
-  } else {
-    console.log("yes2");
   }
 }
 
@@ -87,7 +81,6 @@ function verifiera() {
 
     var data = request.responseText;
 
-    console.log(data);
   };
   request.send();
   start = false
@@ -114,8 +107,6 @@ function verifieraLog() {
   request.onload = function() {
 
     var data = request.responseText;
-
-    console.log(data);
 
     if (data != "Inloggad") {
 

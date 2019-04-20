@@ -52,7 +52,6 @@ function pick(ISO) {
     request.onload = function() {
 
       var data = request.responseText;
-      console.log("Köpt: "+data);
       unlocked();
     };
     request.send();
