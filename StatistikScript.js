@@ -27,7 +27,7 @@
 
 			//Metod för att ta fram spelarens level, gör nästa level progressivt mer svårnådd.
 			var level = 1;
-			while ((statistics.xp/((level*100) * Math.pow(1.2 , level-1))) >= 1) {
+			while ((statistics.xp/((level*100) * Math.pow(1.2, level-1))) >= 1) {
 				level++;
 			}
 
