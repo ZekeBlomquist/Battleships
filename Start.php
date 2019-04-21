@@ -41,34 +41,32 @@
 
 
 	<?php
+		$servername = "localhost";
+		$username = "root";
+		$password = "";
+	
+		$conn = new mysqli($servername, $username, $password, "projektDB");
 
-	if (isset($_SESSION["name"])) {
-		echo '
-			<script type="text/javascript">',
-     	'refer("6");',
-     	'</script>';
-	} else {
-		echo '
-			<script type="text/javascript">',
-     	'refer("1");',
-     	'</script>';
-	}
+		if (isset($_SESSION["name"])) {
+			echo '
+				<script type="text/javascript">',
+		   	'refer("6");',
+		   	'</script>';
+		} else {
+			echo '
+				<script type="text/javascript">',
+		   	'refer("1");',
+		   	'</script>';
+		}
 
-	$servername = "localhost";
-	$username = "root";
-	$password = "";
-
-	$passwordError = 1;
-	$mailError = 1;
-	$skapad = "";
-
-	$conn = new mysqli($servername, $username, $password, "projektDB");
+		$passwordError = 1;
+		$mailError = 1;
+		$skapad = "";
 
 	?>
-<div id="pane">
-	<div id="content">
 
+	<div id="pane">
+		<div id="content"></div>
 	</div>
-</div>
-</body>
+
 </html>
