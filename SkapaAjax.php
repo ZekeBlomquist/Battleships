@@ -12,7 +12,6 @@
 		if (isset($_GET["nameTest"])) {
       $nameTest = $_GET["nameTest"];
 
-
       if (strlen($nameTest) < 3) {
 				echo "För kort";
       } else if (strlen($nameTest) > 15) {
@@ -153,7 +152,6 @@
 				echo "User";
 			}
 	  }
-
 }
 
 ?>

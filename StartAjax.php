@@ -38,7 +38,7 @@
 	        <span class="fel" id="passFelLog"></span>
 	        <br><br>
 	        <input class="knappar" type="button" name="logIn" value="Logga in" onclick="verifieraLog()">
-					<input id="btntest" type="button" value="Gå tillbaka" class="knappar"	onclick="refer(1)" />
+					<input type="button" value="Gå tillbaka" class="knappar"	onclick="refer(1)" />
 					</div>
       <?php
     }
@@ -61,7 +61,7 @@
 	  			<span class="fel" id="passFel"></span>
 	  	 		<br><br>
 	  			<input id="btnReg" class="knappar" type="button" name="create" value="Skapa Användare" disabled="disabled" onclick="verifiera()">
-	  			<input id="btntest" type="button" value="Gå tillbaka" class="knappar"	onclick="refer(1)" />
+	  			<input type="button" value="Gå tillbaka" class="knappar"	onclick="refer(1)" />
 				</div>
 			<?php
     }
