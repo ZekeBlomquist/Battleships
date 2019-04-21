@@ -24,8 +24,7 @@ function pick(ISO) {
     //Sätter det valda landet som spelaren valda land
     var request = new XMLHttpRequest();
     request.open('GET', 'ShopAjax.php?ISO='+ISO+'&click=selected', true);
-    request.onload = function() {
-
+    request.onload = () => {
       var data = request.responseText;
 
       //Gör det förra valda landets knapp klickbar
@@ -41,7 +40,6 @@ function pick(ISO) {
       $("#"+ISO).addClass("selected");
       //Gör knappen oklickbar
       $(".selected").prop('disabled', true);
-
     };
     request.send();
   } else {
@@ -49,8 +47,7 @@ function pick(ISO) {
     //Om man inte äger landet så köper man landet
     var request = new XMLHttpRequest();
     request.open('GET', 'ShopAjax.php?ISO='+ISO+'&click=buy', true);
-    request.onload = function() {
-
+    request.onload = () => {
       var data = request.responseText;
       unlocked();
     };
@@ -62,8 +59,7 @@ function moneyCheck() {
   //Kollar spelarens pengar
   var request = new XMLHttpRequest();
   request.open('GET', 'ShopAjax.php?val='+"money", true);
-  request.onload = function() {
-
+  request.onload = () => {
     var money = request.responseText;
 
     //Undersöker om spelaren har råd att köpa nya länder, om inte gör den köp knappen oklickbar och köp priserna röda
@@ -87,8 +83,7 @@ function unlocked() {
   //Kollar spelarens upplåsta länder
   var request = new XMLHttpRequest();
   request.open('GET', 'ShopAjax.php?val='+"unlocked", true);
-  request.onload = function() {
-
+  request.onload = () => {
     var unlocked = request.responseText;
     var text = "";
 

@@ -146,11 +146,10 @@
 			var request = new XMLHttpRequest();
 			request.open('GET', 'SpelAjax.php?val=country', true);
 			request.onload = () => {
-
 				layout = request.responseText;
 				templateColor();
 			};
-				request.send();
+			request.send();
 
 
 
@@ -675,11 +674,9 @@
 					var request = new XMLHttpRequest();
 					request.open('GET', 'SpelAjax.php?val=win&statsString='+statsString, true);
 					request.onload = () => {
-
-
 						data = request.responseText;
 					};
-						request.send();
+					request.send();
 
 				} else {
 						//Datorns tur att skjuta
@@ -996,11 +993,9 @@
 				var request = new XMLHttpRequest();
 				request.open('GET', 'SpelAjax.php?val=loss&statsString='+statsString, true);
 				request.onload = () => {
-
 					data = request.responseText;
 				};
-					request.send();
-
+				request.send();
 			}
 		}
 

@@ -9,8 +9,7 @@ var startPass = false;
 function nameFel(nameTest) {
   var request = new XMLHttpRequest();
   request.open('GET', 'SkapaAjax.php?nameTest='+nameTest, true);
-  request.onload = function() {
-
+  request.onload = () => {
     var data = request.responseText;
 
     document.getElementById("nameFel").innerHTML = data;
@@ -24,8 +23,7 @@ function nameFel(nameTest) {
 function mailFel(mailTest) {
   var request = new XMLHttpRequest();
   request.open('GET', 'SkapaAjax.php?mailTest='+mailTest, true);
-  request.onload = function() {
-
+  request.onload = () => {
     var data = request.responseText;
 
     document.getElementById("mailFel").innerHTML = data;
@@ -39,8 +37,7 @@ function mailFel(mailTest) {
 function passFel(passTest) {
   var request = new XMLHttpRequest();
   request.open('GET', 'SkapaAjax.php?passTest='+passTest, true);
-  request.onload = function() {
-
+  request.onload = () => {
     var data = request.responseText;
 
     document.getElementById("passFel").innerHTML = data;
@@ -77,12 +74,11 @@ function verifiera() {
 
   var request = new XMLHttpRequest();
   request.open('GET', 'SkapaAjax.php?verifyString='+verifyString, true);
-  request.onload = function() {
-
+  request.onload = () => {
     var data = request.responseText;
-
   };
   request.send();
+
   start = false
   refer(4);
 
@@ -104,12 +100,9 @@ function verifieraLog() {
 
   var request = new XMLHttpRequest();
   request.open('GET', 'SkapaAjax.php?verifyLogString='+verifyLogString, true);
-  request.onload = function() {
-
+  request.onload = () => {
     var data = request.responseText;
-
     if (data != "Inloggad") {
-
       if (data == "User") {
         document.getElementById("userFelLog").innerHTML = "Användaren finns inte";
         document.getElementById("passFelLog").innerHTML = "";
@@ -129,8 +122,7 @@ function verifieraLog() {
 function refer(val) {
   var request = new XMLHttpRequest();
   request.open('GET', 'StartAjax.php?val='+val, true);
-  request.onload = function() {
-
+  request.onload = () => {
     var data = request.responseText;
     document.getElementById("content").innerHTML = data;
   };
@@ -141,8 +133,7 @@ function logout() {
   var val = "6";
   var request = new XMLHttpRequest();
   request.open('GET', 'StartAjax.php?val='+val, true);
-  request.onload = function() {
-
+  request.onload = () => {
     var data = request.responseText;
   };
   request.send();

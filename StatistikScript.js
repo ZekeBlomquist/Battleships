@@ -4,10 +4,8 @@
     //Ajax request för att hämta relevant information från databasen
 		var request = new XMLHttpRequest();
 		request.open('GET', 'StatistikAjax.php?', true);
-		request.onload = function() {
-
+		request.onload = () => {
 			var data = request.responseText;
-
 			var parseData = JSON.parse(data);
 
 			//Objekt med all importerad information
@@ -147,7 +145,6 @@
 			$("#hitRatio").html("Hit-ratio: " + hitRatio);
 
 			$("#timeRatio").html("Shots/second: " + timeRatio);
-
 		};
 		request.send();
 
