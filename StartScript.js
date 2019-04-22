@@ -2,9 +2,9 @@ var name;
 var mail;
 var pass;
 //ser till att man inte kan trycka registrera utan att ha skrivit in något
-var startName = false;
-var startMail = false;
-var startPass = false;
+var nameStart = false;
+var mailStart = false;
+var passStart = false;
 
 function nameFel(nameTest) {
   var request = new XMLHttpRequest();
@@ -14,7 +14,7 @@ function nameFel(nameTest) {
 
     document.getElementById("nameFel").innerHTML = data;
     name = nameTest;
-    startName = true;
+    nameStart = true;
   };
   request.send();
 }
@@ -28,7 +28,7 @@ function mailFel(mailTest) {
 
     document.getElementById("mailFel").innerHTML = data;
     mail = mailTest;
-    startMail = true;
+    mailStart = true;
   };
   request.send();
 }
@@ -42,19 +42,10 @@ function passFel(passTest) {
 
     document.getElementById("passFel").innerHTML = data;
     pass = passTest;
-    startPass = true;
+    passStart = true;
   };
   request.send();
 }
-
-  window.setInterval( function(){
-    if (startName && startMail && startPass) {
-      verifyReg();
-    }
-
-  },25)
-
-
 
 function verifyReg() {
   var nameText = document.getElementById("nameFel").innerHTML;
@@ -79,20 +70,19 @@ function verifiera() {
   };
   request.send();
 
-  start = false
+  start = false;
   refer(4);
 
   //gör knappen oklickbar så länge kraven på kontot inte möts
   document.getElementById("btnReg").disabled = true;
-  startName = false;
-  startMail = false;
-  startPass = false;
+  nameStart = false;
+  mailStart = false;
+  passStart = false;
 }
 
 function verifieraLog() {
   var userLog = document.getElementById("userLog").value;
   var passLog = document.getElementById("passLog").value;
-  passLog = (passLog);
 
   var verifyLog = {userLog: userLog, passLog: passLog};
 
@@ -120,6 +110,9 @@ function verifieraLog() {
 }
 
 function refer(val) {
+  if (val == 3){
+    verificationTester();
+  }
   var request = new XMLHttpRequest();
   request.open('GET', 'StartAjax.php?val='+val, true);
   request.onload = () => {
@@ -139,7 +132,13 @@ function logout() {
   request.send();
 }
 
-
+function verificationTester() {
+  window.setInterval( () => {
+    if (nameStart && mailStart && passStart) {
+      verifyReg();
+    }
+  },25)
+}
 
 function game() {
   window.open("Spel.php", "_self");
@@ -155,5 +154,5 @@ function user() {
 
 
 window.onload= () => {
-
+var testtest = 0;
 };

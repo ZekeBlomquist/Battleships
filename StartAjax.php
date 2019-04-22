@@ -60,7 +60,7 @@
 	  			Lösenord <br> <input type="password" name="passCreate" onkeyup="passFel(this.value)">
 	  			<span class="fel" id="passFel"></span>
 	  	 		<br><br>
-	  			<input id="btnReg" class="knappar" type="button" name="create" value="Skapa Användare" disabled="disabled" onclick="verifiera()">
+	  			<input id="btnReg" class="knappar" type="button" name="create" value="Skapa användare" disabled="disabled" onclick="verifiera()">
 	  			<input type="button" value="Gå tillbaka" class="knappar"	onclick="refer(1)" />
 				</div>
 			<?php

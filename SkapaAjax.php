@@ -16,9 +16,7 @@
 				echo "För kort";
       } else if (strlen($nameTest) > 15) {
 				echo "För långt";
-      } else {
-				echo "";
-			}
+      }
 
 			$sql = "SELECT name FROM User WHERE name = '$nameTest'";
 			$result = $conn->query($sql);
@@ -35,24 +33,17 @@
 	    $result = $conn->query($sql);
 
       if (!preg_match("/^[^0-9][A-z0-9_]+([.][A-z0-9_]+)*[@][A-z0-9_]+([.][A-z0-9_]+)*[.][A-z]{2,4}$/", sanitize($mailTest))) {
-
         echo "Fel format";
-      } else if ($result->num_rows != 0) {
+      } else if ($result->num_rows === 1) {
         echo "Mailadressen används redan";
-      } else {
-        echo "";
       }
-
     }
 
     if (isset($_GET["passTest"])) {
       $passTest = $_GET["passTest"];
 
       if (!preg_match("/^.*(?=.{8,})(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).*$/", sanitize($passTest))) {
-
           echo "Fel format";
-      } else {
-        echo "";
       }
     }
 
@@ -86,72 +77,65 @@
 
 	  }
 
-		if (isset($_GET["verifyLogString"])) {
-			$verifyLog = json_decode($_GET["verifyLogString"]);
+	if (isset($_GET["verifyLogString"])) {
+		$verifyLog = json_decode($_GET["verifyLogString"]);
 
-	    $userLog = $verifyLog->userLog;
-	    $passLog = $verifyLog->passLog;
+    $userLog = $verifyLog->userLog;
+    $passLog = $verifyLog->passLog;
 
-			$userLog = sanitize($userLog);
-			$passLog = sanitize($passLog);
+		$userLog = sanitize($userLog);
+		$passLog = sanitize($passLog);
 
-			//Variabel som håller koll på om användarnamnet eller mailen finns i databasen
-			$exist = 0;
+		//Variabel som håller koll på om användarnamnet eller mailen finns i databasen
+		$exist = 0;
 
-			//Tar ut användarens namn
-			$sql = "SELECT name FROM User WHERE name = '$userLog'";
-			$result = $conn->query($sql);
+		//Undersöker om någon mail stämmer överens med den angivna texten
+		$sql = "SELECT name FROM User WHERE name = '$userLog'";
+		$result = $conn->query($sql);
 
-			//Om namnet redan används så markeras det med att sätta exist till 1
-			if ($result->num_rows === 1) {
-				$exist = 1;
+		//Om det angivna namnet matchar ett redan existerande namn så markeras det med att sätta exist till 1
+		if ($result->num_rows === 1) {
+			$exist = 1;
+		}
+
+		//Undersöker om någon mailaddress stämmer överens med den angivna texten
+		$sql = "SELECT mail FROM User WHERE mail = '$userLog'";
+		$result = $conn->query($sql);
+
+		//Om den angivna mailaddressen matchar en redan existerande mailadress så markeras det med att sätta exist till 2
+		if ($result->num_rows === 1) {
+			$exist = 2;
+		}
+
+		//Om antingen mailen eller namnet finns i databasen så tas lösenordet från detta konto ut..
+		if ($exist != 0) {
+			if ($exist == 1) {
+				$sql = "SELECT password AS passWord FROM User WHERE name = '$userLog'";
+				$result = $conn->query($sql);
+				$passCheck = $result->fetch_assoc()["passWord"];
+			} else {
+				$sql = "SELECT password AS passWord FROM User WHERE mail = '$userLog'";
+				$result = $conn->query($sql);
+				$passCheck = $result->fetch_assoc()["passWord"];
 			}
-
-			//Om mailen redan används så markeras det med att sätta exist till 2
-			$sql = "SELECT mail FROM User WHERE mail = '$userLog'";
-			$result = $conn->query($sql);
-
-			if ($result->num_rows === 1) {
-				$exist = 2;
-			}
-
-			//Om det inte uppstod något fel så sätts värderna in i databasen.
-			if ($exist != 0) {
-				if ($exist == 1) {
-					$sql = "SELECT password AS passWord FROM User WHERE name = '$userLog'";
-					$result = $conn->query($sql);
-					$passCheck = $result->fetch_assoc()["passWord"];
-				} else {
-					$sql = "SELECT password AS passWord FROM User WHERE mail = '$userLog'";
-					$result = $conn->query($sql);
-					$passCheck = $result->fetch_assoc()["passWord"];
-				}
-
-				if ($passCheck == $passLog) {
-
-
+			if ($passCheck == $passLog) {
 				if ($exist == 1) {
 					//sätter in användarens mail i sessionen
-
 					$_SESSION["name"] = $userLog;
 				} else {
 					//tar fram användarens mail och sedan sätter in den i sessionen
-
 					$sql = "SELECT name AS userName FROM User WHERE mail = '$userLog'";
 					$result = $conn->query($sql);
 					$_SESSION["name"] = $result->fetch_assoc()["userName"];
-
 				}
-
-					echo "Inloggad";
-				} else {
-					echo "Pass";
-				}
-
+				echo "Inloggad";
 			} else {
-				echo "User";
+				echo "Pass";
 			}
-	  }
+		} else {
+			echo "User";
+		}
+  }
 }
 
 ?>
