@@ -99,7 +99,7 @@ function verifieraLog() {
         document.getElementById("passLog").value = "";
       } else {
         document.getElementById("userFelLog").innerHTML = "";
-        document.getElementById("passFelLog").innerHTML = "Fel lösenord";
+        document.getElementById("passFelLog").innerHTML = "Inkorrekt lösenord";
         document.getElementById("passLog").value = "";
       }
     } else {
