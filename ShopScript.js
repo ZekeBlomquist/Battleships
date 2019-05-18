@@ -19,6 +19,16 @@ function selected() {
   request.send();
 }
 
+function nyVald() {
+
+        //Gör det förra valda landets knapp klickbar
+        $(".selected").prop('disabled', false);
+        //Sätter förra valets knapp-text till "Välj"
+        $(".selected").prop('value', 'Välj');
+        //Tar bort identifieringsklassen "selected" från förra valets knapp
+        $(".selected").removeClass("selected");
+}
+
 function pick(ISO) {
 
   //om man klickar på ett redan ägt land så väljer man det
@@ -29,12 +39,7 @@ function pick(ISO) {
     request.onload = () => {
       var data = request.responseText;
 
-      //Gör det förra valda landets knapp klickbar
-      $(".selected").prop('disabled', false);
-      //Sätter förra valets knapp-text till "Välj"
-      $(".selected").prop('value', 'Välj');
-      //Tar bort identifieringsklassen "selected" från förra valets knapp
-      $(".selected").removeClass("selected");
+      nyVald();
 
       //Sätter knappens text till "Vald"
       $("#"+ISO).prop('value', 'Vald');
@@ -42,15 +47,12 @@ function pick(ISO) {
       $("#"+ISO).addClass("selected");
       //Gör knappen oklickbar
       $(".selected").prop('disabled', true);
+
     };
     request.send();
   } else {
-    //Gör det förra valda landets knapp klickbar
-    $(".selected").prop('disabled', false);
-    //Sätter förra valets knapp-text till "Välj"
-    $(".selected").prop('value', 'Välj');
-    //Tar bort identifieringsklassen "selected" från förra valets knapp
-    $(".selected").removeClass("selected");
+
+    nyVald();
 
     //Om man inte äger landet så köper man landet
     var request = new XMLHttpRequest();
