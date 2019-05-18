@@ -42,8 +42,6 @@ function pick(ISO) {
       $("#"+ISO).addClass("selected");
       //Gör knappen oklickbar
       $(".selected").prop('disabled', true);
-
-      console.log("hahaha yes");
     };
     request.send();
   } else {
