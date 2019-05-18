@@ -1,21 +1,23 @@
 unlocked();
 
-//Tar fram spelarens valda land
-var request = new XMLHttpRequest();
-request.open('GET', 'ShopAjax.php?val='+"selected", true);
-request.onload = function() {
+function selected() {
+  //Tar fram spelarens valda land
+  var request = new XMLHttpRequest();
+  request.open('GET', 'ShopAjax.php?val='+"selected", true);
+  request.onload = function() {
 
-  var data = request.responseText;
+    var data = request.responseText;
 
-  //Sätter knappens text till "Vald"
-  $("#"+data).prop('value', 'Vald');
-  //Ger knappen klassen "selected" för identifiering
-  $("#"+data).addClass("selected");
-  //Gör knappen oklickbar
-  $(".selected").prop('disabled', true);
+    //Sätter knappens text till "Vald"
+    $("#"+data).prop('value', 'Vald');
+    //Ger knappen klassen "selected" för identifiering
+    $("#"+data).addClass("selected");
+    //Gör knappen oklickbar
+    $(".selected").prop('disabled', true);
 
-};
-request.send();
+  };
+  request.send();
+}
 
 function pick(ISO) {
 
@@ -40,9 +42,17 @@ function pick(ISO) {
       $("#"+ISO).addClass("selected");
       //Gör knappen oklickbar
       $(".selected").prop('disabled', true);
+
+      console.log("hahaha yes");
     };
     request.send();
   } else {
+    //Gör det förra valda landets knapp klickbar
+    $(".selected").prop('disabled', false);
+    //Sätter förra valets knapp-text till "Välj"
+    $(".selected").prop('value', 'Välj');
+    //Tar bort identifieringsklassen "selected" från förra valets knapp
+    $(".selected").removeClass("selected");
 
     //Om man inte äger landet så köper man landet
     var request = new XMLHttpRequest();
@@ -87,7 +97,7 @@ function unlocked() {
     var unlocked = request.responseText;
     var text = "";
 
-    //Splittar de inkommande ordsträngen till
+    //Splittar de inkommande ordsträngen till bokstäver
     for (var i = 0; i < unlocked.length; i++) {
       text += unlocked[i];
 
@@ -100,7 +110,7 @@ function unlocked() {
     for (var i = 0; i < unlockedISO.length; i++) {
       //Tar bort identifieringsklassen "buy" från köpta länders knappar
       $("#"+unlockedISO[i]).removeClass("buy");
-      //Sätter kanppens text till "Välj"
+      //Sätter knappens text till "Välj"
       $("#"+unlockedISO[i]).prop('value', 'Välj');
       $("#"+unlockedISO[i]+"buy").html("");
 
@@ -108,6 +118,7 @@ function unlocked() {
       $(".selected").prop('value', 'Vald');
     }
     moneyCheck();
+    selected();
   };
   request.send();
 
