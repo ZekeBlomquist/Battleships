@@ -24,8 +24,6 @@
 				$conn->query($sql);
 
 				if ($_GET["click"] == "buy") {
-					echo $ISO;
-
 					//Lägger till det upplåsta landet i tabellen med upplåsta länder
 					$sql = "INSERT INTO Unlocked (userID, country) VALUES ('$ID', '$ISO')";
 					$conn->query($sql);

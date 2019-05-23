@@ -20,51 +20,35 @@ function selected() {
 }
 
 function nyVald() {
-
-        //Gör det förra valda landets knapp klickbar
-        $(".selected").prop('disabled', false);
-        //Sätter förra valets knapp-text till "Välj"
-        $(".selected").prop('value', 'Välj');
-        //Tar bort identifieringsklassen "selected" från förra valets knapp
-        $(".selected").removeClass("selected");
+  //Gör det förra valda landets knapp klickbar
+  $(".selected").prop('disabled', false);
+  //Sätter förra valets knapp-text till "Välj"
+  $(".selected").prop('value', 'Välj');
+  //Tar bort identifieringsklassen "selected" från förra valets knapp
+  $(".selected").removeClass("selected");
 }
 
-function pick(ISO) {
+function pick(iso) {
 
   //om man klickar på ett redan ägt land så väljer man det
-  if (!$("#"+ISO).hasClass('buy')) {
-    //Sätter det valda landet som spelaren valda land
-    var request = new XMLHttpRequest();
-    request.open('GET', 'ShopAjax.php?ISO='+ISO+'&click=selected', true);
-    request.onload = () => {
-      var data = request.responseText;
-
-      nyVald();
-
-      //Sätter knappens text till "Vald"
-      $("#"+ISO).prop('value', 'Vald');
-      //Ger knappen klassen "selected" för identifiering
-      $("#"+ISO).addClass("selected");
-      //Gör knappen oklickbar
-      $(".selected").prop('disabled', true);
-
-    };
-    request.send();
-  } else {
-
-    nyVald();
+  if ($("#"+iso).hasClass('buy')) {
 
     //Om man inte äger landet så köper man landet
     var request = new XMLHttpRequest();
-    request.open('GET', 'ShopAjax.php?ISO='+ISO+'&click=buy', true);
-    request.onload = () => {
-      var data = request.responseText;
-      unlocked();
-    };
+    request.open('GET', 'ShopAjax.php?ISO='+iso+'&click=buy', true);
+    request.send();
+  } else {
+
+    //Sätter det valda landet som spelaren valda land
+    var request = new XMLHttpRequest();
+    request.open('GET', 'ShopAjax.php?ISO='+iso+'&click=selected', true);
     request.send();
   }
 
+  unlocked();
+  nyVald();
 }
+
 function moneyCheck() {
   //Kollar spelarens pengar
   var request = new XMLHttpRequest();
